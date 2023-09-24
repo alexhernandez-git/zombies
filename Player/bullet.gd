@@ -16,7 +16,7 @@ func set_direction(direction: Vector2):
 
 
 func _on_Bullet_body_entered(body):
-	if body.has_method("takeDamage"):
+	if body.has_method("takeDamage") and  body.name != "Player":
 		body.takeDamage(10)
 	if body.name != "Player" and not "Enemy" in body.name:
 		queue_free()

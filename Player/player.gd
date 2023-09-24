@@ -4,16 +4,14 @@ export (PackedScene) var Bullet
 
 var SPEED = 120
 
-var DISTANCE_IN_FRONT = 15
-
-var health = 100
+var DISTANCE_IN_FRONT = 0
 
 onready var light = $Light2D
 onready var maskedLight = $Light2D3
 
 onready var shootPosition = $WeaponStartPositions/ShootPosition
 
-onready var canShootTimer = $Timer
+onready var canShootTimer = $CanShootTimer
 
 onready var interactLabel = $InteractionElements/InteractionLabel
 
@@ -21,16 +19,41 @@ var interactableAction = ""
 
 var ammo = 30
 
+
+var max_health = 100
+var current_health = max_health
+var regen_delay = 3.0
+var regen_rate = 10.0  # Health points regenerated per second
+var regen_timer = 0.0
+
+onready var colorRect = $Camera2D/ColorRect
+
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
-	print(ammo)
+	var rColor = 255 - (current_health * 255 / 100)
+	if rColor > 255:
+		rColor = 255
+	var aColor = rColor
+	if aColor > 180:
+		aColor = 180
+	print(Color8(rColor,32,32,aColor))
+	colorRect.modulate = Color8(rColor,32,32,aColor)
+	
+	print(current_health)
+	if current_health < max_health:
+		regen_timer += delta
+	if regen_timer >= 3:
+		current_health += 1
+		if current_health > max_health:
+			current_health = max_health
+			regen_timer = 0
 	if Input.is_action_pressed("shoot"):
 		shoot()
 	
 	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var currentSpeed = SPEED
 	if Input.is_action_pressed("multi_build"):
-		currentSpeed = SPEED * 2
+		currentSpeed = SPEED * 1.5
 	var move_direction = input_vector.normalized()
 	move_and_slide(currentSpeed * move_direction)
 	
@@ -56,18 +79,28 @@ func shoot():
 		var direction_to_mouse = bullet_instance.global_position.direction_to(target).normalized()
 		bullet_instance.set_direction(direction_to_mouse)
 
+func _regenerate_health():
+	if current_health < max_health:
+		current_health += regen_rate * get_process_delta_time()
+		if current_health > max_health:
+			current_health = max_health
+
 func _on_hurtBox_area_entered(area):
 	if "hitBox" in area.name:
 		print("entra2")
-		takeDamage(50)
+		takeDamage(20)
 
 func takeDamage(damage: int):
-	health -= damage
-	if health <= 0:
+	current_health -= damage
+	if current_health <= 0:
+		current_health = 0
 		die()
+	else:
+		$Timer.stop()
+		$Timer.start()
 
 func die():
-	print("entra 1")
+	print("entra die")
 	queue_free()
 	
 func interact():

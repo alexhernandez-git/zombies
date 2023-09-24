@@ -20,21 +20,6 @@ var maxEnemeySpeed = 100
 var money = 0
 
 func _process(delta):
-#	print("roundCount")
-#	print(roundCount)
-#	print("***********************************************************")	
-#	print("enemyHealth")
-#	print(enemyHealth)
-#	print("***********************************************************")		
-#	print("remainingEnemies")
-#	print(remainingEnemies)
-#	print("***********************************************************")	
-#	print("enemySpeed")
-#	print(enemySpeed)
-#	print("***********************************************************")	
-#	print("money")
-#	print(money)
-#	print("***********************************************************")		
 	if remainingEnemies <= 0:
 		roundCount += 1
 		remainingEnemies =  10 * roundCount

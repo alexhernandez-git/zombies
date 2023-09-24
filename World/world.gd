@@ -12,13 +12,14 @@ var spawn_timer = 2.0  # Adjust this to control the spawn rate
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	randomize()  # Initialize the random number generator
+	randomize()  # Initialize the random number generato
 
 func _process(delta):
 	spawn_timer -= delta
 	if spawn_timer <= 0:
 		spawn_enemy()
 		spawn_timer = rand_range(1.0, 3.0)  # Adjust the range for random spawn intervals
+
 
 func spawn_enemy():
 	var enemy_instance = enemy_scene.instance()
