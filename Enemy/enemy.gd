@@ -6,6 +6,7 @@ export var path_to_player = NodePath()
 onready var _agent: NavigationAgent2D = $NavigationAgent2D
 onready var _player = get_node(path_to_player)
 onready var _timer: Timer = $Timer
+var health = Globals.enemyHealth
 
 func _ready() -> void: 
 	_update_pathfinding()
@@ -24,4 +25,18 @@ func _physics_process(delta: float) -> void:
 	_velocity = move_and_slide(_velocity)
 
 func _update_pathfinding() -> void:
-	_agent.set_target_location(_player.global_position)
+	if _player:
+		_agent.set_target_location(_player.global_position)
+
+func _on_DetectionZone_body_entered(body):
+	if body.name == "Player":
+		_player = body
+	_update_pathfinding()
+
+func takeDamage(damage: int):
+	health -= damage
+	if health <= 0:
+		die()
+
+func die():
+	queue_free()

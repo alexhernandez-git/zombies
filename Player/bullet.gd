@@ -13,3 +13,11 @@ func _physics_process(delta):
 
 func set_direction(direction: Vector2):
 	self.direction = direction
+
+
+func _on_Bullet_body_entered(body):
+	print(body.name)
+	if body.has_method("die"):
+		body.takeDamage(10)
+	if body.name != "Player" and not "Enemy" in body.name:
+		queue_free()
