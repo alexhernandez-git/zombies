@@ -24,4 +24,14 @@ func _physics_process(delta: float) -> void:
 	_velocity = move_and_slide(_velocity)
 
 func _update_pathfinding() -> void:
-	_agent.set_target_location(_player.global_position)
+	if _player:
+		_agent.set_target_location(_player.global_position)
+
+func _on_DetectionZone_body_entered(body):
+	if body.name == "Player":
+		_player = body
+	_update_pathfinding()
+	pass # Replace with function body.
+	
+func die():
+	queue_free()
