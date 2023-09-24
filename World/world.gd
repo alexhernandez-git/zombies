@@ -7,7 +7,7 @@ extends Node2D
 var enemy_scene = preload("res://Enemy/enemy.tscn")
 var current_zone
 var previous_zone
-onready var spawnPoints = [$Spawns/Spawn1, $Spawns/Spawn2]
+onready var spawnPoints = [$Spawns/Spawn1, $Spawns/Spawn2, $Spawns/Spawn3]
 var spawn_timer = 2.0  # Adjust this to control the spawn rate
 
 # Called when the node enters the scene tree for the first time.
