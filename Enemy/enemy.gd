@@ -6,6 +6,8 @@ export var path_to_player = NodePath()
 onready var _agent: NavigationAgent2D = $NavigationAgent2D
 onready var _player = get_node(path_to_player)
 onready var _timer: Timer = $Timer
+onready var _label: Label = $Label
+onready var _label_timer: Timer = $LabelTimer
 var health = Globals.enemyHealth
 
 
@@ -35,7 +37,9 @@ func _on_DetectionZone_body_entered(body):
 	_update_pathfinding()
 
 func takeDamage(damage: int):
-	Globals.money += 10
+	var moneyAmount = 10
+	_on_money_earned("$"+str(moneyAmount))
+	Globals.money += moneyAmount
 	health -= damage
 	if health <= 0:
 		die()
@@ -44,3 +48,18 @@ func die():
 	Globals.money += 50
 	Globals.remainingEnemies -= 1
 	queue_free()
+
+
+func _on_money_earned(amount):
+	var damage_label_scene = preload("res://World/Label.tscn")
+	var damage_label_instance = damage_label_scene.instance()
+
+	# Set the position for the label (you may want to adjust this based on your game's design).
+	damage_label_instance.rect_min_size = Vector2(100, 30)
+	damage_label_instance.set_global_position(global_position)
+
+	# Add the damage label as a child to your game's root or a suitable parent node.
+	get_parent().add_child(damage_label_instance)
+
+	# Call the display_damage function on the label to show the damage amount.
+	damage_label_instance.display_damage(amount)
