@@ -28,9 +28,6 @@ func spawn_enemy():
 		enemy_instance.position = randomSpawnPoint.global_position
 		enemy_instance.z_index = 1
 		add_child(enemy_instance)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func rand_range_int(min_value, max_value):
 	return randi() % (max_value - min_value + 1) + min_value

@@ -6,6 +6,8 @@ var SPEED = 120
 
 var DISTANCE_IN_FRONT = 15
 
+var health = 100
+
 onready var light = $Light2D
 onready var maskedLight = $Light2D3
 
@@ -41,5 +43,15 @@ func shoot():
 		bullet_instance.set_direction(direction_to_mouse)
 
 func _on_hurtBox_area_entered(area):
-	print("area")
-	pass # Replace with function body.
+	if "hitBox" in area.name:
+		print("entra2")
+		takeDamage(50)
+
+func takeDamage(damage: int):
+	health -= damage
+	if health <= 0:
+		die()
+
+func die():
+	print("entra 1")
+	queue_free()

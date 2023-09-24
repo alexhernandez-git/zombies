@@ -8,6 +8,7 @@ onready var _player = get_node(path_to_player)
 onready var _timer: Timer = $Timer
 var health = Globals.enemyHealth
 
+
 func _ready() -> void: 
 	_update_pathfinding()
 	_timer.connect("timeout", self, "_update_pathfinding")
@@ -18,7 +19,7 @@ func _physics_process(delta: float) -> void:
 	
 	var direction = global_position.direction_to(_agent.get_next_location())
 	
-	var desired_velocity = direction * 100.0
+	var desired_velocity = direction * Globals.enemySpeed
 	var steering = (desired_velocity - _velocity) * delta * 4.0
 	_velocity += steering
 	
@@ -34,9 +35,12 @@ func _on_DetectionZone_body_entered(body):
 	_update_pathfinding()
 
 func takeDamage(damage: int):
+	Globals.money += 10
 	health -= damage
 	if health <= 0:
 		die()
 
 func die():
+	Globals.money += 50
+	Globals.remainingEnemies -= 1
 	queue_free()
