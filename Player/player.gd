@@ -12,6 +12,11 @@ onready var maskedLight = $Light2D3
 onready var shootPosition = $WeaponStartPositions/ShootPosition
 
 onready var canShootTimer = $CanShootTimer
+
+onready var canMeleTimer = $CanMeleTimer
+
+onready var meleAnimation = $MeleAnimation
+
 onready var restTimer = $RestTimer
 
 onready var interactLabel = $InteractionElements/InteractionLabel
@@ -37,6 +42,8 @@ var regen_rate = 10.0  # Health points regenerated per second
 var regen_timer = 0.0
 
 var perks = []
+
+var meleDamage = 100
 
 var velocity = Vector2.ZERO
 
@@ -70,6 +77,10 @@ func _physics_process(delta):
 		if current_health > max_health:
 			current_health = max_health
 			regen_timer = 0
+
+	if Input.is_action_pressed("mele"):
+		mele()
+
 	if Input.is_action_pressed("shoot"):
 		shoot()
 	
@@ -115,6 +126,10 @@ func shoot():
 		var direction_to_mouse = bullet_instance.global_position.direction_to(target).normalized()
 		bullet_instance.set_direction(direction_to_mouse)
 
+func mele():
+	if canMeleTimer.is_stopped():
+		meleAnimation.play("mele")
+
 func _regenerate_health():
 	if current_health < max_health:
 		current_health += regen_rate * get_process_delta_time()
@@ -125,6 +140,12 @@ func _on_hurtBox_area_entered(area):
 	if "hitBox" in area.name:
 		print("entra")
 		takeDamage(50)
+
+
+func _on_Mele_area_entered(area):
+	if "hitBox" in area.name:
+		print("entra mele area")
+		area.get_parent().takeDamage(meleDamage, true)
 
 func takeDamage(damage: int):
 	current_health -= damage
@@ -222,7 +243,18 @@ func _on_InteractionArea_area_entered(area):
 		add_child(timer)
 		timer.start()
 		area.die()
+	if "InstantKill" in area.name:
+		Globals.instantKillActivated = true
+		var timer = Timer.new()
+		timer.connect("timeout",self,"_on_timeout_instant_kill_activated")
+		timer.wait_time = 10
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
+		area.die()
 
+func _on_timeout_instant_kill_activated():
+	Globals.instantKillActivated = false
 
 func _on_full_vision():
 	$Light2D.texture = lightFullTexture
@@ -237,3 +269,4 @@ func _on_InteractionArea_area_exited(area):
 		interactableAction = ""
 		interactLabel.visible = false
 		interactLabel.text = ""
+

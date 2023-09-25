@@ -44,14 +44,19 @@ func _on_DetectionZone_body_entered(body):
 		_player = body
 	_update_pathfinding()
 
-func takeDamage(damage: int):
+func takeDamage(damage: int, mele = false):
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
 	health -= damage
+	if Globals.instantKillActivated:
+		health = 0
 	if health <= 0:
-		die()
+		die(mele)
 
-func die():
-	Globals.emit_signal("money_earned", Globals.enemyKillMoney)
+func die(mele = false):
+	var money = Globals.enemyKillMoney
+	if mele:
+		money = Globals.enemyKillMoneyMele
+	Globals.emit_signal("money_earned", money)
 	Globals.emit_signal("enemy_died", global_position)
 	Globals.remainingEnemies -= 1
 	queue_free()

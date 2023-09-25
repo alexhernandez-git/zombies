@@ -24,13 +24,17 @@ export var max_spawn_timer = 5.0
 export var startingRound = 0
 
 
-var difficulty =  2
+var difficulty =  10
 
-var enemyHitSpeed = 1 * difficulty
+var enemyHitSpeed = 1
 
-var enemyHitMoney = 10 * difficulty
+var enemyHitMoney = 10
 
-var enemyKillMoney = 50 * difficulty
+var enemyKillMoney = 50
+
+var enemyKillMoneyMele = 100
+
+var instantKillActivated = false
 
 signal health_changed(health)
 signal player_damaged(health)
@@ -40,6 +44,8 @@ signal enemy_died(position)
 signal round_passed
 
 func _ready():
+	enemyHitSpeed = difficulty_difference(enemyHitSpeed)
+	
 	for i in range(startingRound):
 	  _on_round_passed()
 	
@@ -49,14 +55,20 @@ func _process(delta):
 		_on_round_passed()
 		Globals.emit_signal("round_passed")
 
+func difficulty_difference(amount: float) -> float:
+	return amount + (difficulty * amount / 10)
+
+func difficulty_difference_substract(amount: float) -> float:
+	return amount - (difficulty * amount / 10)
+
 func _on_round_passed():
 	roundCount += 1
-	remainingEnemies =  (2 * difficulty) * roundCount
-	enemyHealth = (5 * difficulty) * roundCount
+	remainingEnemies =  2 * roundCount
+	enemyHealth = 5 * roundCount
 	if enemySpeed < maxEnemeySpeed:
-		enemySpeed += (5 * difficulty)
-	max_spawn_timer -= (0.4 * difficulty)
-	if max_spawn_timer < (1 / difficulty):
+		enemySpeed += difficulty_difference(5)
+	max_spawn_timer -= difficulty_difference(0.4)
+	if max_spawn_timer < difficulty_difference_substract(1):
 		max_spawn_timer = 1
 
 

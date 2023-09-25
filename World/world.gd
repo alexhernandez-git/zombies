@@ -48,7 +48,7 @@ func _on_enemy_died(position):
 	
 	# Check if the random number falls within the desired probability range
 	if random_number <= probability :
-		var power_up_types = ["AtomicBomb", "MaxAmmo", "Vision"]
+		var power_up_types = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill"]
 		var randomIndex = randi() % power_up_types.size() + 1
 		var power_up_instance = power_up_scene.instance()
 		power_up_instance.name = power_up_types[randomIndex - 1]
