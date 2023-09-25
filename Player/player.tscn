@@ -9,13 +9,13 @@
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 1 )
 
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 11.0
-height = 2.0
-
 [sub_resource type="CapsuleShape2D" id=4]
 radius = 16.0
 height = 0.0
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 5.0
+height = 2.0
 
 [node name="Player" type="KinematicBody2D"]
 light_mask = 3
@@ -46,11 +46,6 @@ mode = 3
 range_item_cull_mask = 2
 shadow_enabled = true
 shadow_item_cull_mask = 2
-
-[node name="hurtBox" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtBox"]
-shape = SubResource( 2 )
 
 [node name="Light2D2" type="Light2D" parent="."]
 texture = ExtResource( 3 )
@@ -89,6 +84,12 @@ uppercase = true
 
 [node name="Timer" type="Timer" parent="."]
 
-[connection signal="area_entered" from="hurtBox" to="." method="_on_hurtBox_area_entered"]
+[node name="hurtBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtBox"]
+position = Vector2( 0, 2 )
+shape = SubResource( 2 )
+
 [connection signal="area_entered" from="InteractionElements/InteractionArea" to="." method="_on_InteractionArea_area_entered"]
 [connection signal="area_exited" from="InteractionElements/InteractionArea" to="." method="_on_InteractionArea_area_exited"]
+[connection signal="area_entered" from="hurtBox" to="." method="_on_hurtBox_area_entered"]

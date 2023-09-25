@@ -16,6 +16,7 @@ onready var maxSpawnTimerLabel = $VBoxContainer/MaxSpawnTimer
 onready var playerHealthLabel = $VBoxContainer/PlayerHealth
 onready var ammoLabel = $VBoxContainer/Ammo
 onready var perksLabel = $VBoxContainer/Perks
+onready var fpsLabel = $VBoxContainer/Fps
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,3 +38,4 @@ func _process(delta):
 	for text in _player.perks:
 		perks += str(" | ", text)
 	perksLabel.text = str("perks", perks)
+	fpsLabel.text = "FPS " + String(Engine.get_frames_per_second())

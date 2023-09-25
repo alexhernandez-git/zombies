@@ -167,6 +167,7 @@ func resetPerks():
 		perks.erase("SpeedPerk")
 
 func _on_InteractionArea_area_entered(area):
+	# Perks
 	if area.name == "BuyAmmo":
 		interactableAction = area.name
 		interactLabel.visible = true
@@ -187,6 +188,11 @@ func _on_InteractionArea_area_entered(area):
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Vision perk: $3000"
+	# PowerUps
+	if area.name == "AtomicBomb":
+		money += 400
+		Globals.emit_signal("atomic_bomb_detonated")
+		area.die()
 
 func _on_InteractionArea_area_exited(area):
 	if area.name == interactableAction:

@@ -15,16 +15,26 @@ var remainingEnemies = 5
 
 var enemySpeed = 50
 
-var maxEnemeySpeed = 100
-
-var max_spawn_timer = 5.0
-
 var spawn_timer = 0
+
+export var maxEnemeySpeed = 100
+
+export var max_spawn_timer = 5.0
+
+export var startingRound = 0
+
 
 signal health_changed(health)
 signal player_damaged(health)
 signal money_earned(amount)
+signal atomic_bomb_detonated
+signal enemy_died(position)
 signal round_passed
+
+func _ready():
+	for i in range(startingRound):
+	  _on_round_passed()
+	
 
 func _process(delta):
 	if remainingEnemies <= 0:
@@ -33,10 +43,10 @@ func _process(delta):
 
 func _on_round_passed():
 	roundCount += 1
-	remainingEnemies =  5 * roundCount
+	remainingEnemies =  2 * roundCount
 	enemyHealth = 5 * roundCount
 	if enemySpeed < maxEnemeySpeed:
-		enemySpeed += 10
+		enemySpeed += 5
 	max_spawn_timer -= 0.4
 	if max_spawn_timer < 1:
 		max_spawn_timer = 1
