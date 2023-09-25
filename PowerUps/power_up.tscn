@@ -17,3 +17,10 @@ texture = ExtResource( 2 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 10.0
+
+[node name="Label" type="Label" parent="."]
+margin_left = -4.0
+margin_top = 9.0
+margin_right = 36.0
+margin_bottom = 23.0
+rect_scale = Vector2( 0.2, 0.2 )
