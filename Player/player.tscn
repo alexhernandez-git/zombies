@@ -60,11 +60,6 @@ energy = 0.8
 [node name="WeaponStartPositions" type="Node2D" parent="."]
 
 [node name="ShootPosition" type="Position2D" parent="WeaponStartPositions"]
-visible = false
-
-[node name="Sprite" type="Sprite" parent="WeaponStartPositions/ShootPosition"]
-scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 3 )
 
 [node name="CanShootTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -79,10 +74,16 @@ autostart = true
 shape = SubResource( 4 )
 
 [node name="InteractionLabel" type="Label" parent="InteractionElements"]
-visible = false
-margin_right = 40.0
-margin_bottom = 14.0
-text = "Press E"
+margin_left = -11.0
+margin_top = 22.0
+margin_right = 35.0
+margin_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_scale = Vector2( 0.5, 0.5 )
+align = 1
+valign = 1
+uppercase = true
 
 [node name="InteractionTimer" type="Timer" parent="InteractionElements"]
 

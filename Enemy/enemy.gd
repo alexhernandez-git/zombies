@@ -41,14 +41,12 @@ func _on_DetectionZone_body_entered(body):
 	_update_pathfinding()
 
 func takeDamage(damage: int):
-	var moneyAmount = 10
-	Globals.money += moneyAmount
+	Globals.emit_signal("money_earned", 10)
 	health -= damage
 	if health <= 0:
 		die()
 
 func die():
-	Globals.money += 50
-	var moneyAmount = 50
+	Globals.emit_signal("money_earned", 50)
 	Globals.remainingEnemies -= 1
 	queue_free()
