@@ -90,6 +90,10 @@ uppercase = true
 position = Vector2( 0, 2 )
 shape = SubResource( 2 )
 
+[node name="RestTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="area_entered" from="InteractionElements/InteractionArea" to="." method="_on_InteractionArea_area_entered"]
 [connection signal="area_exited" from="InteractionElements/InteractionArea" to="." method="_on_InteractionArea_area_exited"]
 [connection signal="area_entered" from="hurtBox" to="." method="_on_hurtBox_area_entered"]

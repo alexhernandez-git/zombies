@@ -17,6 +17,10 @@ onready var playerHealthLabel = $VBoxContainer/PlayerHealth
 onready var ammoLabel = $VBoxContainer/Ammo
 onready var perksLabel = $VBoxContainer/Perks
 onready var fpsLabel = $VBoxContainer/Fps
+onready var zombiesSpawned = $VBoxContainer/ZombiesSpawned
+onready var playerEnergyLabel = $VBoxContainer/PlayerEnergy
+onready var playerMaxEnergyLabel = $VBoxContainer/PlayerMaxEnergy
+onready var world = get_parent().get_parent().get_parent()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,3 +43,8 @@ func _process(delta):
 		perks += str(" | ", text)
 	perksLabel.text = str("perks", perks)
 	fpsLabel.text = "FPS " + String(Engine.get_frames_per_second())
+	zombiesSpawned.text = str("zombies spawned ", world.spawned_enemies)
+	if _player.energy || _player.energy == 0:
+		playerEnergyLabel.text = str("Player energy ",_player.energy)
+	if _player.max_energy || _player.max_energy == 0:
+		playerMaxEnergyLabel.text = str("Player max energy ",_player.max_energy)

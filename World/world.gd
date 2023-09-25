@@ -20,10 +20,14 @@ func _ready():
 
 func _physics_process(delta):
 	Globals.spawn_timer -= delta
-	if Globals.spawn_timer <= 0 and spawned_enemies < 20:
+	
+	if Globals.spawn_timer <= 0 and Globals.remainingEnemies > spawned_enemies and spawned_enemies < 20:
 		# TODO: spawn 5 enem
 		spawn_enemy()
 		Globals.spawn_timer = rand_range(0.1, Globals.max_spawn_timer)  # Adjust the range for random spawn intervals
+	
+	print(Globals.spawn_timer)
+	print(Globals.max_spawn_timer)
 
 
 func spawn_enemy():
@@ -48,7 +52,7 @@ func _on_enemy_died(position):
 	
 	# Check if the random number falls within the desired probability range
 	if random_number <= probability :
-		var power_up_types = ["AtomicBomb"]
+		var power_up_types = ["AtomicBomb", "MaxAmmo", "Vision"]
 		var randomIndex = randi() % power_up_types.size() + 1
 		print(randomIndex)
 		print(power_up_types.size())

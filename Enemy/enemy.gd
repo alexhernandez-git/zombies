@@ -8,6 +8,8 @@ onready var _player = get_node(path_to_player)
 onready var _timer: Timer = $Timer
 onready var _label: Label = $Label
 onready var _label_timer: Timer = $LabelTimer
+onready var _hitBoxCollision = $hitBox/CollisionShape2D
+onready var _animation = $HitAnimation
 var health = Globals.enemyHealth
 
 
@@ -54,6 +56,16 @@ func die():
 	queue_free()
 
 func _on_atomic_bomb_detonated():
-	Globals.emit_signal("enemy_died")
+	Globals.emit_signal("enemy_died", global_position)
 	Globals.remainingEnemies -= 1
 	queue_free()
+
+
+func _on_PlayerDetector_area_entered(area):
+	if ("Player" in area.name):
+		_animation.play("scale_hit_collision")
+
+
+func _on_PlayerDetector_area_exited(area):
+	if ("Player" in area.name):
+		_animation.stop()

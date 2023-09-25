@@ -12,6 +12,7 @@ onready var maskedLight = $Light2D3
 onready var shootPosition = $WeaponStartPositions/ShootPosition
 
 onready var canShootTimer = $CanShootTimer
+onready var restTimer = $RestTimer
 
 onready var interactLabel = $InteractionElements/InteractionLabel
 
@@ -20,6 +21,10 @@ var lightTexture = preload("res://Assets/light2rigth.png")
 var lightFullTexture = preload("res://Assets/light.png")
 
 var interactableAction = ""
+
+var max_energy = 100
+var energy = max_energy
+var can_run_again = true
 
 var ammo = 30
 
@@ -69,11 +74,20 @@ func _physics_process(delta):
 	
 	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var currentSpeed = SPEED
-	if Input.is_action_pressed("multi_build"):
+	if energy == max_energy:
+		can_run_again = true
+	if can_run_again and Input.is_action_pressed("multi_build"):
+		if energy == 0:
+			can_run_again = false
+		else:
+			energy -= 1
 		var runMultiplyer =  1.5
 		if "SpeedPerk" in perks:
 			runMultiplyer = 2
 		currentSpeed = SPEED * runMultiplyer
+	elif energy < max_energy:
+		energy += 1
+		
 	var move_direction = input_vector.normalized()
 	move_and_slide(currentSpeed * move_direction)
 	
@@ -146,24 +160,24 @@ func interact():
 	if interactableAction == "SpeedPerk" and not "SpeedPerk" in perks:
 		if money >= 2000:
 			money -= 2000
+			max_energy = max_energy * 2
 			perks.append("SpeedPerk")
 	if interactableAction == "VisionPerk" and not "VisionPerk" in perks:
 		if money >= 3000:
 			money -= 3000
-			$Light2D.texture = lightFullTexture
-			$Light2D3.texture = lightFullTexture
+			_on_full_vision()
 			perks.append("VisionPerk")
 
 
 
 func resetPerks():
 	if "VisionPerk" in perks:
-		$Light2D.texture = lightTexture
-		$Light2D3.texture = lightTexture
+		_on_reset_vision()
 		perks.erase("VisionPerk")
 	if "HealthPerk" in perks:
 		perks.erase("HealthPerk")
 	if "SpeedPerk" in perks:
+		max_energy = max_energy / 2
 		perks.erase("SpeedPerk")
 
 func _on_InteractionArea_area_entered(area):
@@ -189,10 +203,31 @@ func _on_InteractionArea_area_entered(area):
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Vision perk: $3000"
 	# PowerUps
-	if area.name == "AtomicBomb":
+	if "AtomicBomb" in area.name:
 		money += 400
 		Globals.emit_signal("atomic_bomb_detonated")
 		area.die()
+	if "MaxAmmo" in area.name:
+		ammo += 1000
+		area.die()
+	if "Vision" in area.name:
+		_on_full_vision()
+		var timer = Timer.new()
+		timer.connect("timeout",self,"_on_reset_vision")
+		timer.wait_time = 10
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
+		area.die()
+
+
+func _on_full_vision():
+	$Light2D.texture = lightFullTexture
+	$Light2D3.texture = lightFullTexture
+
+func _on_reset_vision():
+	$Light2D.texture = lightTexture
+	$Light2D3.texture = lightTexture
 
 func _on_InteractionArea_area_exited(area):
 	if area.name == interactableAction:

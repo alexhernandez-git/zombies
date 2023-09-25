@@ -76,9 +76,9 @@ outlines = [ PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 ) ]
 0/z_index = 0
 
 [sub_resource type="NavigationPolygon" id=22]
-vertices = PoolVector2Array( 303, 337, -126, 335, -122, 206, 302, 162, -126, 163, -127, 177, -146, 207, -145, 178, -252, 335, -253, -12, -146, -14, -146, 335 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 3, 2, 5 ), PoolIntArray( 5, 2, 6, 7 ), PoolIntArray( 8, 9, 10, 7, 6 ), PoolIntArray( 8, 6, 11 ) ]
-outlines = [ PoolVector2Array( 303, 337, 302, 162, -126, 163, -127, 177, -145, 178, -146, -14, -253, -12, -252, 335, -146, 335, -146, 207, -122, 206, -126, 335 ) ]
+vertices = PoolVector2Array( 303, 337, -126, 335, -122, 206, 94, 244, -252, 335, -253, -12, -146, -14, -145, 178, -146, 207, 115, 245, 114.714, 162.438, 302, 162, -146, 335, -127, 177, -126, 163, 93, 163 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 9, 10, 11, 0 ), PoolIntArray( 8, 12, 4 ), PoolIntArray( 2, 8, 7, 13 ), PoolIntArray( 13, 14, 15, 3, 2 ), PoolIntArray( 0, 3, 9 ) ]
+outlines = [ PoolVector2Array( 303, 337, 302, 162, 114.714, 162.438, 115, 245, 94, 244, 93, 163, -126, 163, -127, 177, -145, 178, -146, -14, -253, -12, -252, 335, -146, 335, -146, 207, -122, 206, -126, 335 ) ]
 
 [node name="World" type="YSort"]
 light_mask = 3
@@ -181,7 +181,3 @@ labelText = "RevivePerk"
 position = Vector2( 232, 184 )
 z_index = 1
 labelText = "Speed Perk"
-
-[node name="VisionPerk" parent="." instance=ExtResource( 8 )]
-position = Vector2( 284, 252 )
-labelText = "Vision perk"
