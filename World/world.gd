@@ -26,10 +26,6 @@ func _physics_process(delta):
 		spawn_enemy()
 		Globals.spawn_timer = rand_range(0.1, Globals.max_spawn_timer)  # Adjust the range for random spawn intervals
 	
-	print(Globals.spawn_timer)
-	print(Globals.max_spawn_timer)
-
-
 func spawn_enemy():
 	var enemy_instance = enemy_scene.instance()
 	var randomIndex = randi() % spawnPoints.size()
@@ -54,10 +50,7 @@ func _on_enemy_died(position):
 	if random_number <= probability :
 		var power_up_types = ["AtomicBomb", "MaxAmmo", "Vision"]
 		var randomIndex = randi() % power_up_types.size() + 1
-		print(randomIndex)
-		print(power_up_types.size())
 		var power_up_instance = power_up_scene.instance()
-		print(power_up_instance)
 		power_up_instance.name = power_up_types[randomIndex - 1]
 		power_up_instance.z_index = 1
 		power_up_instance.global_position = position

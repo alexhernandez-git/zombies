@@ -20,6 +20,7 @@ onready var fpsLabel = $VBoxContainer/Fps
 onready var zombiesSpawned = $VBoxContainer/ZombiesSpawned
 onready var playerEnergyLabel = $VBoxContainer/PlayerEnergy
 onready var playerMaxEnergyLabel = $VBoxContainer/PlayerMaxEnergy
+onready var difficultyLabel = $VBoxContainer/Difficulty
 onready var world = get_parent().get_parent().get_parent()
 
 # Called when the node enters the scene tree for the first time.
@@ -27,6 +28,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
+	difficultyLabel.text = str("Difficulty ", Globals.difficulty)
 	enemyHealthLabel.text = str("Enemies healtdh ", Globals.enemyHealth)
 	enemySpeedLabel.text = str("Enemies speed ", Globals.enemySpeed)
 	maxSpawnTimerLabel.text = str("Enemies spawn time ", Globals.max_spawn_timer)

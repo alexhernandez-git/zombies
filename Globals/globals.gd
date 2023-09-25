@@ -24,6 +24,14 @@ export var max_spawn_timer = 5.0
 export var startingRound = 0
 
 
+var difficulty =  2
+
+var enemyHitSpeed = 1 * difficulty
+
+var enemyHitMoney = 10 * difficulty
+
+var enemyKillMoney = 50 * difficulty
+
 signal health_changed(health)
 signal player_damaged(health)
 signal money_earned(amount)
@@ -43,12 +51,12 @@ func _process(delta):
 
 func _on_round_passed():
 	roundCount += 1
-	remainingEnemies =  2 * roundCount
-	enemyHealth = 5 * roundCount
+	remainingEnemies =  (2 * difficulty) * roundCount
+	enemyHealth = (5 * difficulty) * roundCount
 	if enemySpeed < maxEnemeySpeed:
-		enemySpeed += 5
-	max_spawn_timer -= 0.4
-	if max_spawn_timer < 1:
+		enemySpeed += (5 * difficulty)
+	max_spawn_timer -= (0.4 * difficulty)
+	if max_spawn_timer < (1 / difficulty):
 		max_spawn_timer = 1
 
 

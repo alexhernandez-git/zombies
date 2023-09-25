@@ -38,6 +38,8 @@ var regen_timer = 0.0
 
 var perks = []
 
+var velocity = Vector2.ZERO
+
 onready var colorRect = $Camera2D/ColorRect
 
 func _ready():
@@ -45,10 +47,9 @@ func _ready():
 	Globals.connect("money_earned", self, "_on_money_earned")
 	
 func _on_health_changed(damage):
-	print("entra")
+	pass
 	
 func _on_money_earned(amount):
-	print("entra money")
 	var moneyAmount = amount
 	money += moneyAmount
 
@@ -89,7 +90,8 @@ func _physics_process(delta):
 		energy += 1
 		
 	var move_direction = input_vector.normalized()
-	move_and_slide(currentSpeed * move_direction)
+	velocity = currentSpeed * move_direction
+	velocity = move_and_slide(velocity)
 	
 	light.rotation = get_angle_to(get_global_mouse_position())
 	maskedLight.rotation = get_angle_to(get_global_mouse_position())
@@ -121,6 +123,7 @@ func _regenerate_health():
 
 func _on_hurtBox_area_entered(area):
 	if "hitBox" in area.name:
+		print("entra")
 		takeDamage(50)
 
 func takeDamage(damage: int):

@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-var _velocity = Vector2.ZERO
+var velocity = Vector2.ZERO
 
 export var path_to_player = NodePath()
 onready var _agent: NavigationAgent2D = $NavigationAgent2D
@@ -14,6 +14,7 @@ var health = Globals.enemyHealth
 
 
 func _ready() -> void: 
+	_animation.playback_speed = Globals.enemyHitSpeed
 	_update_pathfinding()
 	_timer.connect("timeout", self, "_update_pathfinding")
 	Globals.connect("health_changed", self, "_on_health_changed")
@@ -29,10 +30,10 @@ func _physics_process(delta: float) -> void:
 	var direction = global_position.direction_to(_agent.get_next_location())
 	
 	var desired_velocity = direction * Globals.enemySpeed
-	var steering = (desired_velocity - _velocity) * delta * 4.0
-	_velocity += steering
+	var steering = (desired_velocity - velocity) * delta * 4.0
+	velocity += steering
 	
-	_velocity = move_and_slide(_velocity)
+	velocity = move_and_slide(velocity)
 
 func _update_pathfinding() -> void:
 	if _player:
@@ -44,13 +45,13 @@ func _on_DetectionZone_body_entered(body):
 	_update_pathfinding()
 
 func takeDamage(damage: int):
-	Globals.emit_signal("money_earned", 10)
+	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
 	health -= damage
 	if health <= 0:
 		die()
 
 func die():
-	Globals.emit_signal("money_earned", 50)
+	Globals.emit_signal("money_earned", Globals.enemyKillMoney)
 	Globals.emit_signal("enemy_died", global_position)
 	Globals.remainingEnemies -= 1
 	queue_free()
@@ -62,10 +63,10 @@ func _on_atomic_bomb_detonated():
 
 
 func _on_PlayerDetector_area_entered(area):
-	if ("Player" in area.name):
+	if ("hurtBox" in area.name):
 		_animation.play("scale_hit_collision")
 
 
 func _on_PlayerDetector_area_exited(area):
-	if ("Player" in area.name):
-		_animation.stop()
+	if ("hurtBox" in area.name):
+		_animation.play("RESET")
