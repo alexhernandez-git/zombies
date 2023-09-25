@@ -19,7 +19,6 @@ var interactableAction = ""
 
 var ammo = 30
 
-
 var max_health = 100
 var current_health = max_health
 var regen_delay = 3.0
@@ -27,6 +26,12 @@ var regen_rate = 10.0  # Health points regenerated per second
 var regen_timer = 0.0
 
 onready var colorRect = $Camera2D/ColorRect
+
+func _ready():
+	Globals.connect("health_changed", self, "_on_health_changed")
+	
+func _on_health_changed(damage):
+	print("entra")
 
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
@@ -36,10 +41,8 @@ func _physics_process(delta):
 	var aColor = rColor
 	if aColor > 180:
 		aColor = 180
-	print(Color8(rColor,32,32,aColor))
 	colorRect.modulate = Color8(rColor,32,32,aColor)
 	
-	print(current_health)
 	if current_health < max_health:
 		regen_timer += delta
 	if regen_timer >= 3:
@@ -87,11 +90,11 @@ func _regenerate_health():
 
 func _on_hurtBox_area_entered(area):
 	if "hitBox" in area.name:
-		print("entra2")
 		takeDamage(20)
 
 func takeDamage(damage: int):
 	current_health -= damage
+	Globals.emit_signal("health_changed", damage)
 	if current_health <= 0:
 		current_health = 0
 		die()
@@ -100,7 +103,6 @@ func takeDamage(damage: int):
 		$Timer.start()
 
 func die():
-	print("entra die")
 	queue_free()
 	
 func interact():

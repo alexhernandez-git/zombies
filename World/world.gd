@@ -18,7 +18,7 @@ func _process(delta):
 	spawn_timer -= delta
 	if spawn_timer <= 0:
 		spawn_enemy()
-		spawn_timer = rand_range(1.0, 3.0)  # Adjust the range for random spawn intervals
+		spawn_timer = rand_range(0.1, 1)  # Adjust the range for random spawn intervals
 
 
 func spawn_enemy():

@@ -86,8 +86,6 @@ text = "Press E"
 
 [node name="InteractionTimer" type="Timer" parent="InteractionElements"]
 
-[node name="Area2D" type="Area2D" parent="."]
-
 [node name="Timer" type="Timer" parent="."]
 
 [connection signal="area_entered" from="hurtBox" to="." method="_on_hurtBox_area_entered"]

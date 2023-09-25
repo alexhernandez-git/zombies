@@ -14,7 +14,11 @@ var health = Globals.enemyHealth
 func _ready() -> void: 
 	_update_pathfinding()
 	_timer.connect("timeout", self, "_update_pathfinding")
-
+	Globals.connect("health_changed", self, "_on_health_changed")
+	
+func _on_health_changed():
+	print("entra")
+	
 func _physics_process(delta: float) -> void:
 	if _agent.is_navigation_finished():
 		return
@@ -38,7 +42,6 @@ func _on_DetectionZone_body_entered(body):
 
 func takeDamage(damage: int):
 	var moneyAmount = 10
-	_on_money_earned("$"+str(moneyAmount))
 	Globals.money += moneyAmount
 	health -= damage
 	if health <= 0:
@@ -46,20 +49,6 @@ func takeDamage(damage: int):
 
 func die():
 	Globals.money += 50
+	var moneyAmount = 50
 	Globals.remainingEnemies -= 1
 	queue_free()
-
-
-func _on_money_earned(amount):
-	var damage_label_scene = preload("res://World/Label.tscn")
-	var damage_label_instance = damage_label_scene.instance()
-
-	# Set the position for the label (you may want to adjust this based on your game's design).
-	damage_label_instance.rect_min_size = Vector2(100, 30)
-	damage_label_instance.set_global_position(global_position)
-
-	# Add the damage label as a child to your game's root or a suitable parent node.
-	get_parent().add_child(damage_label_instance)
-
-	# Call the display_damage function on the label to show the damage amount.
-	damage_label_instance.display_damage(amount)

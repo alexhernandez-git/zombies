@@ -19,6 +19,9 @@ var maxEnemeySpeed = 100
 
 var money = 0
 
+signal health_changed(health)
+signal player_damaged(health)
+
 func _process(delta):
 	if remainingEnemies <= 0:
 		roundCount += 1
@@ -26,4 +29,6 @@ func _process(delta):
 		enemyHealth = 10 * roundCount
 		if enemySpeed < maxEnemeySpeed:
 			enemySpeed += 10
-		
+
+func player_damaged(health):
+	print("entra")
