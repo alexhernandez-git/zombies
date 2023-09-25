@@ -181,3 +181,7 @@ labelText = "RevivePerk"
 position = Vector2( 232, 184 )
 z_index = 1
 labelText = "Speed Perk"
+
+[node name="VisionPerk" parent="." instance=ExtResource( 8 )]
+position = Vector2( 284, 252 )
+labelText = "Vision perk"

@@ -15,11 +15,15 @@ onready var canShootTimer = $CanShootTimer
 
 onready var interactLabel = $InteractionElements/InteractionLabel
 
+var lightTexture = preload("res://Assets/light2rigth.png")
+
+var lightFullTexture = preload("res://Assets/light.png")
+
 var interactableAction = ""
 
 var ammo = 30
 
-var money = 50000
+var money = 500
 
 var max_health = 100
 var current_health = max_health
@@ -120,6 +124,7 @@ func die():
 	if "RevivePerk" in perks:
 		perks.erase("RevivePerk")
 		current_health = max_health
+		resetPerks()
 	else:
 		queue_free()
 	
@@ -142,26 +147,46 @@ func interact():
 		if money >= 2000:
 			money -= 2000
 			perks.append("SpeedPerk")
+	if interactableAction == "VisionPerk" and not "VisionPerk" in perks:
+		if money >= 3000:
+			money -= 3000
+			$Light2D.texture = lightFullTexture
+			$Light2D3.texture = lightFullTexture
+			perks.append("VisionPerk")
 
+
+
+func resetPerks():
+	if "VisionPerk" in perks:
+		$Light2D.texture = lightTexture
+		$Light2D3.texture = lightTexture
+		perks.erase("VisionPerk")
+	if "HealthPerk" in perks:
+		perks.erase("HealthPerk")
+	if "SpeedPerk" in perks:
+		perks.erase("SpeedPerk")
 
 func _on_InteractionArea_area_entered(area):
 	if area.name == "BuyAmmo":
 		interactableAction = area.name
 		interactLabel.visible = true
-		interactLabel.text = "Buy ammo for $500"
+		interactLabel.text = "Press E - Ammo: $500"
 	if area.name == "HealthPerk":
 		interactableAction = area.name
 		interactLabel.visible = true
-		interactLabel.text = "More health for $2500"
+		interactLabel.text = "Press E - Health perk: $2500"
 	if area.name == "RevivePerk":
 		interactableAction = area.name
 		interactLabel.visible = true
-		interactLabel.text = "Revive perk for $500"
+		interactLabel.text = "Press E - Revive perk: $500"
 	if area.name == "SpeedPerk":
 		interactableAction = area.name
 		interactLabel.visible = true
-		interactLabel.text = "Speed perk for $2000"
-
+		interactLabel.text = "Press E - Speed perk: $2000"
+	if area.name == "VisionPerk":
+		interactableAction = area.name
+		interactLabel.visible = true
+		interactLabel.text = "Press E - Vision perk: $3000"
 
 func _on_InteractionArea_area_exited(area):
 	if area.name == interactableAction:
