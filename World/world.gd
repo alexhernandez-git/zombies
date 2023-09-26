@@ -6,6 +6,7 @@ extends Node2D
 # var b = "text"
 var enemy_scene = preload("res://Enemy/enemy.tscn")
 var power_up_scene = preload("res://PowerUps/power_up.tscn")
+var _blood_sprite = preload("res://Enemy/blood.tscn")
 var current_zone
 var previous_zone
 onready var spawnPoints = [$Spawns/Spawn1, $Spawns/Spawn2, $Spawns/Spawn3, $Spawns/Spawn4, $Spawns/Spawn5]
@@ -16,6 +17,7 @@ var spawned_enemies = 0
 func _ready():
 	Globals.connect("round_passed", self, "_on_round_passed")
 	Globals.connect("enemy_died", self, "_on_enemy_died")
+	Globals.connect("enemy_damage", self, "_on_enemy_damage")
 	randomize()  # Initialize the random number generato
 
 func _physics_process(delta):
@@ -37,6 +39,22 @@ func spawn_enemy():
 
 func rand_range_int(min_value, max_value):
 	return randi() % (max_value - min_value + 1) + min_value
+
+func generateRandomPosition(position):
+	var random_angle = rand_range(0, 2 * PI)  # Random angle in radians
+	var random_radius = rand_range(0, 10)     # Random radius within 1 meter
+	var x_offset = cos(random_angle) * random_radius
+	var y_offset = sin(random_angle) * random_radius
+	var random_position = position + Vector2(x_offset, y_offset)
+	
+	return random_position
+
+func _on_enemy_damage(position):
+	print("entra")
+	for i in range(10):
+		var blood_instance = _blood_sprite.instance()
+		blood_instance.global_position =  generateRandomPosition(position)
+		add_child(blood_instance)
 
 func _on_enemy_died(position):
 # Generate a random number between 1 and 10

@@ -3,7 +3,11 @@ extends Node
 
 # Perks = Health | Revive | Fast Fire | Reload protection | Fast reload | Slide 
 # Power Up = Max Amo | Triple Weapon | Invencibility | Nuclear Bomb | Unlimited fire | Clear vision
-
+# Weapons = Gun | AR | Subfusil | Sniper | Lanzacoetes  | Mini gun | Arrow
+# Granades = Granade | Fire |
+# Cuerpo a cuerpo = Knife 
+# Especials = Hammer | Agujero negro | Desintegrador | Teleport gun | Lanzallamas 
+# Slide boots
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -25,7 +29,6 @@ export var max_spawn_timer = 5.0
 
 export var startingRound = 0
 
-
 var difficulty =  10
 
 var enemyHitSpeed = 1
@@ -38,11 +41,12 @@ var enemyKillMoneyMele = 100
 
 var instantKill = false
 
-var power_up_wait_time = 10
+var power_up_wait_time = 15
 
-var power_up_probability = 1
+var power_up_probability = 10
 
 var atomic_bomb = false
+
 
 signal health_changed(health)
 signal player_damaged(health)
@@ -50,6 +54,7 @@ signal money_earned(amount)
 signal atomic_bomb_detonated
 signal enemy_died(position)
 signal round_passed
+signal enemy_damage(position)
 
 func _ready():
 	enemyHitSpeed = difficulty_difference(enemyHitSpeed)

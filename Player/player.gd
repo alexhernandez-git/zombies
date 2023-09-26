@@ -19,6 +19,8 @@ onready var meleAnimation = $MeleAnimation
 
 onready var restTimer = $RestTimer
 
+onready var impulseTimer = $ImpulseTimer
+
 onready var interactLabel = $InteractionElements/InteractionLabel
 
 var lightTexture = preload("res://Assets/light2rigth.png")
@@ -56,7 +58,13 @@ var unlimited_fire = false
 
 var multiple_weapons = false
 
+var impulse = false
+
 var power_ups = []
+
+var jump_impulse = 10000  # Adjust the jump impulse strength as needed.
+var jump_duration = 0.2  # Adjust the duration of the jump impulse as needed.
+var jump_timer = 0  # Timer to track the duration of the jump impulse.
 
 func _ready():
 	Globals.connect("health_changed", self, "_on_health_changed")
@@ -112,6 +120,17 @@ func _physics_process(delta):
 		
 	var move_direction = input_vector.normalized()
 	velocity = currentSpeed * move_direction
+	
+	if impulse and impulseTimer.is_stopped() and Input.is_action_just_pressed("jump"):
+		print("entra")
+		jump_timer = jump_duration  # Start the jump timer.
+		impulseTimer.start()
+
+	if jump_timer > 0:
+		velocity += input_vector * jump_impulse * delta  # Gradually apply the impulse.
+		jump_timer -= delta
+
+		
 	velocity = move_and_slide(velocity)
 	
 	light.rotation = get_angle_to(get_global_mouse_position())
@@ -214,6 +233,16 @@ func interact():
 			money -= 2000
 			max_energy = max_energy * 2
 			perks.append("SpeedPerk")
+	if interactableAction == "Impulse" and not "Impulse" in perks:
+		if money >= 2000:
+			money -= 2000
+			impulse = true
+			perks.append("Impulse")
+	if interactableAction == "QuickFire" and not "QuickFire" in perks:
+		if money >= 2500:
+			money -= 2500
+			canShootTimer.wait_time = canShootTimer.wait_time / 2
+			perks.append("QuickFire")
 
 
 
@@ -224,6 +253,12 @@ func resetPerks():
 	if "SpeedPerk" in perks:
 		max_energy = max_energy / 2
 		perks.erase("SpeedPerk")
+	if "Impulse" in perks:
+		impulse = false
+		perks.erase("Impulse")
+	if "QuickFire" in perks:
+		canShootTimer.wait_time = canShootTimer.wait_time * 2
+		perks.erase("QuickFire")
 
 func _on_InteractionArea_area_entered(area):
 	# Perks
@@ -243,10 +278,15 @@ func _on_InteractionArea_area_entered(area):
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Speed perk: $2000"
-	if area.name == "VisionPerk":
+	if area.name == "Impulse":
 		interactableAction = area.name
 		interactLabel.visible = true
-		interactLabel.text = "Press E - Vision perk: $3000"
+		interactLabel.text = "Press E - Impulse perk: $2000"
+	if area.name == "QuickFire":
+		interactableAction = area.name
+		interactLabel.visible = true
+		interactLabel.text = "Press E - Quick fire perk: $2500"
+		
 	# PowerUps
 	if "AtomicBomb" in area.name:
 		Globals.atomic_bomb = true

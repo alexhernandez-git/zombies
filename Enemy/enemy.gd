@@ -1,7 +1,6 @@
 extends KinematicBody2D
 
 var velocity = Vector2.ZERO
-
 export var path_to_player = NodePath()
 onready var _agent: NavigationAgent2D = $NavigationAgent2D
 onready var _player = get_node(path_to_player)
@@ -10,8 +9,8 @@ onready var _label: Label = $Label
 onready var _label_timer: Timer = $LabelTimer
 onready var _hitBoxCollision = $hitBox/CollisionShape2D
 onready var _animation = $HitAnimation
+onready var _hit_marker_sprite = $HitMarkerSprite
 var health = Globals.enemyHealth
-
 
 func _ready() -> void: 
 	_animation.playback_speed = Globals.enemyHitSpeed
@@ -45,12 +44,16 @@ func _on_DetectionZone_body_entered(body):
 	_update_pathfinding()
 
 func takeDamage(damage: int, mele = false):
+	Globals.emit_signal("enemy_damage", global_position)
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
 	health -= damage
 	if Globals.instantKill:
 		health = 0
 	if health <= 0:
 		die(mele)
+
+func _on_timeout_show_hit_mark():
+	_hit_marker_sprite.visible = false
 
 func die(mele = false):
 	var money = Globals.enemyKillMoney
