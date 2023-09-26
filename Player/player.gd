@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export (PackedScene) var Bullet
 
-var SPEED = 120
+var SPEED = 100
 
 var DISTANCE_IN_FRONT = 0
 
@@ -49,6 +49,14 @@ var velocity = Vector2.ZERO
 
 onready var colorRect = $Camera2D/ColorRect
 
+var invincibility = false
+
+var unlimited_fire = false
+
+var multiple_weapons = false
+
+var power_ups = []
+
 func _ready():
 	Globals.connect("health_changed", self, "_on_health_changed")
 	Globals.connect("money_earned", self, "_on_money_earned")
@@ -86,19 +94,20 @@ func _physics_process(delta):
 	
 	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var currentSpeed = SPEED
-	if energy == max_energy:
-		can_run_again = true
-	if can_run_again and Input.is_action_pressed("multi_build"):
+
+	if Input.is_action_pressed("multi_build"):
 		if energy == 0:
 			can_run_again = false
 		else:
 			energy -= 1
+		restTimer.start()
 		var runMultiplyer =  1.5
 		if "SpeedPerk" in perks:
 			runMultiplyer = 2
 		currentSpeed = SPEED * runMultiplyer
-	elif energy < max_energy:
-		energy += 1
+	else:
+		if restTimer.is_stopped() and energy < max_energy:
+			energy += 1
 		
 	var move_direction = input_vector.normalized()
 	velocity = currentSpeed * move_direction
@@ -125,6 +134,20 @@ func shoot():
 		var target = get_global_mouse_position()
 		var direction_to_mouse = bullet_instance.global_position.direction_to(target).normalized()
 		bullet_instance.set_direction(direction_to_mouse)
+		if (multiple_weapons):
+			for direction in ["Back", "Left", "Right"]:
+				var new_direction
+				if (direction == "Back"):
+					new_direction = -direction_to_mouse
+				if (direction == "Left"):
+					new_direction = Vector2(-direction_to_mouse.y, direction_to_mouse.x).normalized()
+				if (direction == "Right"):
+					new_direction = Vector2(direction_to_mouse.y, -direction_to_mouse.x).normalized()
+				print(new_direction)
+				var seccond_bullet_instance = Bullet.instance()
+				add_child(seccond_bullet_instance)
+				seccond_bullet_instance.global_position = shootPosition.global_position
+				seccond_bullet_instance.set_direction(new_direction)
 
 func mele():
 	if canMeleTimer.is_stopped():
@@ -148,6 +171,8 @@ func _on_Mele_area_entered(area):
 		area.get_parent().takeDamage(meleDamage, true)
 
 func takeDamage(damage: int):
+	if invincibility:
+		return
 	current_health -= damage
 	Globals.emit_signal("health_changed", damage)
 	if current_health <= 0:
@@ -186,18 +211,10 @@ func interact():
 			money -= 2000
 			max_energy = max_energy * 2
 			perks.append("SpeedPerk")
-	if interactableAction == "VisionPerk" and not "VisionPerk" in perks:
-		if money >= 3000:
-			money -= 3000
-			_on_full_vision()
-			perks.append("VisionPerk")
 
 
 
 func resetPerks():
-	if "VisionPerk" in perks:
-		_on_reset_vision()
-		perks.erase("VisionPerk")
 	if "HealthPerk" in perks:
 		perks.erase("HealthPerk")
 	if "SpeedPerk" in perks:
@@ -228,41 +245,87 @@ func _on_InteractionArea_area_entered(area):
 		interactLabel.text = "Press E - Vision perk: $3000"
 	# PowerUps
 	if "AtomicBomb" in area.name:
+		power_ups.append("AtomicBomb")
 		money += 400
 		Globals.emit_signal("atomic_bomb_detonated")
 		area.die()
 	if "MaxAmmo" in area.name:
+		power_ups.append("MaxAmmo")
 		ammo += 1000
 		area.die()
 	if "Vision" in area.name:
-		_on_full_vision()
+		power_ups.append("Vision")
+		$Light2D.texture = lightFullTexture
+		$Light2D3.texture = lightFullTexture
 		var timer = Timer.new()
-		timer.connect("timeout",self,"_on_reset_vision")
-		timer.wait_time = 10
+		timer.connect("timeout",self,"_on_timeout_vision")
+		timer.wait_time = Globals.power_up_wait_time
 		timer.one_shot = true
 		add_child(timer)
 		timer.start()
 		area.die()
 	if "InstantKill" in area.name:
-		Globals.instantKillActivated = true
+		power_ups.append("InstantKill")
+		Globals.instantKill = true
 		var timer = Timer.new()
-		timer.connect("timeout",self,"_on_timeout_instant_kill_activated")
-		timer.wait_time = 10
+		timer.connect("timeout",self,"_on_timeout_instant_kill")
+		timer.wait_time = Globals.power_up_wait_time
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
+		area.die()
+	if "Invincibility" in area.name:
+		power_ups.append("Invincibility")
+		invincibility = true
+		var timer = Timer.new()
+		timer.connect("timeout",self,"_on_timeout_invincibility")
+		timer.wait_time = Globals.power_up_wait_time
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
+		area.die()
+	if "UnlimitedFire" in area.name:
+		power_ups.append("UnlimitedFire")
+		unlimited_fire = true
+		var timer = Timer.new()
+		timer.connect("timeout",self,"_on_timeout_unlimited_fire")
+		timer.wait_time = Globals.power_up_wait_time
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
+		area.die()
+	if "MultipleWeapons" in area.name:
+		power_ups.append("MultipleWeapons")
+		multiple_weapons = true
+		var timer = Timer.new()
+		timer.connect("timeout",self,"_on_timeout_multiple_weapons")
+		timer.wait_time = Globals.power_up_wait_time
 		timer.one_shot = true
 		add_child(timer)
 		timer.start()
 		area.die()
 
-func _on_timeout_instant_kill_activated():
-	Globals.instantKillActivated = false
 
-func _on_full_vision():
-	$Light2D.texture = lightFullTexture
-	$Light2D3.texture = lightFullTexture
-
-func _on_reset_vision():
+func _on_timeout_vision():
+	power_ups.erase("Vision")
 	$Light2D.texture = lightTexture
 	$Light2D3.texture = lightTexture
+
+func _on_timeout_instant_kill():
+	power_ups.erase("InstantKill")
+	Globals.instantKill = false
+
+func _on_timeout_invincibility():
+	power_ups.erase("Invincibility")
+	invincibility = false
+	
+func _on_timeout_unlimited_fire():
+	power_ups.erase("UnlimitedFire")
+	unlimited_fire = false
+
+func _on_timeout_multiple_weapons():
+	power_ups.erase("MultipleWeapons")	
+	multiple_weapons = false
 
 func _on_InteractionArea_area_exited(area):
 	if area.name == interactableAction:

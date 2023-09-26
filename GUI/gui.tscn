@@ -80,3 +80,8 @@ margin_bottom = 230.0
 margin_top = 234.0
 margin_right = 40.0
 margin_bottom = 248.0
+
+[node name="PowerUps" type="Label" parent="VBoxContainer"]
+margin_top = 252.0
+margin_right = 40.0
+margin_bottom = 266.0

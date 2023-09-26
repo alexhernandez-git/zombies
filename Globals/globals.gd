@@ -7,6 +7,8 @@ extends Node
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons"]
+
 var roundCount = 1
 
 var enemyHealth = 10
@@ -35,6 +37,8 @@ var enemyKillMoney = 50
 var enemyKillMoneyMele = 100
 
 var instantKillActivated = false
+
+var power_up_wait_time = 10
 
 signal health_changed(health)
 signal player_damaged(health)
