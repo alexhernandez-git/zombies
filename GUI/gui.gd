@@ -48,7 +48,7 @@ func _process(delta):
 	var power_ups = ""		
 	for text in _player.power_ups:
 		power_ups += str(" | ", text)
-	powerUpsLabel.text = str("perks", perks)
+	powerUpsLabel.text = str("Power Ups", power_ups)
 	fpsLabel.text = "FPS " + String(Engine.get_frames_per_second())
 	zombiesSpawned.text = str("zombies spawned ", world.spawned_enemies)
 	if _player.energy || _player.energy == 0:

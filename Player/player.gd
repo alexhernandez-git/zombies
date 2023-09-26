@@ -35,7 +35,8 @@ var ammo = 30
 
 var money = 500
 
-var max_health = 100
+var total_health = 100
+var max_health = total_health
 var current_health = max_health
 var regen_delay = 3.0
 var regen_rate = 10.0  # Health points regenerated per second
@@ -126,7 +127,8 @@ func _unhandled_input(event):
 
 func shoot():
 	if canShootTimer.is_stopped() and ammo > 0:
-		ammo -= 1
+		if not unlimited_fire:
+			ammo -= 1
 		canShootTimer.start()
 		var bullet_instance = Bullet.instance()
 		add_child(bullet_instance)
@@ -216,6 +218,7 @@ func interact():
 
 func resetPerks():
 	if "HealthPerk" in perks:
+		max_health = total_health
 		perks.erase("HealthPerk")
 	if "SpeedPerk" in perks:
 		max_energy = max_energy / 2
@@ -250,7 +253,6 @@ func _on_InteractionArea_area_entered(area):
 		Globals.emit_signal("atomic_bomb_detonated")
 		area.die()
 	if "MaxAmmo" in area.name:
-		power_ups.append("MaxAmmo")
 		ammo += 1000
 		area.die()
 	if "Vision" in area.name:
@@ -308,24 +310,29 @@ func _on_InteractionArea_area_entered(area):
 
 func _on_timeout_vision():
 	power_ups.erase("Vision")
-	$Light2D.texture = lightTexture
-	$Light2D3.texture = lightTexture
+	if not "Vision" in power_ups:
+		$Light2D.texture = lightTexture
+		$Light2D3.texture = lightTexture
 
 func _on_timeout_instant_kill():
 	power_ups.erase("InstantKill")
-	Globals.instantKill = false
+	if not "InstantKill" in power_ups:
+		Globals.instantKill = false
 
 func _on_timeout_invincibility():
 	power_ups.erase("Invincibility")
-	invincibility = false
+	if not "Invincibility" in power_ups:
+		invincibility = false
 	
 func _on_timeout_unlimited_fire():
 	power_ups.erase("UnlimitedFire")
-	unlimited_fire = false
+	if not "UnlimitedFire" in power_ups:
+		unlimited_fire = false
 
 func _on_timeout_multiple_weapons():
-	power_ups.erase("MultipleWeapons")	
-	multiple_weapons = false
+	power_ups.erase("MultipleWeapons")
+	if not "MultipleWeapons" in power_ups:
+		multiple_weapons = false
 
 func _on_InteractionArea_area_exited(area):
 	if area.name == interactableAction:
