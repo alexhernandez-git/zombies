@@ -95,16 +95,17 @@ func _physics_process(delta):
 	var currentSpeed = SPEED
 
 	if "Speed" in perks:
-		if Input.is_action_pressed("multi_build"):
+		if can_run_again and Input.is_action_pressed("multi_build"):
 			if energy == 0:
 				can_run_again = false
 			else:
 				energy -= 1
 			restTimer.start()
-			var runMultiplyer =  1.5
+			var runMultiplyer =  1.4
 			currentSpeed = SPEED * runMultiplyer
 		else:
 			if restTimer.is_stopped() and energy < max_energy:
+				can_run_again = true
 				energy += 1
 		
 	var move_direction = input_vector.normalized()
@@ -225,7 +226,6 @@ func interact():
 		if interactableAction == "Speed" and not "Speed" in perks:
 			if money >= 2000:
 				money -= 2000
-				max_energy = max_energy * 2
 				perks.append("Speed")
 		if interactableAction == "Impulse" and not "Impulse" in perks:
 			if money >= 2000:
@@ -244,7 +244,6 @@ func resetPerks():
 		max_health = total_health
 		perks.erase("Health")
 	if "Speed" in perks:
-		max_energy = max_energy / 2
 		perks.erase("Speed")
 	if "Impulse" in perks:
 		perks.erase("Impulse")
