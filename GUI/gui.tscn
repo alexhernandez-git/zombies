@@ -85,3 +85,8 @@ margin_bottom = 248.0
 margin_top = 252.0
 margin_right = 40.0
 margin_bottom = 266.0
+
+[node name="GlobalPowerUps" type="Label" parent="VBoxContainer"]
+margin_top = 270.0
+margin_right = 40.0
+margin_bottom = 284.0

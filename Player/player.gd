@@ -35,7 +35,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 500
+var money = 50000
 
 var total_health = 100
 var max_health = total_health
@@ -52,14 +52,6 @@ var velocity = Vector2.ZERO
 
 onready var colorRect = $Camera2D/ColorRect
 
-var invincibility = false
-
-var unlimited_fire = false
-
-var multiple_weapons = false
-
-var impulse = false
-
 var power_ups = []
 
 var jump_impulse = 10000  # Adjust the jump impulse strength as needed.
@@ -69,6 +61,7 @@ var jump_timer = 0  # Timer to track the duration of the jump impulse.
 func _ready():
 	Globals.connect("health_changed", self, "_on_health_changed")
 	Globals.connect("money_earned", self, "_on_money_earned")
+	Globals.connect("max_ammo", self, "_on_max_ammo")
 	
 func _on_health_changed(damage):
 	pass
@@ -95,33 +88,29 @@ func _physics_process(delta):
 			current_health = max_health
 			regen_timer = 0
 
-	if Input.is_action_pressed("mele"):
-		mele()
-
 	if Input.is_action_pressed("shoot"):
 		shoot()
 	
 	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var currentSpeed = SPEED
 
-	if Input.is_action_pressed("multi_build"):
-		if energy == 0:
-			can_run_again = false
+	if "Speed" in perks:
+		if Input.is_action_pressed("multi_build"):
+			if energy == 0:
+				can_run_again = false
+			else:
+				energy -= 1
+			restTimer.start()
+			var runMultiplyer =  1.5
+			currentSpeed = SPEED * runMultiplyer
 		else:
-			energy -= 1
-		restTimer.start()
-		var runMultiplyer =  1.4
-		if "SpeedPerk" in perks:
-			runMultiplyer = 1.6
-		currentSpeed = SPEED * runMultiplyer
-	else:
-		if restTimer.is_stopped() and energy < max_energy:
-			energy += 1
+			if restTimer.is_stopped() and energy < max_energy:
+				energy += 1
 		
 	var move_direction = input_vector.normalized()
 	velocity = currentSpeed * move_direction
 	
-	if impulse and impulseTimer.is_stopped() and Input.is_action_just_pressed("jump"):
+	if "Impulse" in perks and impulseTimer.is_stopped() and Input.is_action_just_pressed("jump"):
 		print("entra")
 		jump_timer = jump_duration  # Start the jump timer.
 		impulseTimer.start()
@@ -140,13 +129,17 @@ func _physics_process(delta):
 	var target_position = global_position + player_direction * DISTANCE_IN_FRONT
 	shootPosition.global_position = target_position
 
+func _input(event):
+	if event.is_action_pressed("mele"):
+		mele()
+
 func _unhandled_input(event):
 	if event.is_action_released("interact"):
 		interact()
 
 func shoot():
 	if canShootTimer.is_stopped() and ammo > 0:
-		if not unlimited_fire:
+		if not "UnlimitedFire" in power_ups:
 			ammo -= 1
 		canShootTimer.start()
 		var bullet_instance = Bullet.instance()
@@ -158,7 +151,7 @@ func shoot():
 		var angle = deg2rad(45)
 		var right_direction = direction_to_mouse.rotated(angle)
 		var left_direction = direction_to_mouse.rotated(-angle)
-		if (multiple_weapons):
+		if ("MultipleWeapons" in power_ups):
 			for direction in ["UpLeft", "UpRight"]:
 				var new_direction
 				if (direction == "UpLeft"):
@@ -193,7 +186,7 @@ func _on_Mele_area_entered(area):
 		area.get_parent().takeDamage(meleDamage, true)
 
 func takeDamage(damage: int):
-	if invincibility:
+	if "Invincibility" in power_ups:
 		return
 	current_health -= damage
 	Globals.emit_signal("health_changed", damage)
@@ -206,8 +199,8 @@ func takeDamage(damage: int):
 		$Timer.start()
 
 func die():
-	if "RevivePerk" in perks:
-		perks.erase("RevivePerk")
+	if "Revive" in perks:
+		perks.erase("Revive")
 		current_health = max_health
 		resetPerks()
 	else:
@@ -218,43 +211,42 @@ func interact():
 		if money >= 500:
 			money -= 500
 			ammo += 180
-	if interactableAction == "HealthPerk" and not "HealthPerk" in perks:
-		if money >= 2500:
-			money -= 2500
-			max_health = 250
-			current_health = 250
-			perks.append("HealthPerk")
-	if interactableAction == "RevivePerk" and not "RevivePerk" in perks:
-		if money >= 500:
-			money -= 500
-			perks.append("RevivePerk")
-	if interactableAction == "SpeedPerk" and not "SpeedPerk" in perks:
-		if money >= 2000:
-			money -= 2000
-			max_energy = max_energy * 2
-			perks.append("SpeedPerk")
-	if interactableAction == "Impulse" and not "Impulse" in perks:
-		if money >= 2000:
-			money -= 2000
-			impulse = true
-			perks.append("Impulse")
-	if interactableAction == "QuickFire" and not "QuickFire" in perks:
-		if money >= 2500:
-			money -= 2500
-			canShootTimer.wait_time = canShootTimer.wait_time / 2
-			perks.append("QuickFire")
+	if perks.size() < 4:
+		if interactableAction == "Health" and not "Health" in perks:
+			if money >= 2500:
+				money -= 2500
+				max_health = 250
+				current_health = 250
+				perks.append("Health")
+		if interactableAction == "Revive" and not "Revive" in perks:
+			if money >= 500:
+				money -= 500
+				perks.append("Revive")
+		if interactableAction == "Speed" and not "Speed" in perks:
+			if money >= 2000:
+				money -= 2000
+				max_energy = max_energy * 2
+				perks.append("Speed")
+		if interactableAction == "Impulse" and not "Impulse" in perks:
+			if money >= 2000:
+				money -= 2000
+				perks.append("Impulse")
+		if interactableAction == "QuickFire" and not "QuickFire" in perks:
+			if money >= 2500:
+				money -= 2500
+				canShootTimer.wait_time = canShootTimer.wait_time / 2
+				perks.append("QuickFire")
 
 
 
 func resetPerks():
-	if "HealthPerk" in perks:
+	if "Health" in perks:
 		max_health = total_health
-		perks.erase("HealthPerk")
-	if "SpeedPerk" in perks:
+		perks.erase("Health")
+	if "Speed" in perks:
 		max_energy = max_energy / 2
-		perks.erase("SpeedPerk")
+		perks.erase("Speed")
 	if "Impulse" in perks:
-		impulse = false
 		perks.erase("Impulse")
 	if "QuickFire" in perks:
 		canShootTimer.wait_time = canShootTimer.wait_time * 2
@@ -266,15 +258,15 @@ func _on_InteractionArea_area_entered(area):
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Ammo: $500"
-	if area.name == "HealthPerk":
+	if area.name == "Health":
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Health perk: $2500"
-	if area.name == "RevivePerk":
+	if area.name == "Revive":
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Revive perk: $500"
-	if area.name == "SpeedPerk":
+	if area.name == "Speed":
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Speed perk: $2000"
@@ -300,7 +292,7 @@ func _on_InteractionArea_area_entered(area):
 		timer.start()
 		area.die()
 	if "MaxAmmo" in area.name:
-		ammo += 180
+		Globals.emit_signal("max_ammo")
 		area.die()
 	if "Vision" in area.name:
 		power_ups.append("Vision")
@@ -314,8 +306,7 @@ func _on_InteractionArea_area_entered(area):
 		timer.start()
 		area.die()
 	if "InstantKill" in area.name:
-		power_ups.append("InstantKill")
-		Globals.instantKill = true
+		Globals.global_power_ups.append("InstantKill")
 		var timer = Timer.new()
 		timer.connect("timeout",self,"_on_timeout_instant_kill")
 		timer.wait_time = Globals.power_up_wait_time
@@ -325,7 +316,6 @@ func _on_InteractionArea_area_entered(area):
 		area.die()
 	if "Invincibility" in area.name:
 		power_ups.append("Invincibility")
-		invincibility = true
 		var timer = Timer.new()
 		timer.connect("timeout",self,"_on_timeout_invincibility")
 		timer.wait_time = Globals.power_up_wait_time
@@ -335,7 +325,6 @@ func _on_InteractionArea_area_entered(area):
 		area.die()
 	if "UnlimitedFire" in area.name:
 		power_ups.append("UnlimitedFire")
-		unlimited_fire = true
 		var timer = Timer.new()
 		timer.connect("timeout",self,"_on_timeout_unlimited_fire")
 		timer.wait_time = Globals.power_up_wait_time
@@ -345,7 +334,6 @@ func _on_InteractionArea_area_entered(area):
 		area.die()
 	if "MultipleWeapons" in area.name:
 		power_ups.append("MultipleWeapons")
-		multiple_weapons = true
 		var timer = Timer.new()
 		timer.connect("timeout",self,"_on_timeout_multiple_weapons")
 		timer.wait_time = Globals.power_up_wait_time
@@ -354,6 +342,9 @@ func _on_InteractionArea_area_entered(area):
 		timer.start()
 		area.die()
 
+
+func _on_max_ammo():
+	ammo += 180
 
 func _on_timeout_atomic_bomb(): 
 	Globals.atomic_bomb = false
@@ -366,23 +357,17 @@ func _on_timeout_vision():
 
 func _on_timeout_instant_kill():
 	power_ups.erase("InstantKill")
-	if not "InstantKill" in power_ups:
+	if not "InstantKill" in Globals.global_power_ups:
 		Globals.instantKill = false
 
 func _on_timeout_invincibility():
 	power_ups.erase("Invincibility")
-	if not "Invincibility" in power_ups:
-		invincibility = false
 	
 func _on_timeout_unlimited_fire():
 	power_ups.erase("UnlimitedFire")
-	if not "UnlimitedFire" in power_ups:
-		unlimited_fire = false
 
 func _on_timeout_multiple_weapons():
 	power_ups.erase("MultipleWeapons")
-	if not "MultipleWeapons" in power_ups:
-		multiple_weapons = false
 
 func _on_InteractionArea_area_exited(area):
 	if area.name == interactableAction:

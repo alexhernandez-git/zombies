@@ -22,6 +22,7 @@ onready var playerMaxEnergyLabel = $VBoxContainer/PlayerMaxEnergy
 onready var difficultyLabel = $VBoxContainer/Difficulty
 onready var perksLabel = $VBoxContainer/Perks
 onready var powerUpsLabel = $VBoxContainer/PowerUps
+onready var globalPowerUpsLabel = $VBoxContainer/GlobalPowerUps
 onready var world = get_parent().get_parent().get_parent()
 
 # Called when the node enters the scene tree for the first time.
@@ -48,7 +49,11 @@ func _process(delta):
 	var power_ups = ""		
 	for text in _player.power_ups:
 		power_ups += str(" | ", text)
-	powerUpsLabel.text = str("Power Ups", power_ups)
+	powerUpsLabel.text = str("Power ups", power_ups)
+	var global_power_ups = ""		
+	for text in Globals.global_power_ups:
+		global_power_ups += str(" | ", text)
+	globalPowerUpsLabel.text = str("Global power ups", global_power_ups)
 	fpsLabel.text = "FPS " + String(Engine.get_frames_per_second())
 	zombiesSpawned.text = str("zombies spawned ", world.spawned_enemies)
 	if _player.energy || _player.energy == 0:

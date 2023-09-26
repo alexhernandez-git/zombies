@@ -17,7 +17,7 @@ func _ready() -> void:
 	_update_pathfinding()
 	_timer.connect("timeout", self, "_update_pathfinding")
 	Globals.connect("health_changed", self, "_on_health_changed")
-	Globals.connect("atomic_bomb_detonated", self, "_on_atomic_bomb_detonated")
+	Globals.connect("atomic_bomb", self, "_on_atomic_bomb")
 	
 func _on_health_changed():
 	print("entra")
@@ -64,7 +64,7 @@ func die(mele = false):
 	Globals.remainingEnemies -= 1
 	queue_free()
 
-func _on_atomic_bomb_detonated():
+func _on_atomic_bomb():
 	Globals.emit_signal("enemy_died", global_position)
 	Globals.remainingEnemies -= 1
 	queue_free()

@@ -7,6 +7,7 @@ extends Node2D
 var enemy_scene = preload("res://Enemy/enemy.tscn")
 var power_up_scene = preload("res://PowerUps/power_up.tscn")
 var _blood_sprite = preload("res://Enemy/blood.tscn")
+var _corpse_sprite = preload("res://Enemy/corpse.tscn")
 var current_zone
 var previous_zone
 onready var spawnPoints = [$Spawns/Spawn1, $Spawns/Spawn2, $Spawns/Spawn3, $Spawns/Spawn4, $Spawns/Spawn5]
@@ -51,15 +52,16 @@ func generateRandomPosition(position):
 
 func _on_enemy_damage(position):
 	print("entra")
-	for i in range(10):
-		var blood_instance = _blood_sprite.instance()
-		blood_instance.global_position =  generateRandomPosition(position)
-		add_child(blood_instance)
+	var blood_instance = _blood_sprite.instance()
+	blood_instance.global_position =  generateRandomPosition(position)
+	add_child(blood_instance)
 
 func _on_enemy_died(position):
+	var corpse_instance = _corpse_sprite.instance()
+	corpse_instance.global_position = position
+	add_child(corpse_instance)
 # Generate a random number between 1 and 10
 	var random_number = randi() % Globals.power_up_probability + 1
-	#var random_number = randi() %  + 1
 	
 	# Calculate the probability of getting a true result (e.g., 30%)
 	var probability = 1  # Adjust this value to set your desired probability
