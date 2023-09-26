@@ -102,9 +102,9 @@ func _physics_process(delta):
 		else:
 			energy -= 1
 		restTimer.start()
-		var runMultiplyer =  1.5
+		var runMultiplyer =  1.4
 		if "SpeedPerk" in perks:
-			runMultiplyer = 2
+			runMultiplyer = 1.6
 		currentSpeed = SPEED * runMultiplyer
 	else:
 		if restTimer.is_stopped() and energy < max_energy:
@@ -136,15 +136,16 @@ func shoot():
 		var target = get_global_mouse_position()
 		var direction_to_mouse = bullet_instance.global_position.direction_to(target).normalized()
 		bullet_instance.set_direction(direction_to_mouse)
+		var angle = deg2rad(45)
+		var right_direction = direction_to_mouse.rotated(angle)
+		var left_direction = direction_to_mouse.rotated(-angle)
 		if (multiple_weapons):
-			for direction in ["Back", "Left", "Right"]:
+			for direction in ["UpLeft", "UpRight"]:
 				var new_direction
-				if (direction == "Back"):
-					new_direction = -direction_to_mouse
-				if (direction == "Left"):
-					new_direction = Vector2(-direction_to_mouse.y, direction_to_mouse.x).normalized()
-				if (direction == "Right"):
-					new_direction = Vector2(direction_to_mouse.y, -direction_to_mouse.x).normalized()
+				if (direction == "UpLeft"):
+					new_direction = (direction_to_mouse + left_direction).normalized()
+				if (direction == "UpRight"):
+					new_direction = (direction_to_mouse + right_direction).normalized()
 				print(new_direction)
 				var seccond_bullet_instance = Bullet.instance()
 				add_child(seccond_bullet_instance)
@@ -248,12 +249,18 @@ func _on_InteractionArea_area_entered(area):
 		interactLabel.text = "Press E - Vision perk: $3000"
 	# PowerUps
 	if "AtomicBomb" in area.name:
-		power_ups.append("AtomicBomb")
+		Globals.atomic_bomb = true
 		money += 400
 		Globals.emit_signal("atomic_bomb_detonated")
+		var timer = Timer.new()
+		timer.connect("timeout",self,"_on_timeout_atomic_bomb")
+		timer.wait_time = 5
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
 		area.die()
 	if "MaxAmmo" in area.name:
-		ammo += 1000
+		ammo += 180
 		area.die()
 	if "Vision" in area.name:
 		power_ups.append("Vision")
@@ -307,6 +314,9 @@ func _on_InteractionArea_area_entered(area):
 		timer.start()
 		area.die()
 
+
+func _on_timeout_atomic_bomb(): 
+	Globals.atomic_bomb = false
 
 func _on_timeout_vision():
 	power_ups.erase("Vision")

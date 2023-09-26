@@ -36,9 +36,13 @@ var enemyKillMoney = 50
 
 var enemyKillMoneyMele = 100
 
-var instantKillActivated = false
+var instantKill = false
 
 var power_up_wait_time = 10
+
+var power_up_probability = 1
+
+var atomic_bomb = false
 
 signal health_changed(health)
 signal player_damaged(health)
