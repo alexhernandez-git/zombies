@@ -4,10 +4,12 @@ export (PackedScene) var Bullet
 
 var SPEED = 100
 
-var DISTANCE_IN_FRONT = 0
+var DISTANCE_IN_FRONT = 15
 
 onready var light = $Light2D
 onready var maskedLight = $Light2D3
+
+onready var onHandSprite = $Sprites/OnHandSprite
 
 onready var shootPosition = $WeaponStartPositions/ShootPosition
 
@@ -49,6 +51,9 @@ var perks = []
 var meleDamage = 100
 
 var velocity = Vector2.ZERO
+
+var maxMagCapacity = 30
+var mag = 30
 
 onready var colorRect = $Camera2D/ColorRect
 
@@ -125,29 +130,48 @@ func _physics_process(delta):
 	
 	light.rotation = get_angle_to(get_global_mouse_position())
 	maskedLight.rotation = get_angle_to(get_global_mouse_position())
-	
 	var player_direction = (get_global_mouse_position() - position).normalized()
 	var target_position = global_position + player_direction * DISTANCE_IN_FRONT
+	var angle = get_angle_to(target_position)
+	onHandSprite.rotation = angle
+	print(onHandSprite.rotation_degrees)
+
+	if onHandSprite.rotation_degrees < -90 or onHandSprite.rotation_degrees > 90:
+		onHandSprite.flip_v = true
+	else:
+		onHandSprite.flip_v = false
+		print("right")
+
+	onHandSprite.global_position = target_position
 	shootPosition.global_position = target_position
+
 
 func _input(event):
 	if event.is_action_pressed("mele"):
 		mele()
+	if event.is_action_pressed("reload"):
+		print("entra")
+		reload()
 
 func _unhandled_input(event):
 	if event.is_action_released("interact"):
 		interact()
 
 func shoot():
-	if canShootTimer.is_stopped() and ammo > 0:
+	if canShootTimer.is_stopped():
 		if not "UnlimitedFire" in power_ups:
-			ammo -= 1
+			if ammo == 0:
+				return
+			if mag > 0:
+				mag -= 1
+			else:
+				reload()
 		canShootTimer.start()
 		var bullet_instance = Bullet.instance()
 		add_child(bullet_instance)
 		bullet_instance.global_position = shootPosition.global_position
 		var target = get_global_mouse_position()
-		var direction_to_mouse = bullet_instance.global_position.direction_to(target).normalized()
+		var direction_to_mouse = global_position.direction_to(target).normalized()
 		bullet_instance.set_direction(direction_to_mouse)
 		var angle = deg2rad(45)
 		var right_direction = direction_to_mouse.rotated(angle)
@@ -164,6 +188,14 @@ func shoot():
 				add_child(seccond_bullet_instance)
 				seccond_bullet_instance.global_position = shootPosition.global_position
 				seccond_bullet_instance.set_direction(new_direction)
+
+func reload():
+	if ammo > 0 and mag < maxMagCapacity:
+		var ammoDifference = maxMagCapacity - mag
+		if ammo < ammoDifference:
+			ammoDifference = ammo  # Lower the ammoDifference if ammo is less than the calculated difference
+		ammo -= ammoDifference
+		mag += ammoDifference
 
 func mele():
 	if canMeleTimer.is_stopped():
@@ -355,9 +387,7 @@ func _on_timeout_vision():
 		$Light2D3.texture = lightTexture
 
 func _on_timeout_instant_kill():
-	power_ups.erase("InstantKill")
-	if not "InstantKill" in Globals.global_power_ups:
-		Globals.instantKill = false
+	Globals.global_power_ups.erase("InstantKill")
 
 func _on_timeout_invincibility():
 	power_ups.erase("Invincibility")

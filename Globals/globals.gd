@@ -5,7 +5,7 @@ extends Node
 # Weapons = Gun | AR | Subfusil | Sniper | Lanzacoetes  | Mini gun | Arrow
 # Granades = Granade | Fire |
 # Cuerpo a cuerpo = Knife | Hacha | Espada | Bate
-# Especials = Hammer | Agujero negro | Desintegrador | Teleport gun | Lanzallamas 
+# Especials = Hammer | Agujero negro | Desintegrador | Teleport gun | Lanzallamas | Tomahawk
 # Slide boots
 # Declare member variables here. Examples:
 # var a = 2
@@ -23,7 +23,6 @@ var remainingEnemies = 5
 var enemySpeed = 50
 
 var spawn_timer = 0
-
 export var maxEnemeySpeed = 100
 
 export var max_spawn_timer = 5.0

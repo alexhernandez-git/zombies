@@ -23,6 +23,8 @@ onready var difficultyLabel = $VBoxContainer/Difficulty
 onready var perksLabel = $VBoxContainer/Perks
 onready var powerUpsLabel = $VBoxContainer/PowerUps
 onready var globalPowerUpsLabel = $VBoxContainer/GlobalPowerUps
+onready var magLabel = $VBoxContainer/Mag
+onready var maxMagCapacityLabel = $VBoxContainer/MaxMagCapacity
 onready var world = get_parent().get_parent().get_parent()
 
 # Called when the node enters the scene tree for the first time.
@@ -60,3 +62,7 @@ func _process(delta):
 		playerEnergyLabel.text = str("Player energy ",_player.energy)
 	if _player.max_energy || _player.max_energy == 0:
 		playerMaxEnergyLabel.text = str("Player max energy ",_player.max_energy)
+	if _player.mag || _player.mag == 0:
+		magLabel.text = str("Mag ",_player.mag)
+	if _player.maxMagCapacity || _player.maxMagCapacity == 0:
+		maxMagCapacityLabel.text = str("Max mag capacity ",_player.maxMagCapacity)

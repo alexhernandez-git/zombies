@@ -47,7 +47,7 @@ func takeDamage(damage: int, mele = false):
 	Globals.emit_signal("enemy_damage", global_position)
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
 	health -= damage
-	if Globals.instantKill:
+	if "InstantKill" in Globals.global_power_ups:
 		health = 0
 	if health <= 0:
 		die(mele)
