@@ -57,6 +57,10 @@ func previous_weapon():
 		current_weapon_index = weapons.size() - 1
 	switch_weapon(weapons[current_weapon_index])
 
+func _input(event):
+	if event.is_action_pressed("shoot"):
+		current_weapon.shoot()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if current_weapon.semi_auto and event.is_action_released("shoot"):
 		print("entra")

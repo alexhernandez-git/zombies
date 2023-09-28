@@ -222,6 +222,10 @@ func interact():
 			if money >= 2000:
 				money -= 2000
 				perks.append("Impulse")
+		if interactableAction == "FastMag" and not "FastMag" in perks:
+			if money >= 3000:
+				money -= 3000
+				perks.append("FastMag")
 		if interactableAction == "QuickFire" and not "QuickFire" in perks:
 			if money >= 2500:
 				money -= 2500
@@ -240,6 +244,8 @@ func resetPerks():
 		perks.erase("Speed")
 	if "Impulse" in perks:
 		perks.erase("Impulse")
+	if "FastMag" in perks:
+		perks.erase("FastMag")
 	if "QuickFire" in perks:
 		weaponManager.current_weapon.set_attack_cooldown_wait_time(
 			weaponManager.current_weapon.get_attack_cooldown_wait_time() * 2
@@ -272,6 +278,10 @@ func _on_InteractionArea_area_entered(area):
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Quick fire perk: $2500"
+	if area.name == "FastMag":
+		interactableAction = area.name
+		interactLabel.visible = true
+		interactLabel.text = "Press E - Fast mag perk: $3000"
 		
 	# PowerUps
 	if "AtomicBomb" in area.name:
