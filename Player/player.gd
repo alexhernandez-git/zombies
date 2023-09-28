@@ -136,8 +136,8 @@ func _physics_process(delta):
 		weaponManager.current_weapon.set_flip_v(false)
 	angle += deg2rad(angle_sum)
 	weaponManager.current_weapon.set_rotation(angle)
-	weaponManager.current_weapon.set_end_of_gun_position(global_position + player_direction)
-	weaponManager.current_weapon.set_position(global_position + player_direction)
+	weaponManager.current_weapon.set_end_of_gun_position(global_position, player_direction)
+	weaponManager.current_weapon.set_gun_position(global_position, player_direction)
 	
 
 
@@ -200,8 +200,9 @@ func die():
 func interact():
 	if interactableAction == "BuyAmmo":
 		if money >= 500:
-			money -= 500
-			weaponManager.add_ammo(180)
+			if weaponManager.current_weapon.ammo < weaponManager.current_weapon.maxAmmoCapacity:
+				money -= 500
+				weaponManager.current_weapon.add_max_ammo()
 	if perks.size() < 4:
 		if interactableAction == "Health" and not "Health" in perks:
 			if money >= 2500:

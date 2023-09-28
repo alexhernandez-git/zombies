@@ -2,19 +2,34 @@ extends Node2D
 class_name Weapon
 
 var ammoDifference
+export var maxAmmoCapacity = 180
 export var maxMagCapacity = 30
 export var mag = 30
 export var ammo = 30
+export var endOfGunSize = 7
+export var gunSize = 15
+export var semi_auto = false
 export (PackedScene) var Bullet
+export (Texture) var SpriteTexture
+export (int) var SpriteHframes
+export (int) var SpriteVframes
+export (int) var SpriteFrame
+
 onready var attackCooldown = $AttackCooldown
 onready var player = get_parent().get_parent()
 onready var sprite = $Sprite
 onready var endOfGun = $EndOFGun
 onready var magReloadTimer = $MagReloadTimer
-var semi_auto = false
 
 func _ready():
-	pass # Replace with function body.
+	render()
+	pass
+
+func render():
+	sprite.texture = SpriteTexture
+	sprite.hframes = SpriteHframes
+	sprite.vframes = SpriteVframes
+	sprite.frame = SpriteFrame
 
 func shoot():
 	if attackCooldown.is_stopped():
@@ -65,15 +80,17 @@ func cancel_reload():
 	magReloadTimer.stop()
 	ammoDifference = 0;
 
+func add_max_ammo():
+	ammo = maxAmmoCapacity
 
 func set_rotation(rotation):
 	sprite.rotation = rotation
 	
-func set_position(position):
-	sprite.global_position = position
+func set_gun_position(glob_pos, direction):
+	sprite.global_position = glob_pos + direction * gunSize
 	
-func set_end_of_gun_position(position):
-	endOfGun.global_position = position
+func set_end_of_gun_position(glob_pos, direction):
+	endOfGun.global_position = glob_pos + direction * (gunSize + endOfGunSize)
 
 func set_flip_v(flip):
 	sprite.flip_v = flip

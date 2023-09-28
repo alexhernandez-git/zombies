@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/tilemap_packed.png" type="Texture" id=1]
 [ext_resource path="res://Player/player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/light.png" type="Texture" id=3]
 [ext_resource path="res://Assets/light2rigth.png" type="Texture" id=4]
 [ext_resource path="res://Player/bullet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/weapons.png" type="Texture" id=6]
 [ext_resource path="res://Weapon/weapon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Player/weapon_manager.gd" type="Script" id=8]
 
@@ -179,10 +180,25 @@ one_shot = true
 script = ExtResource( 8 )
 
 [node name="Pistol" parent="WeaponManager" instance=ExtResource( 7 )]
+maxAmmoCapacity = 80
+maxMagCapacity = 8
+mag = 8
+ammo = 55
+endOfGunSize = 5
+gunSize = 10
+semi_auto = true
 Bullet = ExtResource( 5 )
+SpriteTexture = ExtResource( 6 )
+SpriteHframes = 8
+SpriteVframes = 8
 
 [node name="AK47" parent="WeaponManager" instance=ExtResource( 7 )]
+endOfGunSize = 5
 Bullet = ExtResource( 5 )
+SpriteTexture = ExtResource( 6 )
+SpriteHframes = 8
+SpriteVframes = 8
+SpriteFrame = 4
 
 [connection signal="area_entered" from="InteractionElements/InteractionArea" to="." method="_on_InteractionArea_area_entered"]
 [connection signal="area_exited" from="InteractionElements/InteractionArea" to="." method="_on_InteractionArea_area_exited"]

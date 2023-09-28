@@ -5,7 +5,9 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
-onready var current_weapon: Weapon = $Pistol
+onready var current_weapon = $Pistol
+
+onready var current_weapon_index = 0
 
 
 var weapons: Array = []
@@ -19,42 +21,45 @@ func _ready():
 	current_weapon.show()
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_released("next_weapon"):
+		next_weapon()
+	elif Input.is_action_just_released("previous_weapon"):
+		previous_weapon()
+
 	if not current_weapon.semi_auto and Input.is_action_pressed("shoot"):
 		current_weapon.shoot()
 
 
-func get_current_weapon() -> Weapon:
+func get_current_weapon():
 	return current_weapon
 
 func reload():
 	current_weapon.start_reload()
 		
-func switch_weapon(weapon: Weapon):
+func switch_weapon(weapon):
 	if weapon == current_weapon:
 		return
 
 	current_weapon.hide()
 	weapon.show()
+	weapon.render()
 	current_weapon = weapon
 
-func set_weapon_rotation(rotation):
-	current_weapon.rotation = rotation
-	
-func set_weapon_position(position):
-	current_weapon.global_position = position
-	
-func set_weapon_end_of_gun_position(position):
-	current_weapon.global_position = position
+func next_weapon():
+	current_weapon_index += 1
+	if current_weapon_index >= weapons.size():
+		current_weapon_index = 0
+	switch_weapon(weapons[current_weapon_index])
 
-func set_weapon_flip_h(flip):
-	current_weapon.flip_h = flip
-	
-func add_ammo(amount):
-	current_weapon.ammo += amount
-	
+func previous_weapon():
+	current_weapon_index -= 1
+	if current_weapon_index < 0:
+		current_weapon_index = weapons.size() - 1
+	switch_weapon(weapons[current_weapon_index])
 
 func _unhandled_input(event: InputEvent) -> void:
 	if current_weapon.semi_auto and event.is_action_released("shoot"):
+		print("entra")
 		current_weapon.shoot()
 	elif event.is_action_released("reload"):
 		current_weapon.reload()

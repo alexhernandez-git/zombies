@@ -32,7 +32,6 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
-	print(_player.get_node("WeaponManager").current_weapon.ammo)
 	difficultyLabel.text = str("Difficulty ", Globals.difficulty)
 	enemyHealthLabel.text = str("Enemies healtdh ", Globals.enemyHealth)
 	enemySpeedLabel.text = str("Enemies speed ", Globals.enemySpeed)

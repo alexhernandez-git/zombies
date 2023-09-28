@@ -13,7 +13,7 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 0.025, 0.025 )
+scale = Vector2( 0.01, 0.01 )
 texture = ExtResource( 1 )
 
 [connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
