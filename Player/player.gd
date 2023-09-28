@@ -9,12 +9,6 @@ var DISTANCE_IN_FRONT = 15
 onready var light = $Light2D
 onready var maskedLight = $Light2D3
 
-onready var onHandSprite = $Sprites/OnHandSprite
-
-onready var shootPosition = $WeaponStartPositions/ShootPosition
-
-onready var canShootTimer = $CanShootTimer
-
 onready var canMeleTimer = $CanMeleTimer
 
 onready var meleAnimation = $MeleAnimation
@@ -24,6 +18,8 @@ onready var restTimer = $RestTimer
 onready var impulseTimer = $ImpulseTimer
 
 onready var interactLabel = $InteractionElements/InteractionLabel
+
+onready var weaponManager = $WeaponManager
 
 var lightTexture = preload("res://Assets/light2rigth.png")
 
@@ -63,7 +59,10 @@ var jump_impulse = 10000  # Adjust the jump impulse strength as needed.
 var jump_duration = 0.2  # Adjust the duration of the jump impulse as needed.
 var jump_timer = 0  # Timer to track the duration of the jump impulse.
 
+var gun
+
 func _ready():
+	gun= weaponManager.get_current_weapon()
 	Globals.connect("health_changed", self, "_on_health_changed")
 	Globals.connect("money_earned", self, "_on_money_earned")
 	Globals.connect("max_ammo", self, "_on_max_ammo")
@@ -93,9 +92,6 @@ func _physics_process(delta):
 			current_health = max_health
 			regen_timer = 0
 
-	if Input.is_action_pressed("shoot"):
-		shoot()
-	
 	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var currentSpeed = SPEED
 
@@ -117,7 +113,6 @@ func _physics_process(delta):
 	velocity = currentSpeed * move_direction
 	
 	if "Impulse" in perks and impulseTimer.is_stopped() and Input.is_action_just_pressed("jump"):
-		print("entra")
 		jump_timer = jump_duration  # Start the jump timer.
 		impulseTimer.start()
 
@@ -133,61 +128,26 @@ func _physics_process(delta):
 	var player_direction = (get_global_mouse_position() - position).normalized()
 	var target_position = global_position + player_direction * DISTANCE_IN_FRONT
 	var angle = get_angle_to(target_position)
-	onHandSprite.rotation = angle
-	print(onHandSprite.rotation_degrees)
-
-	if onHandSprite.rotation_degrees < -90 or onHandSprite.rotation_degrees > 90:
-		onHandSprite.flip_v = true
+	var angle_sum = -45
+	if player_direction.x < 0:
+		angle_sum = 45
+		weaponManager.current_weapon.set_flip_v(true)
 	else:
-		onHandSprite.flip_v = false
-		print("right")
-
-	onHandSprite.global_position = target_position
-	shootPosition.global_position = target_position
+		weaponManager.current_weapon.set_flip_v(false)
+	angle += deg2rad(angle_sum)
+	weaponManager.current_weapon.set_rotation(angle)
+	weaponManager.current_weapon.set_end_of_gun_position(global_position + player_direction)
+	weaponManager.current_weapon.set_position(global_position + player_direction)
+	
 
 
 func _input(event):
 	if event.is_action_pressed("mele"):
 		mele()
-	if event.is_action_pressed("reload"):
-		print("entra")
-		reload()
-
+		
 func _unhandled_input(event):
 	if event.is_action_released("interact"):
 		interact()
-
-func shoot():
-	if canShootTimer.is_stopped():
-		if not "UnlimitedFire" in power_ups:
-			if ammo == 0:
-				return
-			if mag > 0:
-				mag -= 1
-			else:
-				reload()
-		canShootTimer.start()
-		var bullet_instance = Bullet.instance()
-		add_child(bullet_instance)
-		bullet_instance.global_position = shootPosition.global_position
-		var target = get_global_mouse_position()
-		var direction_to_mouse = global_position.direction_to(target).normalized()
-		bullet_instance.set_direction(direction_to_mouse)
-		var angle = deg2rad(45)
-		var right_direction = direction_to_mouse.rotated(angle)
-		var left_direction = direction_to_mouse.rotated(-angle)
-		if ("MultipleWeapons" in power_ups):
-			for direction in ["UpLeft", "UpRight"]:
-				var new_direction
-				if (direction == "UpLeft"):
-					new_direction = (direction_to_mouse + left_direction).normalized()
-				if (direction == "UpRight"):
-					new_direction = (direction_to_mouse + right_direction).normalized()
-				print(new_direction)
-				var seccond_bullet_instance = Bullet.instance()
-				add_child(seccond_bullet_instance)
-				seccond_bullet_instance.global_position = shootPosition.global_position
-				seccond_bullet_instance.set_direction(new_direction)
 
 func reload():
 	if ammo > 0 and mag < maxMagCapacity:
@@ -209,13 +169,11 @@ func _regenerate_health():
 
 func _on_hurtBox_area_entered(area):
 	if "hitBox" in area.name:
-		print("entra")
 		takeDamage(50)
 
 
 func _on_Mele_area_entered(area):
 	if "hitBox" in area.name:
-		print("entra mele area")
 		area.get_parent().takeDamage(meleDamage, true)
 
 func takeDamage(damage: int):
@@ -243,7 +201,7 @@ func interact():
 	if interactableAction == "BuyAmmo":
 		if money >= 500:
 			money -= 500
-			ammo += 180
+			weaponManager.add_ammo(180)
 	if perks.size() < 4:
 		if interactableAction == "Health" and not "Health" in perks:
 			if money >= 2500:
@@ -266,7 +224,9 @@ func interact():
 		if interactableAction == "QuickFire" and not "QuickFire" in perks:
 			if money >= 2500:
 				money -= 2500
-				canShootTimer.wait_time = canShootTimer.wait_time / 2
+				weaponManager.current_weapon.set_attack_cooldown_wait_time(
+					weaponManager.current_weapon.get_attack_cooldown_wait_time() / 2
+				)
 				perks.append("QuickFire")
 
 
@@ -280,7 +240,9 @@ func resetPerks():
 	if "Impulse" in perks:
 		perks.erase("Impulse")
 	if "QuickFire" in perks:
-		canShootTimer.wait_time = canShootTimer.wait_time * 2
+		weaponManager.current_weapon.set_attack_cooldown_wait_time(
+			weaponManager.current_weapon.get_attack_cooldown_wait_time() * 2
+		)
 		perks.erase("QuickFire")
 
 func _on_InteractionArea_area_entered(area):

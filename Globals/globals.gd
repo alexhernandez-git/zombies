@@ -14,6 +14,21 @@ var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibilit
 
 var global_power_ups = []
 
+var guns: Dictionary = {
+	"Pistol": {
+		"HFrames": 8,
+		"VFrames": 8,
+		"Frame": 0,
+		"ShootPosition": 10,
+	},
+	"AK47": {
+		"HFrames": 8,
+		"VFrames": 8,
+		"Frame": 4,
+		"ShootPosition": 15,
+	},
+}
+
 var roundCount = 1
 
 var enemyHealth = 10
@@ -47,6 +62,7 @@ var power_up_probability = 10
 
 var atomic_bomb = false
 
+var item_data: Dictionary
 
 signal health_changed(health)
 signal player_damaged(health)
@@ -58,9 +74,9 @@ signal enemy_damage(position)
 signal max_ammo
 
 func _ready():
+	print(guns)
 	for i in range(startingRound):
-	  _on_round_passed()
-	
+		_on_round_passed()
 
 func _process(delta):
 	if remainingEnemies <= 0:

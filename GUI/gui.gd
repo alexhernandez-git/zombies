@@ -32,6 +32,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
+	print(_player.get_node("WeaponManager").current_weapon.ammo)
 	difficultyLabel.text = str("Difficulty ", Globals.difficulty)
 	enemyHealthLabel.text = str("Enemies healtdh ", Globals.enemyHealth)
 	enemySpeedLabel.text = str("Enemies speed ", Globals.enemySpeed)
@@ -42,8 +43,8 @@ func _process(delta):
 		moneyAmountLabel.text = str("$",_player.money)
 	if _player.current_health:
 		playerHealthLabel.text = str("Health ", _player.current_health)
-	if _player.ammo || _player.ammo == 0:
-		ammoLabel.text = str("Ammo ", _player.ammo)
+	if _player.get_node("WeaponManager").current_weapon.ammo || _player.get_node("WeaponManager").current_weapon.ammo == 0:
+		ammoLabel.text = str("Ammo ", _player.get_node("WeaponManager").current_weapon.ammo)
 	var perks = ""
 	for text in _player.perks:
 		perks += str(" | ", text)
@@ -62,7 +63,7 @@ func _process(delta):
 		playerEnergyLabel.text = str("Player energy ",_player.energy)
 	if _player.max_energy || _player.max_energy == 0:
 		playerMaxEnergyLabel.text = str("Player max energy ",_player.max_energy)
-	if _player.mag || _player.mag == 0:
-		magLabel.text = str("Mag ",_player.mag)
-	if _player.maxMagCapacity || _player.maxMagCapacity == 0:
-		maxMagCapacityLabel.text = str("Max mag capacity ",_player.maxMagCapacity)
+	if _player.get_node("WeaponManager").current_weapon.mag || _player.get_node("WeaponManager").current_weapon.mag == 0:
+		magLabel.text = str("Mag ", _player.get_node("WeaponManager").current_weapon.mag)
+	if _player.get_node("WeaponManager").current_weapon.maxMagCapacity || _player.get_node("WeaponManager").current_weapon.maxMagCapacity == 0:
+		maxMagCapacityLabel.text = str("Max mag capacity ", _player.get_node("WeaponManager").current_weapon.maxMagCapacity)

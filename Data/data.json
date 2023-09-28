@@ -1,0 +1,16 @@
+{
+    "guns":{
+        "tilemap": "tilemap_packed",
+        "Pistol": {
+            "HFrames": 8,
+            "VFrames": 8,
+            "Frame": 0
+        },
+        "perks":{
+
+        },
+        "powerUps": {
+
+        }
+    }
+}

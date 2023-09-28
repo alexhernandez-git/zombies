@@ -51,7 +51,6 @@ func generateRandomPosition(position):
 	return random_position
 
 func _on_enemy_damage(position):
-	print("entra")
 	var blood_instance = _blood_sprite.instance()
 	blood_instance.global_position =  generateRandomPosition(position)
 	add_child(blood_instance)
