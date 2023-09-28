@@ -33,7 +33,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 50000
+var money = 500
 
 var total_health = 100
 var max_health = total_health

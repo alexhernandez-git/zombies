@@ -10,6 +10,7 @@ var _blood_sprite = preload("res://Enemy/blood.tscn")
 var _corpse_sprite = preload("res://Enemy/corpse.tscn")
 var current_zone
 var previous_zone
+onready var afterRoundTimer = $AfterRound
 onready var spawnPoints = [$Spawns/Spawn1, $Spawns/Spawn2, $Spawns/Spawn3, $Spawns/Spawn4, $Spawns/Spawn5]
 var spawned_enemies = 0
  # Adjust this to control the spawn rate
@@ -24,10 +25,14 @@ func _ready():
 func _physics_process(delta):
 	Globals.spawn_timer -= delta
 	
-	if Globals.spawn_timer <= 0 and Globals.remainingEnemies > spawned_enemies and spawned_enemies < 20 and not Globals.atomic_bomb:
+	if afterRoundTimer.is_stopped() and Globals.spawn_timer <= 0 and Globals.remainingEnemies > get_tree().get_nodes_in_group("Enemies").size() and get_tree().get_nodes_in_group("Enemies").size() < 20 and not Globals.atomic_bomb:
 		spawn_enemy()
 		Globals.spawn_timer = rand_range(0.1, Globals.max_spawn_timer)  # Adjust the range for random spawn intervals
-	
+
+func _on_round_passed():
+	print("_on_round_passed")
+	afterRoundTimer.start()
+
 func spawn_enemy():
 	var enemy_instance = enemy_scene.instance()
 	var randomIndex = randi() % spawnPoints.size()
@@ -56,6 +61,7 @@ func _on_enemy_damage(position):
 	add_child(blood_instance)
 
 func _on_enemy_died(position):
+	spawned_enemies -= 1
 	var corpse_instance = _corpse_sprite.instance()
 	corpse_instance.global_position = position
 	add_child(corpse_instance)
@@ -73,4 +79,3 @@ func _on_enemy_died(position):
 		power_up_instance.z_index = 1
 		power_up_instance.global_position = position
 		add_child(power_up_instance)
-	spawned_enemies -= 1

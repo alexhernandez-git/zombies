@@ -8,6 +8,8 @@ export var maxMagCapacity = 30
 export var reloadTime: int = 1
 export var mag = 30
 export var ammo = 30
+export var cadence = 0.1
+export var isShotgun = false
 export var endOfGunSize = 7
 export var gunSize = 15
 export var semi_auto = false
@@ -23,8 +25,6 @@ onready var endOfGun = $EndOFGun
 onready var magReloadTimer = $MagReloadTimer
 
 func _ready():
-	print(animationPlayer)
-	print(animationPlayer.get_animation_list())
 	render()
 	pass
 
@@ -33,6 +33,7 @@ func render():
 	sprite.hframes = SpriteHframes
 	sprite.vframes = SpriteVframes
 	sprite.frame = SpriteFrame
+	attackCooldown.wait_time = cadence
 
 func shoot():
 	if attackCooldown.is_stopped():
@@ -42,7 +43,8 @@ func shoot():
 			elif ammo == 0:
 				return
 			else:
-				reload()
+				if magReloadTimer.is_stopped():
+					reload()
 				return
 		animationPlayer.play("RESET")
 		animationPlayer.play("weapon_recoil")
@@ -54,16 +56,22 @@ func shoot():
 		var target = get_global_mouse_position()
 		var direction_to_mouse = global_position.direction_to(target).normalized()
 		bullet_instance.set_direction(direction_to_mouse)
-		var angle = deg2rad(45)
-		var right_direction = direction_to_mouse.rotated(angle)
-		var left_direction = direction_to_mouse.rotated(-angle)
-		if ("MultipleWeapons" in player.power_ups):
-			for direction in ["UpLeft", "UpRight"]:
-				var new_direction
-				if (direction == "UpLeft"):
-					new_direction = (direction_to_mouse + left_direction).normalized()
-				if (direction == "UpRight"):
-					new_direction = (direction_to_mouse + right_direction).normalized()
+
+		if isShotgun or "MultipleWeapons" in player.power_ups:
+			var degrees = [deg2rad(45), -deg2rad(45), deg2rad(35), -deg2rad(35), deg2rad(25), -deg2rad(25), deg2rad(15), -deg2rad(15)]
+			if "MultipleWeapons" in player.power_ups:
+				degrees.append(deg2rad(55))
+				degrees.append(-deg2rad(55))
+				degrees.append(deg2rad(65))
+				degrees.append(-deg2rad(65))
+				degrees.append(deg2rad(75))
+				degrees.append(-deg2rad(75))
+				degrees.append(deg2rad(85))
+				degrees.append(-deg2rad(85))
+				degrees.append(deg2rad(90))
+				degrees.append(-deg2rad(90))
+			for degree in degrees:
+				var new_direction = (direction_to_mouse + direction_to_mouse.rotated(degree)).normalized()
 				var seccond_bullet_instance = Bullet.instance()
 				add_child(seccond_bullet_instance)
 				seccond_bullet_instance.global_position = endOfGun.global_position

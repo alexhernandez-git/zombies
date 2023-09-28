@@ -12,6 +12,11 @@ onready var _animation = $HitAnimation
 onready var _hit_marker_sprite = $HitMarkerSprite
 var health = Globals.enemyHealth
 
+const Enemies: String = "Enemies"
+
+func _init() -> void:
+	add_to_group(Enemies)
+
 func _ready() -> void: 
 	_animation.playback_speed = Globals.enemyHitSpeed
 	_update_pathfinding()

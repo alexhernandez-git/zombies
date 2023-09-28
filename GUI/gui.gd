@@ -57,7 +57,7 @@ func _process(delta):
 		global_power_ups += str(" | ", text)
 	globalPowerUpsLabel.text = str("Global power ups", global_power_ups)
 	fpsLabel.text = "FPS " + String(Engine.get_frames_per_second())
-	zombiesSpawned.text = str("zombies spawned ", world.spawned_enemies)
+	zombiesSpawned.text = str("zombies spawned ", get_tree().get_nodes_in_group("Enemies").size())
 	if _player.energy || _player.energy == 0:
 		playerEnergyLabel.text = str("Player energy ",_player.energy)
 	if _player.max_energy || _player.max_energy == 0:

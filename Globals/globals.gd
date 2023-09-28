@@ -10,24 +10,11 @@ extends Node
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+# TODO delay time when a round is done
+
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons"]
 
 var global_power_ups = []
-
-var guns: Dictionary = {
-	"Pistol": {
-		"HFrames": 8,
-		"VFrames": 8,
-		"Frame": 0,
-		"ShootPosition": 10,
-	},
-	"AK47": {
-		"HFrames": 8,
-		"VFrames": 8,
-		"Frame": 4,
-		"ShootPosition": 15,
-	},
-}
 
 var roundCount = 1
 
@@ -38,9 +25,10 @@ var remainingEnemies = 5
 var enemySpeed = 50
 
 var spawn_timer = 0
+
 export var maxEnemeySpeed = 100
 
-export var max_spawn_timer = 5.0
+export var max_spawn_timer = 3.0
 
 export var startingRound = 0
 
@@ -74,7 +62,6 @@ signal enemy_damage(position)
 signal max_ammo
 
 func _ready():
-	print(guns)
 	for i in range(startingRound):
 		_on_round_passed()
 
