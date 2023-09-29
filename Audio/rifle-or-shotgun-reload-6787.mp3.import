@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/rifle-or-shotgun-reload-6787.mp3-5fa1f9494681e34298ce5cf0df13215f.mp3str"
+
+[deps]
+
+source_file="res://Audio/rifle-or-shotgun-reload-6787.mp3"
+dest_files=[ "res://.import/rifle-or-shotgun-reload-6787.mp3-5fa1f9494681e34298ce5cf0df13215f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

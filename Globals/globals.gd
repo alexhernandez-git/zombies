@@ -18,9 +18,9 @@ var global_power_ups = []
 
 var roundCount = 1
 
-var enemyHealth = 10
+var enemyHealth = 100
 
-var remainingEnemies = 5
+var remainingEnemies = 3
 
 var enemySpeed = 50
 
@@ -52,23 +52,22 @@ var atomic_bomb = false
 
 var item_data: Dictionary
 
+var is_round_started = true
+
 signal health_changed(health)
 signal player_damaged(health)
 signal money_earned(amount)
 signal atomic_bomb
 signal enemy_died(position)
+signal round_finished
 signal round_passed
 signal enemy_damage(position)
 signal max_ammo
 
 func _ready():
 	for i in range(startingRound):
-		_on_round_passed()
-
-func _process(delta):
-	if remainingEnemies <= 0:
-		_on_round_passed()
-		Globals.emit_signal("round_passed")
+		_on_round_finished()
+		_on_round_start()
 
 func difficulty_difference(amount: float) -> float:
 	return amount + (difficulty * amount / 10)
@@ -76,16 +75,19 @@ func difficulty_difference(amount: float) -> float:
 func difficulty_difference_substract(amount: float) -> float:
 	return amount - (difficulty * amount / 10)
 
-func _on_round_passed():
+func _on_round_finished():
+	is_round_started = false
 	roundCount += 1
-	remainingEnemies =  2 * roundCount
-	enemyHealth = 5 * roundCount
+	remainingEnemies =  3 * roundCount
+	enemyHealth = enemyHealth * 1.1
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)
 	max_spawn_timer -= 0.2
 	if max_spawn_timer < 0.4:
 		max_spawn_timer = 0.4
 
+func _on_round_start():
+	is_round_started = true
 
 func player_damaged(health):
 	print("entra")

@@ -13,25 +13,36 @@ var previous_zone
 onready var afterRoundTimer = $AfterRound
 onready var spawnPoints = [$Spawns/Spawn1, $Spawns/Spawn2, $Spawns/Spawn3, $Spawns/Spawn4, $Spawns/Spawn5]
 var spawned_enemies = 0
+var last_enemy_died
  # Adjust this to control the spawn rate
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Globals.connect("round_passed", self, "_on_round_passed")
+	Globals.connect("round_finished", self, "_on_round_finished")
 	Globals.connect("enemy_died", self, "_on_enemy_died")
 	Globals.connect("enemy_damage", self, "_on_enemy_damage")
 	randomize()  # Initialize the random number generato
 
 func _physics_process(delta):
+	if get_tree().get_nodes_in_group("Enemies").size() == 0 and Globals.remainingEnemies == 0 and Globals.is_round_started:
+		Globals._on_round_finished()
+		Globals.emit_signal("round_finished")
+
+	
 	Globals.spawn_timer -= delta
 	
-	if afterRoundTimer.is_stopped() and Globals.spawn_timer <= 0 and Globals.remainingEnemies > get_tree().get_nodes_in_group("Enemies").size() and get_tree().get_nodes_in_group("Enemies").size() < 20 and not Globals.atomic_bomb:
+	if Globals.is_round_started == true and Globals.spawn_timer <= 0 and Globals.remainingEnemies > get_tree().get_nodes_in_group("Enemies").size() and get_tree().get_nodes_in_group("Enemies").size() < 20 and not Globals.atomic_bomb:
 		spawn_enemy()
 		Globals.spawn_timer = rand_range(0.1, Globals.max_spawn_timer)  # Adjust the range for random spawn intervals
 
-func _on_round_passed():
-	print("_on_round_passed")
+func _on_round_finished():
 	afterRoundTimer.start()
+	afterRoundTimer.connect("timeout", self, "_on_round_start")
+
+func _on_round_start():
+	Globals.emit_signal("round_passed")
+	Globals._on_round_start()
+	
 
 func spawn_enemy():
 	var enemy_instance = enemy_scene.instance()
@@ -60,10 +71,13 @@ func _on_enemy_damage(position):
 	blood_instance.global_position =  generateRandomPosition(position)
 	add_child(blood_instance)
 
-func _on_enemy_died(position):
-	spawned_enemies -= 1
+func _on_enemy_died(enemy: Enemy):
+	if last_enemy_died == enemy.name:
+		return
+	last_enemy_died = enemy.name
+	Globals.remainingEnemies -= 1
 	var corpse_instance = _corpse_sprite.instance()
-	corpse_instance.global_position = position
+	corpse_instance.global_position = enemy.global_position
 	add_child(corpse_instance)
 # Generate a random number between 1 and 10
 	var random_number = randi() % Globals.power_up_probability + 1

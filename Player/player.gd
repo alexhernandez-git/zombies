@@ -21,6 +21,9 @@ onready var interactLabel = $InteractionElements/InteractionLabel
 
 onready var weaponManager = $WeaponManager
 
+onready var audioPlayer = $AudioStreamPlayer2D
+onready var finsihRoundPlayer = $FinishRoundPlayer
+
 var lightTexture = preload("res://Assets/light2rigth.png")
 
 var lightFullTexture = preload("res://Assets/light.png")
@@ -63,6 +66,8 @@ var gun
 
 func _ready():
 	gun= weaponManager.get_current_weapon()
+	Globals.connect("round_finished", self, "_on_round_finished")
+	Globals.connect("round_passed", self, "_on_round_passed")
 	Globals.connect("health_changed", self, "_on_health_changed")
 	Globals.connect("money_earned", self, "_on_money_earned")
 	Globals.connect("max_ammo", self, "_on_max_ammo")
@@ -74,6 +79,14 @@ func _on_money_earned(amount):
 	var moneyAmount = amount
 	money += moneyAmount
 
+func _on_round_finished():
+	audioPlayer.stop()
+	finsihRoundPlayer.play()
+
+func _on_round_passed():
+	finsihRoundPlayer.stop()
+
+	audioPlayer.play()
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)

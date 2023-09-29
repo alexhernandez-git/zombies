@@ -2,11 +2,16 @@ extends Node2D
 class_name Weapon
 export var path_to_animation = NodePath()
 onready var animationPlayer = get_node(path_to_animation)
+export var path_to_shoot_audio = NodePath()
+onready var shootAudio = get_node(path_to_shoot_audio)
+export var path_to_reload_audio = NodePath()
+onready var reloadAudio = get_node(path_to_reload_audio)
 var ammoDifference
 export var maxAmmoCapacity = 180
 export var maxMagCapacity = 30
 export var reloadTime: int = 1
 export var mag = 30
+export var damage = 20
 export var ammo = 30
 export var cadence = 0.1
 export var isShotgun = false
@@ -29,6 +34,7 @@ func _ready():
 	pass
 
 func render():
+	mag = maxMagCapacity
 	sprite.texture = SpriteTexture
 	sprite.hframes = SpriteHframes
 	sprite.vframes = SpriteVframes
@@ -46,6 +52,7 @@ func shoot():
 				if magReloadTimer.is_stopped():
 					reload()
 				return
+		shootAudio.play()
 		animationPlayer.play("RESET")
 		animationPlayer.play("weapon_recoil")
 		cancel_reload()
@@ -55,6 +62,7 @@ func shoot():
 		bullet_instance.global_position = endOfGun.global_position
 		var target = get_global_mouse_position()
 		var direction_to_mouse = global_position.direction_to(target).normalized()
+		bullet_instance.set_damage(damage)
 		bullet_instance.set_direction(direction_to_mouse)
 
 		if isShotgun or "MultipleWeapons" in player.power_ups:
@@ -75,18 +83,19 @@ func shoot():
 				var seccond_bullet_instance = Bullet.instance()
 				add_child(seccond_bullet_instance)
 				seccond_bullet_instance.global_position = endOfGun.global_position
+				bullet_instance.set_damage(damage)
 				seccond_bullet_instance.set_direction(new_direction)
 
 func reload():
 	animationPlayer.play("RESET")
 	if "FastMag" in player.perks:
-		print(reloadTime)
 		var reloadTimeResult = reloadTime * 0.34
-		print(reloadTimeResult)
 		magReloadTimer.wait_time = reloadTimeResult
 		animationPlayer.playback_speed = 3
-	animationPlayer.play("weapon_reload")
 	if ammo > 0 and mag < maxMagCapacity:
+		animationPlayer.play("weapon_reload")
+		print("entra")
+		reloadAudio.play(0.0)
 		ammoDifference = maxMagCapacity - mag
 		if ammo < ammoDifference:
 			ammoDifference = ammo  # Lower the ammoDifference if ammo is less than the calculated difference
@@ -95,6 +104,7 @@ func reload():
 		magReloadTimer.connect("timeout", self, "_on_mag_reload_finish")
 
 func _on_mag_reload_finish():
+	reloadAudio.stop()	
 	magReloadTimer.wait_time = reloadTime
 	animationPlayer.playback_speed = 1
 	ammo -= ammoDifference

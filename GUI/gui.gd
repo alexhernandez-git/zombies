@@ -36,7 +36,7 @@ func _process(delta):
 	enemyHealthLabel.text = str("Enemies healtdh ", Globals.enemyHealth)
 	enemySpeedLabel.text = str("Enemies speed ", Globals.enemySpeed)
 	maxSpawnTimerLabel.text = str("Enemies spawn time ", Globals.max_spawn_timer)
-	zombiesRemainingLabel.text = str("Enemies ", Globals.remainingEnemies)
+	zombiesRemainingLabel.text = str("Enemies remaining ", Globals.remainingEnemies)
 	roundLabel.text = str("Round ",Globals.roundCount)
 	if _player.money || _player.money == 0:
 		moneyAmountLabel.text = str("$",_player.money)

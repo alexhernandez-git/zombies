@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/organic_impact.mp3-5547fdad019392781a9cce55b62f4dac.mp3str"
+
+[deps]
+
+source_file="res://Audio/organic_impact.mp3"
+dest_files=[ "res://.import/organic_impact.mp3-5547fdad019392781a9cce55b62f4dac.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
