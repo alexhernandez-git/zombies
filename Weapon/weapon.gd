@@ -115,7 +115,7 @@ func reload():
 		if "FastMag" in player.perks:
 			var reloadTimeResult = reloadTime * 0.34
 			magReloadTimer.wait_time = reloadTimeResult
-			animationPlayer.playback_speed = (1.0 / reloadTime) / 3.0
+			animationPlayer.playback_speed = (1.0 / reloadTime) * 3.0
 			reloadAudio.pitch_scale = (1.0 / reloadTime) / 3
 		animationPlayer.play("weapon_reload")
 		reloadAudio.play(0.0)
