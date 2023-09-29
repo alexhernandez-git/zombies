@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Assets/tilemap_packed.png" type="Texture" id=1]
+[ext_resource path="res://Assets/weapons.png" type="Texture" id=1]
 [ext_resource path="res://Enemy/enemy.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=7]
@@ -82,9 +82,9 @@ script = ExtResource( 2 )
 show_behind_parent = true
 light_mask = 2
 texture = ExtResource( 1 )
-hframes = 12
-vframes = 11
-frame = 109
+hframes = 8
+vframes = 8
+frame = 27
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 

@@ -1,6 +1,5 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
-[ext_resource path="res://Assets/tilemap_packed.png" type="Texture" id=1]
 [ext_resource path="res://Player/player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/light.png" type="Texture" id=3]
 [ext_resource path="res://Assets/light2rigth.png" type="Texture" id=4]
@@ -131,7 +130,6 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=10]
 resource_name = "reload"
-length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:scale")
 tracks/0/interp = 1
@@ -139,7 +137,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
@@ -155,10 +153,10 @@ Bullet = ExtResource( 5 )
 [node name="Body" type="Sprite" parent="Sprites"]
 light_mask = 4
 z_index = -1
-texture = ExtResource( 1 )
-hframes = 12
-vframes = 11
-frame = 121
+texture = ExtResource( 6 )
+hframes = 8
+vframes = 8
+frame = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 7 )
@@ -251,11 +249,11 @@ path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
 maxAmmoCapacity = 80
 maxMagCapacity = 8
-reloadTime = 2.0
+reloadTime = 0.5
 mag = 8
 ammo = 55
-endOfGunSize = 5
-gunSize = 10
+endOfGunSize = 12
+gunSize = 9
 semi_auto = true
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
@@ -278,7 +276,7 @@ path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
 maxAmmoCapacity = 300
 damage = 34
-endOfGunSize = 5
+endOfGunSize = 14
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
@@ -304,6 +302,7 @@ maxMagCapacity = 8
 damage = 34
 cadence = 0.5
 isShotgun = true
+endOfGunSize = 13
 semi_auto = true
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
@@ -331,6 +330,8 @@ mag = 200
 damage = 50
 ammo = 0
 cadence = 0.05
+endOfGunSize = 13
+gunSize = 13
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8

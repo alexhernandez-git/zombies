@@ -92,5 +92,5 @@ func _on_enemy_died(enemy: Enemy):
 		var power_up_instance = power_up_scene.instance()
 		power_up_instance.name = Globals.power_ups[randomIndex - 1]
 		power_up_instance.z_index = 1
-		power_up_instance.global_position = position
+		power_up_instance.global_position = enemy.global_position
 		add_child(power_up_instance)

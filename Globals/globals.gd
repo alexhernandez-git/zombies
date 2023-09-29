@@ -48,7 +48,7 @@ var instantKill = false
 
 var power_up_wait_time = 15
 
-var power_up_probability = 10
+var power_up_probability = remainingEnemies
 
 var atomic_bomb = false
 
@@ -80,7 +80,8 @@ func difficulty_difference_substract(amount: float) -> float:
 func _on_round_finished():
 	is_round_started = false
 	roundCount += 1
-	remainingEnemies =  round(5 + (roundCount * 0.5))
+	remainingEnemies =  int(round(5 + (roundCount * 0.5)))
+	power_up_probability = remainingEnemies
 	enemyHealth = enemyHealth * 1.1
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)

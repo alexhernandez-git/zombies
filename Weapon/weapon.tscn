@@ -10,10 +10,38 @@ script = ExtResource( 2 )
 texture = ExtResource( 1 )
 hframes = 8
 vframes = 8
-frame = 4
 
 [node name="EndOFGun" type="Position2D" parent="."]
 position = Vector2( 0, -8 )
+
+[node name="Light1" type="Sprite" parent="EndOFGun"]
+visible = false
+texture = ExtResource( 1 )
+hframes = 8
+vframes = 8
+frame = 8
+
+[node name="Light2" type="Sprite" parent="EndOFGun"]
+visible = false
+scale = Vector2( 1.0036, 1 )
+texture = ExtResource( 1 )
+hframes = 8
+vframes = 8
+frame = 9
+
+[node name="Light3" type="Sprite" parent="EndOFGun"]
+visible = false
+texture = ExtResource( 1 )
+hframes = 8
+vframes = 8
+frame = 10
+
+[node name="Light4" type="Sprite" parent="EndOFGun"]
+visible = false
+texture = ExtResource( 1 )
+hframes = 8
+vframes = 8
+frame = 11
 
 [node name="AttackCooldown" type="Timer" parent="."]
 wait_time = 0.1
@@ -22,3 +50,6 @@ autostart = true
 
 [node name="MagReloadTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="ShotLight" type="Timer" parent="."]
+wait_time = 0.1

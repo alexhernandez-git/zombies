@@ -28,6 +28,8 @@ onready var player = get_parent().get_parent()
 onready var sprite = $Sprite
 onready var endOfGun = $EndOFGun
 onready var magReloadTimer = $MagReloadTimer
+onready var endOfGunSprites = [$EndOFGun/Light1,$EndOFGun/Light2,$EndOFGun/Light3,$EndOFGun/Light4]
+onready var shotLightTimer = $ShotLight
 
 func _ready():
 	mag = maxMagCapacity	
@@ -53,6 +55,8 @@ func shoot():
 				if magReloadTimer.is_stopped():
 					reload()
 				return
+		shotLightTimer.start()
+		shotLightTimer.connect("timeout", self, "_on_timeout_shot_light")
 		shootAudio.play()
 		animationPlayer.play("RESET")
 		animationPlayer.play("weapon_recoil")
@@ -64,8 +68,8 @@ func shoot():
 		var target = get_global_mouse_position()
 		var direction_to_mouse = global_position.direction_to(target).normalized()
 		bullet_instance.set_damage(damage)
+		set_random_shot_light_sprite_random()
 		bullet_instance.set_direction(direction_to_mouse)
-
 		if isShotgun or "MultipleWeapons" in player.power_ups:
 			var degrees = [deg2rad(45), -deg2rad(45), deg2rad(35), -deg2rad(35), deg2rad(25), -deg2rad(25), deg2rad(15), -deg2rad(15)]
 			if "MultipleWeapons" in player.power_ups:
@@ -87,10 +91,26 @@ func shoot():
 				bullet_instance.set_damage(damage)
 				seccond_bullet_instance.set_direction(new_direction)
 
+func set_random_shot_light_sprite_random():
+	for sprite in endOfGunSprites:
+		sprite.visible = false
+
+	# Choose a random sprite to show
+	var random_index = randi() % endOfGunSprites.size()
+	var random_sprite = endOfGunSprites[random_index]
+	random_sprite.visible = true
+	random_sprite.rotation = sprite.rotation
+	random_sprite.flip_v = sprite.flip_v
+
+func _on_timeout_shot_light():
+	for sprite in endOfGunSprites:
+		sprite.visible = false
+
 func reload():
 	animationPlayer.play("RESET")
 	if ammo > 0 and mag < maxMagCapacity:
 		animationPlayer.playback_speed = 1.0 / reloadTime
+		print(animationPlayer.playback_speed)
 		reloadAudio.pitch_scale = 1.0 / reloadTime
 		if "FastMag" in player.perks:
 			var reloadTimeResult = reloadTime * 0.34
@@ -127,7 +147,6 @@ func add_max_ammo():
 
 func set_rotation(rotation):
 	sprite.rotation = rotation
-	
 func set_gun_position(glob_pos, direction):
 	sprite.global_position = glob_pos + direction * gunSize
 	

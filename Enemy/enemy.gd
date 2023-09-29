@@ -10,6 +10,7 @@ onready var _label_timer: Timer = $LabelTimer
 onready var _hitBoxCollision = $hitBox/CollisionShape2D
 onready var _animation = $HitAnimation
 onready var _hit_marker_sprite = $HitMarkerSprite
+onready var _sprite = $Sprite
 var health = Globals.enemyHealth
 var id
 const Enemies: String = "Enemies"
@@ -34,6 +35,8 @@ func _physics_process(delta: float) -> void:
 	if _agent.is_navigation_finished():
 		return
 	
+	var previous_position = position
+	
 	var direction = global_position.direction_to(_agent.get_next_location())
 	
 	var desired_velocity = direction * Globals.enemySpeed
@@ -41,6 +44,20 @@ func _physics_process(delta: float) -> void:
 	velocity += steering
 	
 	velocity = move_and_slide(velocity)
+	
+	if position.x > previous_position.x:
+		# Enemy is moving to the right
+		print("Enemy is walking to the right.")
+		_sprite.flip_h = false
+		
+	elif position.x < previous_position.x:
+		# Enemy is moving to the left
+		print("Enemy is walking to the left.")
+		_sprite.flip_h = true
+	else:
+		# Enemy is not moving horizontally (or moving at the same position)
+		print("Enemy is not moving horizontally.")
+
 
 func _update_pathfinding() -> void:
 	if _player:

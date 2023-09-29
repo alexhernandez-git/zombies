@@ -23,6 +23,7 @@ onready var weaponManager = $WeaponManager
 
 onready var audioPlayer = $AudioStreamPlayer2D
 onready var finsihRoundPlayer = $FinishRoundPlayer
+onready var bodySprite = $Sprites/Body
 
 var lightTexture = preload("res://Assets/light2rigth.png")
 
@@ -145,8 +146,11 @@ func _physics_process(delta):
 	if player_direction.x < 0:
 		angle_sum = 45
 		weaponManager.current_weapon.set_flip_v(true)
+		bodySprite.flip_h = true
 	else:
 		weaponManager.current_weapon.set_flip_v(false)
+		bodySprite.flip_h = false
+		
 	angle += deg2rad(angle_sum)
 	weaponManager.current_weapon.set_rotation(angle)
 	weaponManager.current_weapon.set_end_of_gun_position(global_position, player_direction)

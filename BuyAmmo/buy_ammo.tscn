@@ -40,5 +40,6 @@ margin_top = 11.0
 margin_right = 56.0
 margin_bottom = 25.0
 rect_scale = Vector2( 0.5, 0.5 )
-text = "Buy ammo"
+text = "Comprar municion
+"
 uppercase = true
