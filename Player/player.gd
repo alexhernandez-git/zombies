@@ -84,8 +84,8 @@ func _on_round_finished():
 	finsihRoundPlayer.play()
 
 func _on_round_passed():
+	money += Globals.roundCount * 100
 	finsihRoundPlayer.stop()
-
 	audioPlayer.play()
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):

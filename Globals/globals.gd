@@ -18,9 +18,11 @@ var global_power_ups = []
 
 var roundCount = 1
 
-var enemyHealth = 100
+var enemyAutoIncremental = 1
 
-var remainingEnemies = 3
+var enemyHealth = 50
+
+var remainingEnemies = 5
 
 var enemySpeed = 50
 
@@ -78,7 +80,7 @@ func difficulty_difference_substract(amount: float) -> float:
 func _on_round_finished():
 	is_round_started = false
 	roundCount += 1
-	remainingEnemies =  3 * roundCount
+	remainingEnemies =  5 + (roundCount * 0.5)
 	enemyHealth = enemyHealth * 1.1
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)
@@ -88,6 +90,3 @@ func _on_round_finished():
 
 func _on_round_start():
 	is_round_started = true
-
-func player_damaged(health):
-	print("entra")

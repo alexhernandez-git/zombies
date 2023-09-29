@@ -94,7 +94,6 @@ func reload():
 		animationPlayer.playback_speed = 3
 	if ammo > 0 and mag < maxMagCapacity:
 		animationPlayer.play("weapon_reload")
-		print("entra")
 		reloadAudio.play(0.0)
 		ammoDifference = maxMagCapacity - mag
 		if ammo < ammoDifference:

@@ -63,7 +63,6 @@ func _input(event):
 
 func _unhandled_input(event: InputEvent) -> void:
 	if current_weapon.semi_auto and event.is_action_released("shoot"):
-		print("entra")
 		current_weapon.shoot()
 	elif event.is_action_released("reload"):
 		current_weapon.reload()

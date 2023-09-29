@@ -11,13 +11,15 @@ onready var _hitBoxCollision = $hitBox/CollisionShape2D
 onready var _animation = $HitAnimation
 onready var _hit_marker_sprite = $HitMarkerSprite
 var health = Globals.enemyHealth
-
+var id
 const Enemies: String = "Enemies"
 
 func _init() -> void:
 	add_to_group(Enemies)
 
 func _ready() -> void: 
+	id = Globals.enemyAutoIncremental
+	Globals.enemyAutoIncremental += 1
 	_animation.playback_speed = Globals.enemyHitSpeed
 	_update_pathfinding()
 	_timer.connect("timeout", self, "_update_pathfinding")
@@ -26,7 +28,7 @@ func _ready() -> void:
 	Globals.connect("enemy_damage", self, "_on_enemy_damage")
 	
 func _on_health_changed():
-	print("entra")
+	pass
 	
 func _physics_process(delta: float) -> void:
 	if _agent.is_navigation_finished():
@@ -72,15 +74,14 @@ func die(mele = false):
 
 func _on_atomic_bomb():
 	Globals.emit_signal("enemy_died", self)
-	Globals.remainingEnemies -= 1
 	queue_free()
 
 
 func _on_PlayerDetector_area_entered(area):
-	if ("hurtBox" in area.name):
+	if "hurtBox" in area.name:
 		_animation.play("scale_hit_collision")
 
 
 func _on_PlayerDetector_area_exited(area):
-	if ("hurtBox" in area.name):
+	if "hurtBox" in area.name:
 		_animation.play("RESET")

@@ -14,6 +14,7 @@ onready var afterRoundTimer = $AfterRound
 onready var spawnPoints = [$Spawns/Spawn1, $Spawns/Spawn2, $Spawns/Spawn3, $Spawns/Spawn4, $Spawns/Spawn5]
 var spawned_enemies = 0
 var last_enemy_died
+var enemies_died = []
  # Adjust this to control the spawn rate
 
 # Called when the node enters the scene tree for the first time.
@@ -72,9 +73,11 @@ func _on_enemy_damage(position):
 	add_child(blood_instance)
 
 func _on_enemy_died(enemy: Enemy):
-	if last_enemy_died == enemy.name:
+	if last_enemy_died == enemy.id or enemy.id in enemies_died:
 		return
-	last_enemy_died = enemy.name
+	last_enemy_died = enemy.id
+	enemies_died.append(enemy.id)
+	print(enemies_died)
 	Globals.remainingEnemies -= 1
 	var corpse_instance = _corpse_sprite.instance()
 	corpse_instance.global_position = enemy.global_position
