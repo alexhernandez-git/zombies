@@ -7,6 +7,8 @@ extends Control
 export var path_to_player = NodePath()
 onready var _player = get_node(path_to_player)
 
+onready var ammoBigLabel = $Ammo
+onready var roundBigLabel = $Round
 onready var roundLabel = $VBoxContainer/Round
 onready var moneyAmountLabel = $VBoxContainer/Money
 onready var zombiesRemainingLabel = $VBoxContainer/ZombiesRemaining
@@ -66,3 +68,8 @@ func _process(delta):
 		magLabel.text = str("Mag ", _player.get_node("WeaponManager").current_weapon.mag)
 	if _player.get_node("WeaponManager").current_weapon.maxMagCapacity || _player.get_node("WeaponManager").current_weapon.maxMagCapacity == 0:
 		maxMagCapacityLabel.text = str("Max mag capacity ", _player.get_node("WeaponManager").current_weapon.maxMagCapacity)
+	
+	if _player.get_node("WeaponManager").current_weapon:
+		ammoBigLabel.text = str(_player.get_node("WeaponManager").current_weapon.mag, " / ", _player.get_node("WeaponManager").current_weapon.ammo)
+	
+	roundBigLabel.text = str(Globals.roundCount)

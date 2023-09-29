@@ -80,7 +80,7 @@ func difficulty_difference_substract(amount: float) -> float:
 func _on_round_finished():
 	is_round_started = false
 	roundCount += 1
-	remainingEnemies =  5 + (roundCount * 0.5)
+	remainingEnemies =  round(5 + (roundCount * 0.5))
 	enemyHealth = enemyHealth * 1.1
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)

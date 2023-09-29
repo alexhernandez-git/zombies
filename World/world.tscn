@@ -425,7 +425,3 @@ navpoly = SubResource( 22 )
 [node name="AfterRound" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
-
-[node name="AfterRound" type="Timer" parent="AfterRound"]
-wait_time = 5.0
-one_shot = true

@@ -9,7 +9,7 @@ onready var reloadAudio = get_node(path_to_reload_audio)
 var ammoDifference
 export var maxAmmoCapacity = 180
 export var maxMagCapacity = 30
-export var reloadTime: int = 1
+export var reloadTime: float = 1
 export var mag = 30
 export var damage = 20
 export var ammo = 30
@@ -30,16 +30,17 @@ onready var endOfGun = $EndOFGun
 onready var magReloadTimer = $MagReloadTimer
 
 func _ready():
+	mag = maxMagCapacity	
 	render()
 	pass
 
 func render():
-	mag = maxMagCapacity
 	sprite.texture = SpriteTexture
 	sprite.hframes = SpriteHframes
 	sprite.vframes = SpriteVframes
 	sprite.frame = SpriteFrame
 	attackCooldown.wait_time = cadence
+	magReloadTimer.wait_time = reloadTime
 
 func shoot():
 	if attackCooldown.is_stopped():
@@ -88,11 +89,14 @@ func shoot():
 
 func reload():
 	animationPlayer.play("RESET")
-	if "FastMag" in player.perks:
-		var reloadTimeResult = reloadTime * 0.34
-		magReloadTimer.wait_time = reloadTimeResult
-		animationPlayer.playback_speed = 3
 	if ammo > 0 and mag < maxMagCapacity:
+		animationPlayer.playback_speed = 1.0 / reloadTime
+		reloadAudio.pitch_scale = 1.0 / reloadTime
+		if "FastMag" in player.perks:
+			var reloadTimeResult = reloadTime * 0.34
+			magReloadTimer.wait_time = reloadTimeResult
+			animationPlayer.playback_speed = (1.0 / reloadTime) / 3.0
+			reloadAudio.pitch_scale = (1.0 / reloadTime) / 3
 		animationPlayer.play("weapon_reload")
 		reloadAudio.play(0.0)
 		ammoDifference = maxMagCapacity - mag
@@ -103,15 +107,18 @@ func reload():
 		magReloadTimer.connect("timeout", self, "_on_mag_reload_finish")
 
 func _on_mag_reload_finish():
-	reloadAudio.stop()	
+	reloadAudio.pitch_scale = 1	
+	reloadAudio.stop()
 	magReloadTimer.wait_time = reloadTime
-	animationPlayer.playback_speed = 1
+	animationPlayer.playback_speed = 1.0
 	ammo -= ammoDifference
 	mag += ammoDifference
 	
 func cancel_reload():
+	reloadAudio.pitch_scale = 1
+	reloadAudio.stop()	
 	magReloadTimer.wait_time = reloadTime	
-	animationPlayer.playback_speed = 1
+	animationPlayer.playback_speed = 1.0
 	magReloadTimer.stop()
 	ammoDifference = 0;
 
