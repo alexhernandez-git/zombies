@@ -32,11 +32,11 @@ var enemySpeed = 50
 
 var spawn_timer = 0
 
-export var maxEnemeySpeed = 100
+export var maxEnemeySpeed = 101
 
 export var max_spawn_timer = 3.0
 
-export var startingRound = 10
+export var startingRound = 40
 
 var difficulty =  10
 
@@ -73,7 +73,7 @@ signal round_finished
 signal round_passed
 signal enemy_damage(position)
 signal max_ammo
-signal paused
+signal paused 
 signal trow_object
 
 func _ready():

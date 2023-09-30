@@ -30,14 +30,16 @@ func _on_Bullet_body_entered(body):
 		var probability = 1
 		if player:
 			var maxHitCritical = 10
+			var damageMultiplier = 2
 			if "Critical" in player.perks:
 				maxHitCritical = 25
+				damageMultiplier = 3
 			if player.hit_feed > maxHitCritical:
 				probability *= maxHitCritical
 			else:
 				probability *= player.hit_feed
 			if random_number <= probability:
-				damage *= 2
+				damage *= damageMultiplier
 				critical = true
 				player.hit_feed = 0
 		body.takeDamage(damage, critical)
