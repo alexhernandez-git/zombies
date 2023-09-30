@@ -42,5 +42,4 @@ func _on_Bullet_body_entered(body):
 	if body.name != "Player" and not "Enemy" in body.name:
 		queue_free()
 	if not has_hitted and player:
-		print("entra")
 		player.hit_feed = 0

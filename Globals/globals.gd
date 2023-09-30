@@ -74,6 +74,7 @@ signal round_passed
 signal enemy_damage(position)
 signal max_ammo
 signal paused
+signal trow_object
 
 func _ready():
 	for i in range(startingRound):

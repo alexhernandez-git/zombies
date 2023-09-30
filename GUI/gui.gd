@@ -96,7 +96,6 @@ func _on_paused():
 	container.visible = true
 
 func _on_Button_pressed():
-	print("entra")
 	get_tree().paused = false
 	unpauseButton.visible = false
 	container.visible = false

@@ -89,10 +89,9 @@ func _on_round_finished():
 func _on_round_passed():
 	money += Globals.roundCount * 100
 	finsihRoundPlayer.stop()
-	audioPlayer.play()
+	#audioPlayer.play()
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
-	print(hit_feed)
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)
 	if rColor > 255:
 		rColor = 255
@@ -164,6 +163,8 @@ func _physics_process(delta):
 func _input(event):
 	if event.is_action_pressed("mele"):
 		mele()
+	if event.is_action_pressed("throw_object"):
+		throw_object()
 		
 func _unhandled_input(event):
 	if event.is_action_released("interact"):
@@ -176,6 +177,11 @@ func reload():
 			ammoDifference = ammo  # Lower the ammoDifference if ammo is less than the calculated difference
 		ammo -= ammoDifference
 		mag += ammoDifference
+
+func throw_object():
+	var player_direction = (get_global_mouse_position() - position).normalized()
+	Globals.emit_signal("trow_object", global_position, player_direction)
+	pass
 
 func mele():
 	if canMeleTimer.is_stopped():
