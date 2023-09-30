@@ -29,6 +29,8 @@ var lightTexture = preload("res://Assets/light2rigth.png")
 
 var lightFullTexture = preload("res://Assets/light.png")
 
+var grenade_scene = preload("res://Player/grenade.tscn")
+
 var interactableAction = ""
 
 var max_energy = 100
@@ -179,8 +181,12 @@ func reload():
 		mag += ammoDifference
 
 func throw_object():
-	var player_direction = (get_global_mouse_position() - position).normalized()
-	Globals.emit_signal("trow_object", global_position, player_direction)
+	var grenade = grenade_scene.instance() as RigidBody2D
+	var player_direction = (get_global_mouse_position() - position)
+	var distance = player_direction.length()
+	var speed_scaling_factor = 10.0  # Adjust this factor as needed
+	var speed = grenade.speed * (distance / speed_scaling_factor + 1.0)
+	Globals.emit_signal("trow_object", global_position, player_direction.normalized() ,  speed, grenade)
 	pass
 
 func mele():

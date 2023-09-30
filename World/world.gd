@@ -8,7 +8,6 @@ var enemy_scene = preload("res://Enemy/enemy.tscn")
 var power_up_scene = preload("res://PowerUps/power_up.tscn")
 var _blood_sprite = preload("res://Enemy/blood.tscn")
 var _corpse_sprite = preload("res://Enemy/corpse.tscn")
-var grenade_scene = preload("res://Player/grenade.tscn")
 var current_zone
 var previous_zone
 onready var afterRoundTimer = $AfterRound
@@ -103,8 +102,8 @@ func _on_enemy_died(enemy: Enemy):
 		power_up_instance.global_position = enemy.global_position
 		add_child(power_up_instance)
 
-func _on_trow_object(pos, direction):
-	var grenade = grenade_scene.instance() as RigidBody2D
-	grenade.position = pos
-	grenade.linear_velocity = direction * grenade.speed
-	add_child(grenade)
+func _on_trow_object(pos, direction, velocity, instance):
+	print(direction)
+	instance.global_position = pos + direction * 20
+	instance.linear_velocity = direction * velocity
+	add_child(instance)
