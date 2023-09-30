@@ -99,7 +99,7 @@ func _on_round_finished():
 func _on_round_passed():
 	money += Globals.roundCount * 100
 	finsihRoundPlayer.stop()
-	#audioPlayer.play()
+	audioPlayer.play()
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)

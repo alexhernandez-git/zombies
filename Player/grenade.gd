@@ -17,6 +17,7 @@ func explode():
 
 func _process(_delta):
 	if explosion_active:
+		linear_velocity = Vector2(0, 0)
 		var targets = get_tree().get_nodes_in_group("Enemies") +  get_tree().get_nodes_in_group("Players") 
 		for target in targets:
 			var in_range = target.global_position.distance_to(global_position) < explosion_radius

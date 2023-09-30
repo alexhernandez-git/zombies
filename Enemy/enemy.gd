@@ -69,7 +69,7 @@ func _on_DetectionZone_body_entered(body):
 func takeDamage(damage: int, critical = false):
 	Globals.emit_signal("enemy_damage", global_position, critical)
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
-	health -= damage
+	health -= damage * 1.5
 	if "InstantKill" in Globals.global_power_ups:
 		health = 0
 	if health <= 0:

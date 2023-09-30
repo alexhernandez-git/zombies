@@ -98,7 +98,10 @@ func _on_round_finished():
 	remainingEnemies =  int(round(10 + (roundCount * 2)))
 	power_up_probability = remainingEnemies
 	#critical_probability = int(round(10 + (roundCount * 2)))
-	enemyHealth = enemyHealth * 1.5
+	if roundCount < 9:
+		enemyHealth += 100
+	else:
+		enemyHealth = enemyHealth * 1.1
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)
 	max_spawn_timer -= 0.2
