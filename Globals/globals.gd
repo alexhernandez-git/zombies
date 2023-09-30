@@ -95,10 +95,10 @@ func difficulty_difference_substract(amount: float) -> float:
 func _on_round_finished():
 	is_round_started = false
 	roundCount += 1
-	remainingEnemies =  int(round(5 + (roundCount * 2)))
+	remainingEnemies =  int(round(10 + (roundCount * 2)))
 	power_up_probability = remainingEnemies
 	#critical_probability = int(round(10 + (roundCount * 2)))
-	enemyHealth = enemyHealth * 1.1
+	enemyHealth = enemyHealth * 1.5
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)
 	max_spawn_timer -= 0.2

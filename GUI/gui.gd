@@ -33,6 +33,7 @@ onready var magLabel = $VBoxContainer/Mag
 onready var maxMagCapacityLabel = $VBoxContainer/MaxMagCapacity
 onready var criticalFeedLabel = $VBoxContainer/CriticalFeed
 onready var criticalProbabilityLabel = $VBoxContainer/CriticalProbability
+onready var granadesBigLabel = $Granades
 onready var world = get_parent().get_parent().get_parent()
 onready var unpauseButton = $UnpauseButton
 
@@ -85,7 +86,8 @@ func _process(delta):
 	criticalProbabilityLabel.text = str("Critical probability ",Globals.critical_probability)
 	if _player.get_node("WeaponManager").current_weapon:
 		ammoBigLabel.text = str(_player.get_node("WeaponManager").current_weapon.mag, " / ", _player.get_node("WeaponManager").current_weapon.ammo)
-	
+	if _player.granades || _player.granades == 0:
+		granadesBigLabel.text = str(_player.granades)
 	roundBigLabel.text = str(Globals.roundCount)
 
 	if _player.money || _player.money == 0:

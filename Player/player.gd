@@ -41,6 +41,9 @@ var ammo = 30
 
 var money = 500
 
+var maxGranadesCapacity = 3
+var granades = 3
+
 var total_health = 100
 var max_health = total_health
 var current_health = max_health
@@ -68,6 +71,11 @@ var jump_timer = 0  # Timer to track the duration of the jump impulse.
 var gun
 
 var hit_feed = 0
+
+const Players: String = "Players"
+
+func _init() -> void:
+	add_to_group(Players)
 
 func _ready():
 	gun= weaponManager.get_current_weapon()
@@ -165,7 +173,7 @@ func _physics_process(delta):
 func _input(event):
 	if event.is_action_pressed("mele"):
 		mele()
-	if event.is_action_pressed("throw_object"):
+	if event.is_action_released("throw_object"):
 		throw_object()
 		
 func _unhandled_input(event):
@@ -181,11 +189,14 @@ func reload():
 		mag += ammoDifference
 
 func throw_object():
+	if granades == 0:
+		return
 	var grenade = grenade_scene.instance() as RigidBody2D
 	var player_direction = (get_global_mouse_position() - position)
 	var distance = player_direction.length()
 	var speed_scaling_factor = 10.0  # Adjust this factor as needed
 	var speed = grenade.speed * (distance / speed_scaling_factor + 1.0)
+	granades -= 1
 	Globals.emit_signal("trow_object", global_position, player_direction.normalized() ,  speed, grenade)
 	pass
 
@@ -235,6 +246,11 @@ func interact():
 			if weaponManager.current_weapon.ammo < weaponManager.current_weapon.maxAmmoCapacity:
 				money -= 500
 				weaponManager.current_weapon.add_max_ammo()
+	if interactableAction == "BuyGranades":
+		if money >= 500:
+			if granades < maxGranadesCapacity:
+				money -= 500
+				granades = maxGranadesCapacity
 	if perks.size() < 4:
 		if interactableAction == "Health" and not "Health" in perks:
 			if money >= 2500:
@@ -296,6 +312,10 @@ func _on_InteractionArea_area_entered(area):
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Ammo: $500"
+	if area.name == "BuyGranades":
+		interactableAction = area.name
+		interactLabel.visible = true
+		interactLabel.text = "Press E - Granades: $500"
 	if area.name == "Health":
 		interactableAction = area.name
 		interactLabel.visible = true

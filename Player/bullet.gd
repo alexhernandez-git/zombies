@@ -32,7 +32,7 @@ func _on_Bullet_body_entered(body):
 			if "Critical" in player.perks:
 				probability *= player.hit_feed
 			if random_number <= probability:
-				damage *= 3
+				damage *= 10
 				critical = true
 		body.takeDamage(damage, critical)
 		has_hitted = true

@@ -151,4 +151,11 @@ margin_top = 556.0
 margin_right = 542.0
 margin_bottom = 570.0
 
+[node name="Granades" type="Label" parent="."]
+margin_left = 793.0
+margin_top = 539.0
+margin_right = 833.0
+margin_bottom = 553.0
+rect_scale = Vector2( 2, 2 )
+
 [connection signal="pressed" from="UnpauseButton" to="." method="_on_Button_pressed"]
