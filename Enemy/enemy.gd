@@ -12,6 +12,8 @@ onready var _animation = $HitAnimation
 onready var _hit_marker_sprite = $HitMarkerSprite
 onready var _sprite = $Sprite
 onready var animation = $AnimationPlayer
+onready var audio = $AudioStreamPlayer2D
+onready var dead_timer = $DeadTimer
 var health = Globals.enemyHealth
 var id
 const Enemies: String = "Enemies"
@@ -75,6 +77,7 @@ func _on_DetectionZone_body_entered(body):
 	_update_pathfinding()
 
 func takeDamage(damage: int, critical = false):
+	audio.play()
 	Globals.emit_signal("enemy_damage", global_position, critical)
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
 	print(health)
@@ -89,18 +92,23 @@ func _on_timeout_show_hit_mark():
 	_hit_marker_sprite.visible = false
 
 func die(critical = false):
+	_sprite.visible = false
+	audio.play()
 	var money = Globals.enemyKillMoney	
 	if critical:
 		money = Globals.enemyCriticalKillMoney
 	Globals.emit_signal("money_earned", money)
 	Globals.emit_signal("enemy_died", self)
-	queue_free()
+	dead_timer.start()
+	dead_timer.connect("timeout", self, "_on_dead_timeout")
 
 func _on_atomic_bomb():
 	Globals.emit_signal("enemy_died", self)
 	Globals.emit_signal("money_earned", Globals.atomic_bomb_money)
-	queue_free()
+	queue_free()	
 
+func _on_dead_timeout():
+	queue_free()
 
 func _on_PlayerDetector_area_entered(area):
 	if "hurtBox" in area.name:
