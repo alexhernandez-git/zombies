@@ -11,13 +11,19 @@ onready var current_weapon_index = 0
 
 
 var weapons: Array = []
+var active_weapons: Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Globals.connect("max_ammo", self, "_on_max_ammo")
 	weapons = get_children()
+	active_weapons = [current_weapon]
 
 	for weapon in weapons:
 		weapon.hide()
-
+		
+	for weapon in active_weapons:
+		weapon.hide()
+		
 	current_weapon.show()
 
 func _process(delta: float) -> void:
@@ -47,15 +53,15 @@ func switch_weapon(weapon):
 
 func next_weapon():
 	current_weapon_index += 1
-	if current_weapon_index >= weapons.size():
+	if current_weapon_index >= active_weapons.size():
 		current_weapon_index = 0
-	switch_weapon(weapons[current_weapon_index])
+	switch_weapon(active_weapons[current_weapon_index])
 
 func previous_weapon():
 	current_weapon_index -= 1
 	if current_weapon_index < 0:
-		current_weapon_index = weapons.size() - 1
-	switch_weapon(weapons[current_weapon_index])
+		current_weapon_index = active_weapons.size() - 1
+	switch_weapon(active_weapons[current_weapon_index])
 
 func _input(event):
 	if event.is_action_pressed("shoot"):
@@ -67,6 +73,34 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_released("reload"):
 		current_weapon.reload()
 	elif event.is_action_released("weapon_1"):
-		switch_weapon(weapons[0])
+		switch_weapon(active_weapons[0])
 	elif event.is_action_released("weapon_2"):
-		switch_weapon(weapons[1])
+		switch_weapon(active_weapons[1])
+
+func add_weapon(name):
+	for weapon in weapons:
+		if weapon.name == name:
+			active_weapons.append(weapon)
+			
+			for w in weapons:
+				w.hide()
+		
+			for w in active_weapons:
+				w.hide()
+			weapon.show()
+			current_weapon = weapon
+			
+func add_ammo(name):
+	for weapon in active_weapons:
+		if weapon.name == name:
+			weapon.ammo = weapon.maxAmmoCapacity
+
+func _on_max_ammo():
+	for weapon in active_weapons:
+		weapon.ammo = weapon.maxAmmoCapacity
+
+func _is_gun_full_ammo(name):
+	for weapon in active_weapons:
+		if weapon.ammo == weapon.maxAmmoCapacity:
+			return true
+	return false

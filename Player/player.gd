@@ -32,6 +32,7 @@ var lightFullTexture = preload("res://Assets/light.png")
 var grenade_scene = preload("res://Player/grenade.tscn")
 
 var interactableAction = ""
+var interactableNode
 
 var max_energy = 100
 var energy = max_energy
@@ -39,7 +40,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 500
+var money = 50000
 
 var maxGranadesCapacity = 3
 var granades = 3
@@ -83,7 +84,6 @@ func _ready():
 	Globals.connect("round_passed", self, "_on_round_passed")
 	Globals.connect("health_changed", self, "_on_health_changed")
 	Globals.connect("money_earned", self, "_on_money_earned")
-	Globals.connect("max_ammo", self, "_on_max_ammo")
 	
 func _on_health_changed(damage):
 	pass
@@ -241,11 +241,19 @@ func die():
 		queue_free()
 	
 func interact():
-	if interactableAction == "BuyAmmo":
-		if money >= 500:
-			if weaponManager.current_weapon.ammo < weaponManager.current_weapon.maxAmmoCapacity:
-				money -= 500
-				weaponManager.current_weapon.add_max_ammo()
+	if  "BuyWeapon" in interactableAction:
+		var currentGun = false
+		for gun in weaponManager.active_weapons:
+			if gun.name == interactableNode.gun:
+				currentGun = true
+		if currentGun:
+			if money >= interactableNode.ammoPrice and not weaponManager._is_gun_full_ammo(interactableNode.gun):
+				money -= interactableNode.ammoPrice
+				weaponManager.add_ammo(interactableNode.gun)
+		else:
+			if money >= interactableNode.price:
+				money -= interactableNode.price
+				weaponManager.add_weapon(interactableNode.gun)
 	if interactableAction == "BuyGranades":
 		if money >= 500:
 			if granades < maxGranadesCapacity:
@@ -285,7 +293,7 @@ func interact():
 			if money >= 4000:
 				money -= 4000
 				perks.append("Critical")
-
+	_on_InteractionArea_area_entered(interactableNode)
 
 
 func resetPerks():
@@ -308,10 +316,21 @@ func resetPerks():
 
 func _on_InteractionArea_area_entered(area):
 	# Perks
-	if area.name == "BuyAmmo":
-		interactableAction = area.name
-		interactLabel.visible = true
-		interactLabel.text = "Press E - Ammo: $500"
+	if "BuyWeapon" in area.name:
+		var currentGun = false
+		for gun in weaponManager.active_weapons:
+			if gun.name == area.gun:
+				currentGun = true
+		if currentGun:
+			interactableAction = area.name
+			interactableNode = area
+			interactLabel.visible = true
+			interactLabel.text = str("Press E - Buy ammo: ", area.ammoPrice)
+		else:
+			interactableAction = area.name
+			interactableNode = area
+			interactLabel.visible = true
+			interactLabel.text = str("Press E - ", area.gun , ": ", area.price)
 	if area.name == "BuyGranades":
 		interactableAction = area.name
 		interactLabel.visible = true
@@ -347,11 +366,9 @@ func _on_InteractionArea_area_entered(area):
 		
 	# PowerUps
 	if "AtomicBomb" in area.name:
-		Globals.atomic_bomb = true
 		money += 400
-		Globals.emit_signal("atomic_bomb_detonated")
+		Globals.emit_signal("atomic_bomb")
 		var timer = Timer.new()
-		timer.connect("timeout",self,"_on_timeout_atomic_bomb")
 		timer.wait_time = 5
 		timer.one_shot = true
 		add_child(timer)
@@ -407,13 +424,6 @@ func _on_InteractionArea_area_entered(area):
 		add_child(timer)
 		timer.start()
 		area.die()
-
-
-func _on_max_ammo():
-	ammo += 180
-
-func _on_timeout_atomic_bomb(): 
-	Globals.atomic_bomb = false
 
 func _on_timeout_vision():
 	power_ups.erase("Vision")

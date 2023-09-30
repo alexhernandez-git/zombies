@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Assets/tilemap_packed.png" type="Texture" id=1]
 [ext_resource path="res://Player/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://BuyWeapon/buy_weapon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://GUI/gui.tscn" type="PackedScene" id=4]
 [ext_resource path="res://World/world.gd" type="Script" id=5]
 [ext_resource path="res://Perks/perk.tscn" type="PackedScene" id=8]
@@ -426,6 +427,16 @@ labelText = "Mas criticos"
 position = Vector2( 267, 1 )
 labelText = "Comprar granadas"
 
-[node name="BuyAmmo" parent="." instance=ExtResource( 8 )]
-position = Vector2( 266, -59 )
-labelText = "Comprar municion"
+[node name="BuyWeaponAK47" parent="." instance=ExtResource( 3 )]
+position = Vector2( 36, -39 )
+labelText = "Comprar AK47"
+gun = "AK47"
+price = 1500.0
+ammoPrice = 500.0
+
+[node name="BuyWeaponShotgun" parent="." instance=ExtResource( 3 )]
+position = Vector2( 164, 33 )
+labelText = "Comprar Shotgun"
+gun = "Shotgun"
+price = 1200.0
+ammoPrice = 500.0

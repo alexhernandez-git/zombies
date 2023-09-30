@@ -32,11 +32,11 @@ var enemySpeed = 50
 
 var spawn_timer = 0
 
-export var maxEnemeySpeed = 101
+export var maxEnemeySpeed = 100
 
 export var max_spawn_timer = 3.0
 
-export var startingRound = 40
+export var startingRound = 0
 
 var difficulty =  10
 
