@@ -36,7 +36,7 @@ export var maxEnemeySpeed = 100
 
 export var max_spawn_timer = 3.0
 
-export var startingRound = 0
+export var startingRound = 10
 
 var difficulty =  10
 
@@ -98,7 +98,7 @@ func _on_round_finished():
 	remainingEnemies =  int(round(10 + (roundCount * 2)))
 	power_up_probability = remainingEnemies
 	#critical_probability = int(round(10 + (roundCount * 2)))
-	if roundCount < 9:
+	if roundCount < 5:
 		enemyHealth += 100
 	else:
 		enemyHealth = enemyHealth * 1.1

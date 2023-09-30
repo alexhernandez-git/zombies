@@ -29,11 +29,17 @@ func _on_Bullet_body_entered(body):
 		var random_number = randi() % Globals.critical_probability + 1
 		var probability = 1
 		if player:
+			var maxHitCritical = 10
 			if "Critical" in player.perks:
+				maxHitCritical = 25
+			if player.hit_feed > maxHitCritical:
+				probability *= maxHitCritical
+			else:
 				probability *= player.hit_feed
 			if random_number <= probability:
-				damage *= 10
+				damage *= 2
 				critical = true
+				player.hit_feed = 0
 		body.takeDamage(damage, critical)
 		has_hitted = true
 		if player:
