@@ -71,7 +71,8 @@ func _input(event):
 
 func _unhandled_input(event: InputEvent) -> void:
 	if current_weapon.semi_auto and event.is_action_released("shoot"):
-		current_weapon.shoot()
+		if player.jump_timer == 0:
+			current_weapon.shoot()
 	elif event.is_action_released("reload"):
 		current_weapon.reload()
 	elif event.is_action_released("weapon_1"):
