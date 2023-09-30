@@ -40,7 +40,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 50000
+var money = 500
 
 var maxGranadesCapacity = 3
 var granades = 3
@@ -92,6 +92,8 @@ func _on_health_changed(damage):
 	
 func _on_money_earned(amount):
 	var moneyAmount = amount
+	if "DoublePoints" in Globals.global_power_ups:
+		moneyAmount *= 2
 	money += moneyAmount
 
 func _on_round_finished():
@@ -468,6 +470,16 @@ func _on_InteractionArea_area_entered(area):
 		add_child(timer)
 		timer.start()
 		area.die()
+		
+	if "DoublePoints" in area.name:
+		power_ups.append("DoublePoints")
+		var timer = Timer.new()
+		timer.connect("timeout",self,"_on_timeout_double_points")
+		timer.wait_time = Globals.power_up_wait_time
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
+		area.die()
 
 func _on_timeout_vision():
 	power_ups.erase("Vision")
@@ -486,6 +498,9 @@ func _on_timeout_unlimited_fire():
 
 func _on_timeout_multiple_weapons():
 	power_ups.erase("MultipleWeapons")
+
+func _on_timeout_double_points():
+	power_ups.erase("DoublePoints")
 
 func _on_InteractionArea_area_exited(area):
 	if area.name == interactableAction:

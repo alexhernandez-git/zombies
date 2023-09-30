@@ -32,7 +32,7 @@ func _physics_process(delta):
 	
 	Globals.spawn_timer -= delta
 	
-	if Globals.is_round_started == true and Globals.spawn_timer <= 0 and Globals.remainingEnemies > get_tree().get_nodes_in_group("Enemies").size() and get_tree().get_nodes_in_group("Enemies").size() < 20 and not Globals.atomic_bomb:
+	if Globals.is_round_started == true and Globals.spawn_timer <= 0 and Globals.remainingEnemies > get_tree().get_nodes_in_group("Enemies").size() and get_tree().get_nodes_in_group("Enemies").size() < 20:
 		spawn_enemy()
 		Globals.spawn_timer = rand_range(0.1, Globals.max_spawn_timer)  # Adjust the range for random spawn intervals
 

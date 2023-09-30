@@ -18,7 +18,7 @@ extends Node
 
 var game_paused = false
 
-var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons"]
+var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints"]
 
 var global_power_ups = []
 
@@ -60,7 +60,7 @@ var power_up_wait_time = 15
 
 var power_up_probability = remainingEnemies
 
-var atomic_bomb = false
+var atomic_bomb_money
 
 var item_data: Dictionary
 
