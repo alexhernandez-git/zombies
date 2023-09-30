@@ -421,3 +421,7 @@ one_shot = true
 
 [node name="GUi" parent="." instance=ExtResource( 4 )]
 path_to_player = NodePath("../Player")
+
+[node name="Critical" parent="." instance=ExtResource( 8 )]
+position = Vector2( 215, -138 )
+labelText = "Mas criticos"

@@ -100,6 +100,14 @@ margin_top = 306.0
 margin_right = 40.0
 margin_bottom = 320.0
 
+[node name="CriticalFeed" type="Label" parent="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 14.0
+
+[node name="CriticalProbability" type="Label" parent="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 14.0
+
 [node name="Ammo" type="Label" parent="."]
 margin_left = 892.0
 margin_top = 540.0
@@ -124,10 +132,11 @@ align = 2
 
 [node name="UnpauseButton" type="Button" parent="."]
 visible = false
-margin_left = 953.0
-margin_top = 3.0
-margin_right = 1021.0
-margin_bottom = 23.0
+margin_left = 428.0
+margin_top = 267.0
+margin_right = 496.0
+margin_bottom = 287.0
+rect_scale = Vector2( 3, 3 )
 text = "Unpause"
 
 [node name="PowerUps" type="Label" parent="."]

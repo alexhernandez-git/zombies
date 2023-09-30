@@ -253,6 +253,10 @@ func interact():
 					weaponManager.current_weapon.get_attack_cooldown_wait_time() / 2
 				)
 				perks.append("QuickFire")
+		if interactableAction == "Critical" and not "Critical" in perks:
+			if money >= 4000:
+				money -= 4000
+				perks.append("Critical")
 
 
 
@@ -266,6 +270,8 @@ func resetPerks():
 		perks.erase("Impulse")
 	if "FastMag" in perks:
 		perks.erase("FastMag")
+	if "Critical" in perks:
+		perks.erase("Critical")
 	if "QuickFire" in perks:
 		weaponManager.current_weapon.set_attack_cooldown_wait_time(
 			weaponManager.current_weapon.get_attack_cooldown_wait_time() * 2
@@ -302,6 +308,10 @@ func _on_InteractionArea_area_entered(area):
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Fast mag perk: $3000"
+	if area.name == "Critical":
+		interactableAction = area.name
+		interactLabel.visible = true
+		interactLabel.text = "Press E - Critical perk: $4000"
 		
 	# PowerUps
 	if "AtomicBomb" in area.name:

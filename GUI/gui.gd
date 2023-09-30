@@ -31,6 +31,8 @@ onready var powerUpsLabel = $VBoxContainer/PowerUps
 onready var globalPowerUpsLabel = $VBoxContainer/GlobalPowerUps
 onready var magLabel = $VBoxContainer/Mag
 onready var maxMagCapacityLabel = $VBoxContainer/MaxMagCapacity
+onready var criticalFeedLabel = $VBoxContainer/CriticalFeed
+onready var criticalProbabilityLabel = $VBoxContainer/CriticalProbability
 onready var world = get_parent().get_parent().get_parent()
 onready var unpauseButton = $UnpauseButton
 
@@ -78,7 +80,9 @@ func _process(delta):
 		magLabel.text = str("Mag ", _player.get_node("WeaponManager").current_weapon.mag)
 	if _player.get_node("WeaponManager").current_weapon.maxMagCapacity || _player.get_node("WeaponManager").current_weapon.maxMagCapacity == 0:
 		maxMagCapacityLabel.text = str("Max mag capacity ", _player.get_node("WeaponManager").current_weapon.maxMagCapacity)
-	
+	if _player.hit_feed || _player.hit_feed == 0:
+		criticalFeedLabel.text = str("Hit feed ",_player.hit_feed)
+	criticalProbabilityLabel.text = str("Critical probability ",Globals.critical_probability)
 	if _player.get_node("WeaponManager").current_weapon:
 		ammoBigLabel.text = str(_player.get_node("WeaponManager").current_weapon.mag, " / ", _player.get_node("WeaponManager").current_weapon.ammo)
 	

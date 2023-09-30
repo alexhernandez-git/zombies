@@ -12,6 +12,8 @@ extends Node
 # var b = "text"
 # TODO delay time when a round is done
 
+# Todo do maps and a arena that you can use everything that you get from the maps
+
 var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons"]
@@ -46,7 +48,7 @@ var enemyKillMoney = 50
 
 var enemyCriticalKillMoney = 100
 
-var critical_probability = 10
+var critical_probability = 100
 
 var enemyKillMoneyMele = 100
 
@@ -94,7 +96,7 @@ func _on_round_finished():
 	roundCount += 1
 	remainingEnemies =  int(round(5 + (roundCount * 2)))
 	power_up_probability = remainingEnemies
-	critical_probability = int(round(10 + (roundCount * 2)))
+	#critical_probability = int(round(10 + (roundCount * 2)))
 	enemyHealth = enemyHealth * 1.1
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)
