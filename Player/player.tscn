@@ -369,6 +369,7 @@ path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
 maxAmmoCapacity = 300
 damage = 34
+ammo = 180
 endOfGunSize = 14
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )

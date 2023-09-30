@@ -28,7 +28,6 @@ func _ready() -> void:
 	_update_pathfinding()
 	_timer.connect("timeout", self, "_update_pathfinding")
 	Globals.connect("health_changed", self, "_on_health_changed")
-	Globals.connect("atomic_bomb", self, "_on_atomic_bomb")
 	Globals.connect("enemy_damage", self, "_on_enemy_damage")
 	
 func _on_health_changed():
@@ -93,6 +92,11 @@ func _on_timeout_show_hit_mark():
 
 func die(critical = false):
 	_sprite.visible = false
+	$CollisionShape2D.visible = false
+	$CollisionShape2D.disabled = true
+	$hitBox/CollisionShape2D.disabled = true
+	$NearDetector/CollisionShape2D.disabled = true
+	$DetectionZone/CollisionShape2D.disabled = true
 	audio.play()
 	var money = Globals.enemyKillMoney	
 	if critical:
@@ -104,7 +108,6 @@ func die(critical = false):
 
 func _on_atomic_bomb():
 	Globals.emit_signal("enemy_died", self)
-	Globals.emit_signal("money_earned", Globals.atomic_bomb_money)
 	queue_free()	
 
 func _on_dead_timeout():

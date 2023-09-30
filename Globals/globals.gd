@@ -16,9 +16,11 @@ extends Node
 
 # Do more than one try to upgrade the weapon
 
+# New powerup that add a free perk
+
 var game_paused = false
 
-var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints"]
+var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "FreePerk"]
 
 var global_power_ups = []
 
@@ -60,7 +62,7 @@ var power_up_wait_time = 15
 
 var power_up_probability = remainingEnemies
 
-var atomic_bomb_money
+var atomic_bomb_money = 400
 
 var item_data: Dictionary
 

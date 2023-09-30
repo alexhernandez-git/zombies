@@ -40,7 +40,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 500
+var money = 50000
 
 var maxGranadesCapacity = 3
 var granades = 3
@@ -86,6 +86,7 @@ func _ready():
 	Globals.connect("round_passed", self, "_on_round_passed")
 	Globals.connect("health_changed", self, "_on_health_changed")
 	Globals.connect("money_earned", self, "_on_money_earned")
+	Globals.connect("atomic_bomb", self, "_on_atomic_bomb")
 	
 func _on_health_changed(damage):
 	pass
@@ -102,6 +103,7 @@ func _on_round_finished():
 
 func _on_round_passed():
 	money += Globals.roundCount * 100
+	granades = maxGranadesCapacity
 	finsihRoundPlayer.stop()
 	audioPlayer.play()
 # Called when the node enters the scene tree for the first time.
@@ -274,12 +276,14 @@ func die():
 func interact():
 	if  "BuyWeapon" in interactableAction:
 		var currentGun = false
-		if	not interactableNode or not "gun" in interactableNode:
+		if not interactableNode or not "gun" in interactableNode:
 			return
+		print("entra")
 		for gun in weaponManager.active_weapons:
 			if gun.name == interactableNode.gun:
 				currentGun = true
 		if currentGun:
+			print("entra1")
 			if money >= interactableNode.ammoPrice and not weaponManager._is_gun_full_ammo(interactableNode.gun):
 				money -= interactableNode.ammoPrice
 				weaponManager.add_ammo(interactableNode.gun)
@@ -330,8 +334,6 @@ func interact():
 			if money >= 4000:
 				money -= 4000
 				perks.append("MoreWeapons")
-	interactableNode = null
-	_on_InteractionArea_area_entered(interactableNode)
 
 func resetPerks():
 	if "Health" in perks:
@@ -355,11 +357,13 @@ func resetPerks():
 		perks.erase("MoreWeapons")
 
 func _on_InteractionArea_area_entered(area):
+	print(area)
 	# Perks
 	if not area:
 		return
 		
 	if "BuyWeapon" in area.name:
+		print("entra")
 		interactableNode = area
 		var currentGun = false
 		for gun in weaponManager.active_weapons:
@@ -502,8 +506,12 @@ func _on_timeout_multiple_weapons():
 func _on_timeout_double_points():
 	power_ups.erase("DoublePoints")
 
+func _on_atomic_bomb():
+	Globals.emit_signal("money_earned", Globals.atomic_bomb_money)
+
 func _on_InteractionArea_area_exited(area):
-	if area.name == interactableAction:
+	print(str("entra exit", area))
+	if area and area.name == interactableAction:
 		interactableAction = ""
 		interactLabel.visible = false
 		interactLabel.text = ""
