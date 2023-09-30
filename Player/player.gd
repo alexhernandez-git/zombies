@@ -243,6 +243,8 @@ func die():
 func interact():
 	if  "BuyWeapon" in interactableAction:
 		var currentGun = false
+		if not "gun" in interactableNode:
+			return
 		for gun in weaponManager.active_weapons:
 			if gun.name == interactableNode.gun:
 				currentGun = true
@@ -293,8 +295,12 @@ func interact():
 			if money >= 4000:
 				money -= 4000
 				perks.append("Critical")
+		if interactableAction == "MoreWeapons" and not "MoreWeapons" in perks:
+			if money >= 4000:
+				money -= 4000
+				perks.append("MoreWeapons")
+	interactableNode = null
 	_on_InteractionArea_area_entered(interactableNode)
-
 
 func resetPerks():
 	if "Health" in perks:
@@ -313,22 +319,27 @@ func resetPerks():
 			weaponManager.current_weapon.get_attack_cooldown_wait_time() * 2
 		)
 		perks.erase("QuickFire")
+	if "MoreWeapons" in perks:
+		weaponManager.delete_remaining_weapons()
+		perks.erase("MoreWeapons")
 
 func _on_InteractionArea_area_entered(area):
 	# Perks
+	if not area:
+		return
+		
 	if "BuyWeapon" in area.name:
+		interactableNode = area
 		var currentGun = false
 		for gun in weaponManager.active_weapons:
 			if gun.name == area.gun:
 				currentGun = true
 		if currentGun:
 			interactableAction = area.name
-			interactableNode = area
 			interactLabel.visible = true
 			interactLabel.text = str("Press E - Buy ammo: ", area.ammoPrice)
 		else:
 			interactableAction = area.name
-			interactableNode = area
 			interactLabel.visible = true
 			interactLabel.text = str("Press E - ", area.gun , ": ", area.price)
 	if area.name == "BuyGranades":
@@ -363,6 +374,10 @@ func _on_InteractionArea_area_entered(area):
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Critical perk: $4000"
+	if area.name == "MoreWeapons":
+		interactableAction = area.name
+		interactLabel.visible = true
+		interactLabel.text = "Press E - More weapons perk: $4000"
 		
 	# PowerUps
 	if "AtomicBomb" in area.name:

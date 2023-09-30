@@ -9,9 +9,11 @@ onready var current_weapon = $Pistol
 
 onready var current_weapon_index = 0
 
-
+export var path_to_player = NodePath()
+onready var player = get_node(path_to_player)
 var weapons: Array = []
 var active_weapons: Array = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Globals.connect("max_ammo", self, "_on_max_ammo")
@@ -89,6 +91,13 @@ func add_weapon(name):
 				w.hide()
 			weapon.show()
 			current_weapon = weapon
+	var maxWeaponsCapacity = 2
+	if "MoreWeapons" in player.perks:
+		maxWeaponsCapacity = 3
+	if active_weapons.size() > maxWeaponsCapacity:
+		active_weapons.pop_front()
+		
+func delete_remaining_weapons():
 	if active_weapons.size() > 2:
 		active_weapons.pop_front()
 			

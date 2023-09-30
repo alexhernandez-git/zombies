@@ -242,6 +242,7 @@ one_shot = true
 
 [node name="WeaponManager" type="Node2D" parent="."]
 script = ExtResource( 8 )
+path_to_player = NodePath("..")
 
 [node name="Pistol" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
