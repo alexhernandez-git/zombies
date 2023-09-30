@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Player/player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/light.png" type="Texture" id=3]
@@ -15,6 +15,91 @@
 [ext_resource path="res://Audio/rifle-or-shotgun-reload-6787.mp3" type="AudioStream" id=14]
 [ext_resource path="res://Audio/battleThemeA.mp3" type="AudioStream" id=15]
 [ext_resource path="res://Audio/explosion.wav" type="AudioStream" id=16]
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 56 ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "impulse_left"
+length = 0.2
+loop = true
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.03, 0.06, 0.11, 0.15, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 70, 69, 68, 67, 66, 65 ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "impulse_right"
+length = 0.2
+loop = true
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.03, 0.06, 0.09, 0.13, 0.17 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 48, 49, 50, 51, 52, 53 ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "walk_left"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 59, 60 ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "walk_right"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 57, 58 ]
+}
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7, 1 )
@@ -148,6 +233,16 @@ light_mask = 3
 script = ExtResource( 2 )
 Bullet = ExtResource( 5 )
 
+[node name="ImpulseTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 11 )
+anims/impulse_left = SubResource( 15 )
+anims/impulse_right = SubResource( 14 )
+anims/walk_left = SubResource( 13 )
+anims/walk_right = SubResource( 12 )
+
 [node name="Sprites" type="Node2D" parent="."]
 
 [node name="Body" type="Sprite" parent="Sprites"]
@@ -155,8 +250,8 @@ light_mask = 4
 z_index = -1
 texture = ExtResource( 6 )
 hframes = 8
-vframes = 8
-frame = 16
+vframes = 9
+frame = 56
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 7 )
@@ -237,9 +332,6 @@ disabled = true
 anims/RESET = SubResource( 7 )
 anims/mele = SubResource( 8 )
 
-[node name="ImpulseTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="WeaponManager" type="Node2D" parent="."]
 script = ExtResource( 8 )
 path_to_player = NodePath("..")
@@ -259,7 +351,7 @@ semi_auto = true
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
-SpriteVframes = 8
+SpriteVframes = 9
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Pistol"]
 anims/weapon_recoil = ExtResource( 10 )
@@ -281,7 +373,7 @@ endOfGunSize = 14
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
-SpriteVframes = 8
+SpriteVframes = 9
 SpriteFrame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/AK47"]
@@ -308,7 +400,7 @@ semi_auto = true
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
-SpriteVframes = 8
+SpriteVframes = 9
 SpriteFrame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Shotgun"]
@@ -336,7 +428,7 @@ gunSize = 13
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
-SpriteVframes = 8
+SpriteVframes = 9
 SpriteFrame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Minigun"]

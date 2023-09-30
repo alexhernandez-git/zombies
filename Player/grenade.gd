@@ -18,13 +18,19 @@ func explode():
 func _process(_delta):
 	if explosion_active:
 		linear_velocity = Vector2(0, 0)
-		var targets = get_tree().get_nodes_in_group("Enemies") +  get_tree().get_nodes_in_group("Players") 
+		var targets = get_tree().get_nodes_in_group("Enemies")
+		print(targets)
+		var uniqueItems = {}
+		for item in targets:
+			if not uniqueItems.has(item):
+				uniqueItems[item] = true
+		for item in uniqueItems.keys():
+			targets.append(item)
 		for target in targets:
 			var in_range = target.global_position.distance_to(global_position) < explosion_radius
-			print(target.name)
 			if "Enemy" in target.name and in_range:
-				target.takeDamage(20)
-	
+				target.takeDamage(100)
+	explosion_active = false
 			
 func _on_animation_finished(animation):
 	queue_free()

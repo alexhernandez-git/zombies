@@ -63,6 +63,8 @@ var mag = 30
 
 onready var colorRect = $Camera2D/ColorRect
 
+onready var animation = $AnimationPlayer
+
 var power_ups = []
 
 var jump_impulse = 10000  # Adjust the jump impulse strength as needed.
@@ -129,8 +131,10 @@ func _physics_process(delta):
 				energy -= 1
 			restTimer.start()
 			var runMultiplyer =  1.4
+			animation.playback_speed = 1.4
 			currentSpeed = SPEED * runMultiplyer
 		else:
+			animation.playback_speed = 1
 			if restTimer.is_stopped() and energy < max_energy:
 				can_run_again = true
 				energy += 1
@@ -159,7 +163,32 @@ func _physics_process(delta):
 		angle_sum = 45
 		weaponManager.current_weapon.set_flip_v(true)
 		bodySprite.flip_h = true
+		if jump_timer > 0:
+			if velocity.x > 0: 
+				animation.play("impulse_left")
+			else:
+				animation.play("impulse_right")
+		else:
+			if velocity.x > 0: 
+				animation.play("walk_left")
+			elif velocity.x < 0:
+				animation.play("walk_right")
+			else:
+				animation.play("RESET")
 	else:
+		if jump_timer > 0:
+			if velocity.x > 0: 
+				animation.play("impulse_right")
+			else:
+				animation.play("impulse_left")
+		else:
+			if velocity.x > 0: 
+				animation.play("walk_right")
+			elif velocity.x < 0:
+				animation.play("walk_left")
+			else:
+				animation.play("RESET")
+		
 		weaponManager.current_weapon.set_flip_v(false)
 		bodySprite.flip_h = false
 		

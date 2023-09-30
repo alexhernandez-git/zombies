@@ -11,6 +11,7 @@ onready var _hitBoxCollision = $hitBox/CollisionShape2D
 onready var _animation = $HitAnimation
 onready var _hit_marker_sprite = $HitMarkerSprite
 onready var _sprite = $Sprite
+onready var animation = $AnimationPlayer
 var health = Globals.enemyHealth
 var id
 const Enemies: String = "Enemies"
@@ -44,6 +45,14 @@ func _physics_process(delta: float) -> void:
 	velocity += steering
 	
 	velocity = move_and_slide(velocity)
+
+	if velocity.x > 0: 
+		animation.play("walk")
+	elif velocity.x < 0:
+		animation.play("walk")
+	else:
+		animation.play("RESET")
+		
 	
 	if position.x > previous_position.x:
 		# Enemy is moving to the right
@@ -68,7 +77,9 @@ func _on_DetectionZone_body_entered(body):
 func takeDamage(damage: int, critical = false):
 	Globals.emit_signal("enemy_damage", global_position, critical)
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
+	print(health)
 	health -= damage * 2
+	print(health)
 	if "InstantKill" in Globals.global_power_ups:
 		health = 0
 	if health <= 0:

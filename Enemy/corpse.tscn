@@ -6,6 +6,6 @@
 [node name="Corpse" type="Sprite"]
 texture = ExtResource( 2 )
 hframes = 8
-vframes = 8
+vframes = 9
 frame = 34
 script = ExtResource( 1 )
