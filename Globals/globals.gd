@@ -14,6 +14,8 @@ extends Node
 
 # Todo do maps and a arena that you can use everything that you get from the maps
 
+# Do more than one try to upgrade the weapon
+
 var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons"]

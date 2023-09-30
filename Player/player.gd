@@ -169,9 +169,9 @@ func _physics_process(delta):
 			else:
 				animation.play("impulse_right")
 		else:
-			if velocity.x > 0: 
+			if velocity.x > 0 or velocity.y > 0: 
 				animation.play("walk_left")
-			elif velocity.x < 0:
+			elif velocity.x < 0 or velocity.y < 0:
 				animation.play("walk_right")
 			else:
 				animation.play("RESET")
@@ -182,9 +182,9 @@ func _physics_process(delta):
 			else:
 				animation.play("impulse_left")
 		else:
-			if velocity.x > 0: 
+			if velocity.x > 0 or velocity.y > 0: 
 				animation.play("walk_right")
-			elif velocity.x < 0:
+			elif velocity.x < 0 or velocity.y < 0:
 				animation.play("walk_left")
 			else:
 				animation.play("RESET")
@@ -272,7 +272,7 @@ func die():
 func interact():
 	if  "BuyWeapon" in interactableAction:
 		var currentGun = false
-		if not "gun" in interactableNode:
+		if	not interactableNode or not "gun" in interactableNode:
 			return
 		for gun in weaponManager.active_weapons:
 			if gun.name == interactableNode.gun:
