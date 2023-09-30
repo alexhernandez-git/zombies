@@ -47,17 +47,14 @@ func _physics_process(delta: float) -> void:
 	
 	if position.x > previous_position.x:
 		# Enemy is moving to the right
-		print("Enemy is walking to the right.")
 		_sprite.flip_h = false
 		
 	elif position.x < previous_position.x:
 		# Enemy is moving to the left
-		print("Enemy is walking to the left.")
 		_sprite.flip_h = true
 	else:
 		# Enemy is not moving horizontally (or moving at the same position)
-		print("Enemy is not moving horizontally.")
-
+		pass
 
 func _update_pathfinding() -> void:
 	if _player:
@@ -69,22 +66,22 @@ func _on_DetectionZone_body_entered(body):
 	_update_pathfinding()
 
 
-func takeDamage(damage: int, mele = false):
-	Globals.emit_signal("enemy_damage", global_position)
+func takeDamage(damage: int, critical = false):
+	Globals.emit_signal("enemy_damage", global_position, critical)
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
 	health -= damage
 	if "InstantKill" in Globals.global_power_ups:
 		health = 0
 	if health <= 0:
-		die(mele)
+		die(critical)
 
 func _on_timeout_show_hit_mark():
 	_hit_marker_sprite.visible = false
 
-func die(mele = false):
-	var money = Globals.enemyKillMoney
-	if mele:
-		money = Globals.enemyKillMoneyMele
+func die(critical = false):
+	var money = Globals.enemyKillMoney	
+	if critical:
+		money = Globals.enemyCriticalKillMoney
 	Globals.emit_signal("money_earned", money)
 	Globals.emit_signal("enemy_died", self)
 	queue_free()

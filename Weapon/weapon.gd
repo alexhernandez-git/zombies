@@ -64,6 +64,7 @@ func shoot():
 		attackCooldown.start()
 		var bullet_instance = Bullet.instance()
 		add_child(bullet_instance)
+		bullet_instance.player = player
 		bullet_instance.global_position = endOfGun.global_position
 		var target = get_global_mouse_position()
 		var direction_to_mouse = global_position.direction_to(target).normalized()
@@ -110,7 +111,6 @@ func reload():
 	animationPlayer.play("RESET")
 	if ammo > 0 and mag < maxMagCapacity:
 		animationPlayer.playback_speed = 1.0 / reloadTime
-		print(animationPlayer.playback_speed)
 		reloadAudio.pitch_scale = 1.0 / reloadTime
 		if "FastMag" in player.perks:
 			var reloadTimeResult = reloadTime * 0.34

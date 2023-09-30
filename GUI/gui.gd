@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 
 # Declare member variables here. Examples:
@@ -9,6 +9,10 @@ onready var _player = get_node(path_to_player)
 
 onready var ammoBigLabel = $Ammo
 onready var roundBigLabel = $Round
+onready var moneyBigLabel = $Money
+onready var powerUpsBigLabel = $PowerUps
+onready var perksBigLabel = $Perks
+onready var container = $VBoxContainer
 onready var roundLabel = $VBoxContainer/Round
 onready var moneyAmountLabel = $VBoxContainer/Money
 onready var zombiesRemainingLabel = $VBoxContainer/ZombiesRemaining
@@ -28,9 +32,11 @@ onready var globalPowerUpsLabel = $VBoxContainer/GlobalPowerUps
 onready var magLabel = $VBoxContainer/Mag
 onready var maxMagCapacityLabel = $VBoxContainer/MaxMagCapacity
 onready var world = get_parent().get_parent().get_parent()
+onready var unpauseButton = $UnpauseButton
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Globals.connect("paused", self, "_on_paused")
 	pass # Replace with function body.
 
 func _process(delta):
@@ -49,11 +55,15 @@ func _process(delta):
 	var perks = ""
 	for text in _player.perks:
 		perks += str(" | ", text)
-	perksLabel.text = str("perks", perks)		
+	perksLabel.text = str("perks", perks)
+	perksBigLabel.text = str(perks)	
 	var power_ups = ""		
 	for text in _player.power_ups:
 		power_ups += str(" | ", text)
 	powerUpsLabel.text = str("Power ups", power_ups)
+	for text in Globals.global_power_ups:
+		power_ups += str(" | ", text)
+	powerUpsBigLabel.text = str(power_ups)
 	var global_power_ups = ""		
 	for text in Globals.global_power_ups:
 		global_power_ups += str(" | ", text)
@@ -73,3 +83,18 @@ func _process(delta):
 		ammoBigLabel.text = str(_player.get_node("WeaponManager").current_weapon.mag, " / ", _player.get_node("WeaponManager").current_weapon.ammo)
 	
 	roundBigLabel.text = str(Globals.roundCount)
+
+	if _player.money || _player.money == 0:
+		moneyBigLabel.text = str("$",_player.money)
+
+func _on_paused():
+	unpauseButton.visible = true
+	container.visible = true
+
+func _on_Button_pressed():
+	print("entra")
+	get_tree().paused = false
+	unpauseButton.visible = false
+	container.visible = false
+	
+	pass # Replace with function body.

@@ -363,13 +363,6 @@ margin_right = 155.0
 margin_bottom = 92.0
 color = Color( 0.513726, 0.133333, 0.133333, 0.862745 )
 
-[node name="GUi" parent="Player/Camera2D" instance=ExtResource( 4 )]
-margin_left = -152.0
-margin_top = -89.0
-margin_right = 152.0
-margin_bottom = 89.0
-path_to_player = NodePath("../..")
-
 [node name="Spawns" type="Node" parent="."]
 
 [node name="Spawn1" type="Position2D" parent="Spawns"]
@@ -425,3 +418,6 @@ navpoly = SubResource( 22 )
 [node name="AfterRound" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="GUi" parent="." instance=ExtResource( 4 )]
+path_to_player = NodePath("../Player")

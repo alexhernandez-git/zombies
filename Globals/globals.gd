@@ -12,6 +12,8 @@ extends Node
 # var b = "text"
 # TODO delay time when a round is done
 
+var game_paused = false
+
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons"]
 
 var global_power_ups = []
@@ -42,6 +44,10 @@ var enemyHitMoney = 10
 
 var enemyKillMoney = 50
 
+var enemyCriticalKillMoney = 100
+
+var critical_probability = 10
+
 var enemyKillMoneyMele = 100
 
 var instantKill = false
@@ -65,11 +71,17 @@ signal round_finished
 signal round_passed
 signal enemy_damage(position)
 signal max_ammo
+signal paused
 
 func _ready():
 	for i in range(startingRound):
 		_on_round_finished()
 		_on_round_start()
+
+func _input(event):
+	if event.is_action_pressed("ui_pause"):
+		emit_signal("paused")
+		get_tree().paused = true
 
 func difficulty_difference(amount: float) -> float:
 	return amount + (difficulty * amount / 10)
@@ -82,6 +94,7 @@ func _on_round_finished():
 	roundCount += 1
 	remainingEnemies =  int(round(5 + (roundCount * 2)))
 	power_up_probability = remainingEnemies
+	critical_probability = int(round(10 + (roundCount * 2)))
 	enemyHealth = enemyHealth * 1.1
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)

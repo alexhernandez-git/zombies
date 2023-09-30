@@ -1,5 +1,5 @@
 extends KinematicBody2D
-
+class_name Player
 export (PackedScene) var Bullet
 
 var SPEED = 100
@@ -37,7 +37,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 50000
+var money = 500
 
 var total_health = 100
 var max_health = total_health
@@ -65,6 +65,8 @@ var jump_timer = 0  # Timer to track the duration of the jump impulse.
 
 var gun
 
+var hit_feed = 0
+
 func _ready():
 	gun= weaponManager.get_current_weapon()
 	Globals.connect("round_finished", self, "_on_round_finished")
@@ -90,6 +92,7 @@ func _on_round_passed():
 	audioPlayer.play()
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
+	print(hit_feed)
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)
 	if rColor > 255:
 		rColor = 255
@@ -224,8 +227,8 @@ func interact():
 		if interactableAction == "Health" and not "Health" in perks:
 			if money >= 2500:
 				money -= 2500
-				max_health = 250
-				current_health = 250
+				max_health = 200
+				current_health = 200
 				perks.append("Health")
 		if interactableAction == "Revive" and not "Revive" in perks:
 			if money >= 500:

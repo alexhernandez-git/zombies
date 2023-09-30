@@ -35,7 +35,9 @@ func _physics_process(delta):
 		spawn_enemy()
 		Globals.spawn_timer = rand_range(0.1, Globals.max_spawn_timer)  # Adjust the range for random spawn intervals
 
+
 func _on_round_finished():
+	enemies_died = []
 	afterRoundTimer.start()
 	afterRoundTimer.connect("timeout", self, "_on_round_start")
 
@@ -66,7 +68,12 @@ func generateRandomPosition(position):
 	
 	return random_position
 
-func _on_enemy_damage(position):
+func _on_enemy_damage(position, critical = false):
+	if critical:
+		for i in range(9):
+			var blood_instance = _blood_sprite.instance()
+			blood_instance.global_position =  generateRandomPosition(position)
+			add_child(blood_instance)
 	var blood_instance = _blood_sprite.instance()
 	blood_instance.global_position =  generateRandomPosition(position)
 	add_child(blood_instance)
@@ -75,7 +82,6 @@ func _on_enemy_died(enemy: Enemy):
 	if enemy.id in enemies_died:
 		return
 	enemies_died.append(enemy.id)
-	print(enemies_died)
 	Globals.remainingEnemies -= 1
 	var corpse_instance = _corpse_sprite.instance()
 	corpse_instance.global_position = enemy.global_position
