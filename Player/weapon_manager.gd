@@ -89,6 +89,8 @@ func add_weapon(name):
 				w.hide()
 			weapon.show()
 			current_weapon = weapon
+	if active_weapons.size() > 2:
+		active_weapons.pop_front()
 			
 func add_ammo(name):
 	for weapon in active_weapons:

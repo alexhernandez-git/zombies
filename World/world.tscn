@@ -428,15 +428,29 @@ position = Vector2( 267, 1 )
 labelText = "Comprar granadas"
 
 [node name="BuyWeaponAK47" parent="." instance=ExtResource( 3 )]
-position = Vector2( 36, -39 )
+position = Vector2( 48, 109 )
 labelText = "Comprar AK47"
 gun = "AK47"
 price = 1500.0
 ammoPrice = 500.0
 
 [node name="BuyWeaponShotgun" parent="." instance=ExtResource( 3 )]
-position = Vector2( 164, 33 )
+position = Vector2( 137, 107 )
 labelText = "Comprar Shotgun"
 gun = "Shotgun"
 price = 1200.0
 ammoPrice = 500.0
+
+[node name="BuyWeaponMinigun" parent="." instance=ExtResource( 3 )]
+position = Vector2( 232, 108 )
+labelText = "Comprar minigun"
+gun = "Minigun"
+price = 5000.0
+ammoPrice = 2000.0
+
+[node name="BuyWeaponPistol" parent="." instance=ExtResource( 3 )]
+position = Vector2( -94, 111 )
+labelText = "Comprar pistola"
+gun = "Pistol"
+price = 500.0
+ammoPrice = 250.0
