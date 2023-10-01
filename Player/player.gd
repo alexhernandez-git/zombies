@@ -173,9 +173,9 @@ func _physics_process(delta):
 			else:
 				animation.play("impulse_right")
 		else:
-			if velocity.x > 0 or velocity.y > 0: 
+			if velocity.x > 0 or velocity.x == 0 and velocity.y > 0: 
 				animation.play("walk_left")
-			elif velocity.x < 0 or velocity.y < 0:
+			elif velocity.x < 0 or velocity.x == 0 and velocity.y < 0:
 				animation.play("walk_right")
 			else:
 				animation.play("RESET")
@@ -186,9 +186,9 @@ func _physics_process(delta):
 			else:
 				animation.play("impulse_left")
 		else:
-			if velocity.x > 0 or velocity.y > 0: 
+			if velocity.x > 0 or velocity.x == 0 and velocity.y > 0: 
 				animation.play("walk_right")
-			elif velocity.x < 0 or velocity.y < 0:
+			elif velocity.x < 0 or velocity.x == 0 and velocity.y < 0:
 				animation.play("walk_left")
 			else:
 				animation.play("RESET")

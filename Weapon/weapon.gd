@@ -78,6 +78,7 @@ func shoot():
 				var seccond_bullet_instance = Bullet.instance()
 				add_child(seccond_bullet_instance)
 				seccond_bullet_instance.global_position = endOfGun.global_position
+				bullet_instance.player = player
 				bullet_instance.set_damage(damage)
 				seccond_bullet_instance.set_direction(new_direction)
 
