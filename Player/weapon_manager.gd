@@ -130,24 +130,23 @@ func set_rotation(rotation):
 func set_gun_position(glob_pos, direction):
 	current_weapon.sprite.global_position = glob_pos + direction * current_weapon.gunSize
 	if mirror_weapon:
-		mirror_weapon.sprite.global_position = glob_pos + Vector2(-8, 0) + direction * mirror_weapon.gunSize
+		var vector = Vector2(-8, 0)
+		if mirror_weapon.sprite.flip_v:
+			vector = Vector2(8, 0)
+		mirror_weapon.sprite.global_position = glob_pos + vector + direction * mirror_weapon.gunSize
 	
 func set_end_of_gun_position(glob_pos, direction):
 	current_weapon.endOfGun.global_position = glob_pos + direction * (current_weapon.gunSize + current_weapon.endOfGunSize)
 	if mirror_weapon:
+		var vector = Vector2(-8, 0)
+		if mirror_weapon.sprite.flip_v:
+			vector = Vector2(8, 0)
 		mirror_weapon.endOfGun.global_position = glob_pos + Vector2(-8, 0) + direction * (mirror_weapon.gunSize + mirror_weapon.endOfGunSize)
 
 func set_flip_v(flip):
-	var current_z_index = 1
-	var mirror_z_index = 0
-	if not flip:
-		current_z_index = 0
-		mirror_z_index = 1
 	current_weapon.sprite.flip_v = flip
-	current_weapon.sprite.z_index = current_z_index
 	if mirror_weapon:
 		mirror_weapon.sprite.flip_v = flip
-		mirror_weapon.sprite.z_index = mirror_z_index
 		
 
 func delete_remaining_weapons():

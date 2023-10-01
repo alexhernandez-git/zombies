@@ -86,7 +86,7 @@ func _on_enemy_damage(position, critical = false):
 	add_child(blood_instance)
 
 func _on_enemy_died(enemy: Enemy):
-	if "Horde" in Globals.global_power_ups or enemy.is_horde:
+	if enemy.is_horde:
 		return
 	if enemy.id in enemies_died:
 		return

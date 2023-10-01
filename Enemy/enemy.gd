@@ -88,7 +88,10 @@ func takeDamage(damage: int, critical = false):
 	audio.play()
 	Globals.emit_signal("enemy_damage", global_position, critical)
 	if not is_horde:
-		Globals.emit_signal("money_earned", Globals.enemyHitMoney)
+		var money = Globals.enemyHitMoney
+		if "DoublePoints" in Globals.global_power_ups:
+			money *= 2
+		Globals.emit_signal("money_earned", money)
 	health -= damage * 2
 	if "InstantKill" in Globals.global_power_ups:
 		health = 0
@@ -106,8 +109,14 @@ func die(critical = false):
 	var money = Globals.enemyKillMoney	
 	if critical:
 		money = Globals.enemyCriticalKillMoney
+	if "DoublePoints" in Globals.global_power_ups:
+		money *= 2
 	if is_horde: 
-		Globals.emit_signal("money_earned", 10)
+		if "DoublePoints" in Globals.global_power_ups:
+			Globals.emit_signal("money_earned", 20)
+		else:
+			Globals.emit_signal("money_earned", 10)
+			
 	else:
 		Globals.emit_signal("money_earned", money)
 	Globals.emit_signal("enemy_died", self)

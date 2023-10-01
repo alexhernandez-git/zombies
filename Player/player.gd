@@ -413,7 +413,10 @@ func _on_InteractionArea_area_entered(area):
 		
 	# PowerUps
 	if "AtomicBomb" in area.name:
-		money += 400
+		if "DoublePoints" in Globals.global_power_ups:
+			money += 800
+		else:
+			money += 400
 		Globals.emit_signal("atomic_bomb")
 		var timer = Timer.new()
 		timer.wait_time = 5

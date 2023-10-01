@@ -42,6 +42,8 @@ func _on_Bullet_body_entered(body):
 				damage *= damageMultiplier
 				critical = true
 				player.hit_feed = 0
+		if "QuickFire" in player.power_ups:
+			damage * 2
 		body.takeDamage(damage, critical)
 		has_hitted = true
 		if player:

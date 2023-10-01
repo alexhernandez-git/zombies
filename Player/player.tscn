@@ -259,7 +259,6 @@ shape = SubResource( 3 )
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 4 )
-energy = 0.8
 shadow_enabled = true
 
 [node name="Light2D3" type="Light2D" parent="."]
@@ -393,7 +392,7 @@ path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
 maxAmmoCapacity = 55
 maxMagCapacity = 8
-damage = 34
+damage = 100
 ammo = 55
 cadence = 0.5
 isShotgun = true

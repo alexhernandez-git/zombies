@@ -72,7 +72,7 @@ func shoot():
 		set_random_shot_light_sprite_random()
 		bullet_instance.set_direction(direction_to_mouse)
 		if isShotgun:
-			var degrees = [deg2rad(45), -deg2rad(45), deg2rad(35), -deg2rad(35), deg2rad(25), -deg2rad(25), deg2rad(15), -deg2rad(15) , deg2rad(5), -deg2rad(5)]
+			var degrees = [deg2rad(25), -deg2rad(25), deg2rad(20), -deg2rad(20), deg2rad(15), -deg2rad(15), deg2rad(10), -deg2rad(10) , deg2rad(5), -deg2rad(5)]
 			for degree in degrees:
 				var new_direction = (direction_to_mouse + direction_to_mouse.rotated(degree)).normalized()
 				var seccond_bullet_instance = Bullet.instance()
