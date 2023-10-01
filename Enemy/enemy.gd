@@ -83,9 +83,7 @@ func takeDamage(damage: int, critical = false):
 	audio.play()
 	Globals.emit_signal("enemy_damage", global_position, critical)
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
-	print(health)
 	health -= damage * 2
-	print(health)
 	if "InstantKill" in Globals.global_power_ups:
 		health = 0
 	if health <= 0:

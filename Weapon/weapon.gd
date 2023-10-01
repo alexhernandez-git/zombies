@@ -71,19 +71,8 @@ func shoot():
 		bullet_instance.set_damage(damage)
 		set_random_shot_light_sprite_random()
 		bullet_instance.set_direction(direction_to_mouse)
-		if isShotgun or "MultipleWeapons" in player.power_ups:
-			var degrees = [deg2rad(45), -deg2rad(45), deg2rad(35), -deg2rad(35), deg2rad(25), -deg2rad(25), deg2rad(15), -deg2rad(15)]
-			if "MultipleWeapons" in player.power_ups:
-				degrees.append(deg2rad(55))
-				degrees.append(-deg2rad(55))
-				degrees.append(deg2rad(65))
-				degrees.append(-deg2rad(65))
-				degrees.append(deg2rad(75))
-				degrees.append(-deg2rad(75))
-				degrees.append(deg2rad(85))
-				degrees.append(-deg2rad(85))
-				degrees.append(deg2rad(90))
-				degrees.append(-deg2rad(90))
+		if isShotgun:
+			var degrees = [deg2rad(45), -deg2rad(45), deg2rad(35), -deg2rad(35), deg2rad(25), -deg2rad(25), deg2rad(15), -deg2rad(15) , deg2rad(5), -deg2rad(5)]
 			for degree in degrees:
 				var new_direction = (direction_to_mouse + direction_to_mouse.rotated(degree)).normalized()
 				var seccond_bullet_instance = Bullet.instance()

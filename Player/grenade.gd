@@ -19,7 +19,6 @@ func _process(_delta):
 	if explosion_active:
 		linear_velocity = Vector2(0, 0)
 		var targets = get_tree().get_nodes_in_group("Enemies")
-		print(targets)
 		var uniqueItems = {}
 		for item in targets:
 			if not uniqueItems.has(item):

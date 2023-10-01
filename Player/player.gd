@@ -40,7 +40,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 50000
+var money = 500
 
 var maxGranadesCapacity = 3
 var granades = 3
@@ -165,7 +165,7 @@ func _physics_process(delta):
 	var angle_sum = -45
 	if player_direction.x < 0:
 		angle_sum = 45
-		weaponManager.current_weapon.set_flip_v(true)
+		weaponManager.set_flip_v(true)
 		bodySprite.flip_h = true
 		if jump_timer > 0:
 			if velocity.x > 0: 
@@ -193,13 +193,14 @@ func _physics_process(delta):
 			else:
 				animation.play("RESET")
 		
-		weaponManager.current_weapon.set_flip_v(false)
+		weaponManager.set_flip_v(false)
 		bodySprite.flip_h = false
 		
 	angle += deg2rad(angle_sum)
-	weaponManager.current_weapon.set_rotation(angle)
-	weaponManager.current_weapon.set_end_of_gun_position(global_position, player_direction)
-	weaponManager.current_weapon.set_gun_position(global_position, player_direction)
+	weaponManager.set_rotation(angle)
+	weaponManager.set_end_of_gun_position(global_position, player_direction)
+	weaponManager.set_gun_position(global_position, player_direction)
+
 	
 
 
@@ -278,12 +279,10 @@ func interact():
 		var currentGun = false
 		if not interactableNode or not "gun" in interactableNode:
 			return
-		print("entra")
 		for gun in weaponManager.active_weapons:
 			if gun.name == interactableNode.gun:
 				currentGun = true
 		if currentGun:
-			print("entra1")
 			if money >= interactableNode.ammoPrice and not weaponManager._is_gun_full_ammo(interactableNode.gun):
 				money -= interactableNode.ammoPrice
 				weaponManager.add_ammo(interactableNode.gun)
@@ -357,13 +356,11 @@ func resetPerks():
 		perks.erase("MoreWeapons")
 
 func _on_InteractionArea_area_entered(area):
-	print(area)
 	# Perks
 	if not area:
 		return
 		
 	if "BuyWeapon" in area.name:
-		print("entra")
 		interactableNode = area
 		var currentGun = false
 		for gun in weaponManager.active_weapons:
@@ -468,6 +465,7 @@ func _on_InteractionArea_area_entered(area):
 	if "MultipleWeapons" in area.name:
 		power_ups.append("MultipleWeapons")
 		var timer = Timer.new()
+		weaponManager.duplicate_current()
 		timer.connect("timeout",self,"_on_timeout_multiple_weapons")
 		timer.wait_time = Globals.power_up_wait_time
 		timer.one_shot = true
@@ -502,6 +500,8 @@ func _on_timeout_unlimited_fire():
 
 func _on_timeout_multiple_weapons():
 	power_ups.erase("MultipleWeapons")
+	if not "MultipleWeapons" in power_ups:
+		weaponManager.remove_mirror_weapon()
 
 func _on_timeout_double_points():
 	power_ups.erase("DoublePoints")
@@ -510,7 +510,6 @@ func _on_atomic_bomb():
 	Globals.emit_signal("money_earned", Globals.atomic_bomb_money)
 
 func _on_InteractionArea_area_exited(area):
-	print(str("entra exit", area))
 	if area and area.name == interactableAction:
 		interactableAction = ""
 		interactLabel.visible = false

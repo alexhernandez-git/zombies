@@ -103,7 +103,6 @@ func _on_enemy_died(enemy: Enemy):
 		add_child(power_up_instance)
 
 func _on_trow_object(pos, direction, velocity, instance):
-	print(direction)
 	instance.global_position = pos + direction * 20
 	instance.linear_velocity = direction * velocity
 	add_child(instance)
