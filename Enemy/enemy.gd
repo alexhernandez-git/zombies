@@ -18,6 +18,7 @@ var health = Globals.enemyHealth
 var id
 const Enemies: String = "Enemies"
 var disabled = false
+var is_horde = false
 
 
 func _init() -> void:
@@ -31,6 +32,8 @@ func _ready() -> void:
 	_timer.connect("timeout", self, "_update_pathfinding")
 	Globals.connect("health_changed", self, "_on_health_changed")
 	Globals.connect("enemy_damage", self, "_on_enemy_damage")
+	Globals.connect("atomic_bomb", self, "_on_atomic_bomb")
+	Globals.connect("horde_finished", self, "_on_horde_finished")
 	
 func _on_health_changed():
 	pass
@@ -42,8 +45,10 @@ func _physics_process(delta: float) -> void:
 	var previous_position = position
 	
 	var direction = global_position.direction_to(_agent.get_next_location())
-	
-	var desired_velocity = direction * Globals.enemySpeed
+	var enemySpeed =  Globals.enemySpeed
+	if is_horde:
+		enemySpeed = Globals.maxEnemeySpeed
+	var desired_velocity = direction * enemySpeed
 	var steering = (desired_velocity - velocity) * delta * 4.0
 	velocity += steering
 	
@@ -82,7 +87,8 @@ func takeDamage(damage: int, critical = false):
 		return
 	audio.play()
 	Globals.emit_signal("enemy_damage", global_position, critical)
-	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
+	if not is_horde:
+		Globals.emit_signal("money_earned", Globals.enemyHitMoney)
 	health -= damage * 2
 	if "InstantKill" in Globals.global_power_ups:
 		health = 0
@@ -100,7 +106,10 @@ func die(critical = false):
 	var money = Globals.enemyKillMoney	
 	if critical:
 		money = Globals.enemyCriticalKillMoney
-	Globals.emit_signal("money_earned", money)
+	if is_horde: 
+		Globals.emit_signal("money_earned", 10)
+	else:
+		Globals.emit_signal("money_earned", money)
 	Globals.emit_signal("enemy_died", self)
 	dead_timer.start()
 	dead_timer.connect("timeout", self, "_on_dead_timeout")
@@ -111,6 +120,10 @@ func _on_atomic_bomb():
 
 func _on_dead_timeout():
 	queue_free()
+	
+func _on_horde_finished():
+	if is_horde:
+		queue_free()
 
 func _on_PlayerDetector_area_entered(area):
 	if "hurtBox" in area.name:

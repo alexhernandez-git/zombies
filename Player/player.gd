@@ -34,7 +34,7 @@ var grenade_scene = preload("res://Player/grenade.tscn")
 var interactableAction = ""
 var interactableNode
 
-var max_energy = 100
+var max_energy = 500
 var energy = max_energy
 var can_run_again = true
 
@@ -141,7 +141,7 @@ func _physics_process(delta):
 			animation.playback_speed = 1
 			if restTimer.is_stopped() and energy < max_energy:
 				can_run_again = true
-				energy += 1
+				energy += 5
 		
 	var move_direction = input_vector.normalized()
 	velocity = currentSpeed * move_direction
@@ -482,6 +482,16 @@ func _on_InteractionArea_area_entered(area):
 		add_child(timer)
 		timer.start()
 		area.die()
+		
+	if "Horde" in area.name:
+		Globals.global_power_ups.append("Horde")
+		var timer = Timer.new()
+		timer.connect("timeout",self,"_on_timeout_horde")
+		timer.wait_time = Globals.power_up_wait_time
+		timer.one_shot = true
+		add_child(timer)
+		timer.start()
+		area.die()
 
 func _on_timeout_vision():
 	power_ups.erase("Vision")
@@ -505,6 +515,10 @@ func _on_timeout_multiple_weapons():
 
 func _on_timeout_double_points():
 	power_ups.erase("DoublePoints")
+
+func _on_timeout_horde():
+	Globals.global_power_ups.erase("Horde")
+	Globals.emit_signal("horde_finished")
 
 func _on_atomic_bomb():
 	Globals.emit_signal("money_earned", Globals.atomic_bomb_money)

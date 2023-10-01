@@ -27,6 +27,8 @@ func _ready():
 		sprite.frame = 47
 	if "DoublePoints" in name:
 		sprite.frame = 14
+	if "Horde" in name:
+		sprite.frame = 37
 
 func _on_timeout():
 	die()

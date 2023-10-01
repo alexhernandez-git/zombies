@@ -20,9 +20,11 @@ extends Node
 
 # Crear una clase donde te salga mas de unas y menos de otras ventajas
 
+# Si se hace multijugador mover el timeout del global powerups fuera del jugador
+
 var game_paused = false
 
-var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints"]
+var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde"]
 
 var global_power_ups = []
 
@@ -81,6 +83,7 @@ signal enemy_damage(position)
 signal max_ammo
 signal paused 
 signal trow_object
+signal horde_finished
 
 func _ready():
 	for i in range(startingRound):

@@ -29,12 +29,18 @@ func _physics_process(delta):
 		Globals._on_round_finished()
 		Globals.emit_signal("round_finished")
 
-	
 	Globals.spawn_timer -= delta
-	
-	if Globals.is_round_started == true and Globals.spawn_timer <= 0 and Globals.remainingEnemies > get_tree().get_nodes_in_group("Enemies").size() and get_tree().get_nodes_in_group("Enemies").size() < 20:
-		spawn_enemy()
-		Globals.spawn_timer = rand_range(0.1, Globals.max_spawn_timer)  # Adjust the range for random spawn intervals
+	var maxEnemiesAtTime = 40
+	if "Horde" in Globals.global_power_ups:
+		maxEnemiesAtTime = 60
+	if Globals.is_round_started == true and Globals.spawn_timer <= 0 and get_tree().get_nodes_in_group("Enemies").size() < maxEnemiesAtTime:
+		if "Horde" in Globals.global_power_ups:
+			Globals.spawn_timer = 0.1
+			spawn_enemy(true)
+			return
+		if Globals.remainingEnemies > get_tree().get_nodes_in_group("Enemies").size():
+			spawn_enemy()
+			Globals.spawn_timer = rand_range(0.1, Globals.max_spawn_timer)  # Adjust the range for random spawn intervals
 
 
 func _on_round_finished():
@@ -47,15 +53,15 @@ func _on_round_start():
 	Globals._on_round_start()
 	
 
-func spawn_enemy():
+func spawn_enemy(is_horde = false):
 	var enemy_instance = enemy_scene.instance()
 	var randomIndex = randi() % spawnPoints.size()
 	var randomSpawnPoint = spawnPoints[randomIndex]
 	if randomSpawnPoint:
 		enemy_instance.position = randomSpawnPoint.global_position
 		enemy_instance.z_index = 1
+		enemy_instance.is_horde = is_horde
 		add_child(enemy_instance)
-		spawned_enemies += 1
 
 func rand_range_int(min_value, max_value):
 	return randi() % (max_value - min_value + 1) + min_value
@@ -80,6 +86,8 @@ func _on_enemy_damage(position, critical = false):
 	add_child(blood_instance)
 
 func _on_enemy_died(enemy: Enemy):
+	if "Horde" in Globals.global_power_ups or enemy.is_horde:
+		return
 	if enemy.id in enemies_died:
 		return
 	enemies_died.append(enemy.id)
