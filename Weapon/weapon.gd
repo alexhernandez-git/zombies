@@ -61,26 +61,28 @@ func shoot():
 		animationPlayer.play("RESET")
 		animationPlayer.play("weapon_recoil")
 		cancel_reload()
-		attackCooldown.start()
-		var bullet_instance = Bullet.instance()
-		add_child(bullet_instance)
-		bullet_instance.player = player
-		bullet_instance.global_position = endOfGun.global_position
 		var target = get_global_mouse_position()
 		var direction_to_mouse = global_position.direction_to(target).normalized()
-		bullet_instance.set_damage(damage)
-		set_random_shot_light_sprite_random()
-		bullet_instance.set_direction(direction_to_mouse)
+		attackCooldown.start()
 		if isShotgun:
 			var degrees = [deg2rad(25), -deg2rad(25), deg2rad(20), -deg2rad(20), deg2rad(15), -deg2rad(15), deg2rad(10), -deg2rad(10) , deg2rad(5), -deg2rad(5)]
 			for degree in degrees:
 				var new_direction = (direction_to_mouse + direction_to_mouse.rotated(degree)).normalized()
 				var seccond_bullet_instance = Bullet.instance()
+				seccond_bullet_instance.collateral = false
+				seccond_bullet_instance.player = player
 				add_child(seccond_bullet_instance)
 				seccond_bullet_instance.global_position = endOfGun.global_position
-				bullet_instance.player = player
-				bullet_instance.set_damage(damage)
+				seccond_bullet_instance.set_damage(damage)
 				seccond_bullet_instance.set_direction(new_direction)
+		else:
+			var bullet_instance = Bullet.instance()
+			bullet_instance.player = player
+			add_child(bullet_instance)
+			bullet_instance.global_position = endOfGun.global_position
+			bullet_instance.set_damage(damage)
+			set_random_shot_light_sprite_random()
+			bullet_instance.set_direction(direction_to_mouse)
 
 func set_random_shot_light_sprite_random():
 	for sprite in endOfGunSprites:

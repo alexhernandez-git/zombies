@@ -10,6 +10,8 @@ var player: Player
 
 var has_hitted = false
 
+var collateral = true
+
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
 	if direction != Vector2.ZERO:
@@ -25,10 +27,12 @@ func set_damage(damage_amount):
 
 func _on_Bullet_body_entered(body):
 	if body.has_method("takeDamage") and "Enemy" in body.name and  body.name != "Player":
+		print("entra1")		
 		var critical = false
 		var random_number = randi() % Globals.critical_probability + 1
 		var probability = 1
 		if player:
+			print("entra2")			
 			var maxHitCritical = 10
 			var damageMultiplier = 2
 			if "Critical" in player.perks:
@@ -45,11 +49,15 @@ func _on_Bullet_body_entered(body):
 			if "QuickFire" in player.power_ups:
 				damage * 2
 		body.takeDamage(damage, critical)
+		print("entra3")		
 		has_hitted = true
 		if player:
 			player.hit_feed += 1
-		return
-	if body.name != "Player" and not "Enemy" in body.name:
-		queue_free()
+	print("entraa 4")
+	print(body.name)
 	if not has_hitted and player:
 		player.hit_feed = 0
+	if "FirstFloorWallsCollider" in body.name:
+		queue_free()
+	if not collateral:
+		queue_free()
