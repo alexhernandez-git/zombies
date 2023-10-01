@@ -24,7 +24,8 @@ func set_damage(damage_amount):
 	damage = damage_amount
 
 func _on_Bullet_body_entered(body):
-	if body.has_method("takeDamage") and  body.name != "Player":
+	print(body.name)
+	if body.has_method("takeDamage") and "Enemy" in body.name and  body.name != "Player":
 		var critical = false
 		var random_number = randi() % Globals.critical_probability + 1
 		var probability = 1

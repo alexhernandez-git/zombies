@@ -17,6 +17,8 @@ onready var dead_timer = $DeadTimer
 var health = Globals.enemyHealth
 var id
 const Enemies: String = "Enemies"
+var disabled = false
+
 
 func _init() -> void:
 	add_to_group(Enemies)
@@ -76,6 +78,8 @@ func _on_DetectionZone_body_entered(body):
 	_update_pathfinding()
 
 func takeDamage(damage: int, critical = false):
+	if disabled:
+		return
 	audio.play()
 	Globals.emit_signal("enemy_damage", global_position, critical)
 	Globals.emit_signal("money_earned", Globals.enemyHitMoney)
@@ -92,12 +96,9 @@ func _on_timeout_show_hit_mark():
 
 func die(critical = false):
 	_sprite.visible = false
-	$CollisionShape2D.visible = false
-	$CollisionShape2D.disabled = true
-	$hitBox/CollisionShape2D.disabled = true
-	$NearDetector/CollisionShape2D.disabled = true
-	$DetectionZone/CollisionShape2D.disabled = true
-	audio.play()
+	name = ""
+	disabled = true
+
 	var money = Globals.enemyKillMoney	
 	if critical:
 		money = Globals.enemyCriticalKillMoney
