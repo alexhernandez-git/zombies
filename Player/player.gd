@@ -75,7 +75,7 @@ var gun
 
 var hit_feed = 0
 
-var supplies = 100
+var supplies = 1
 
 const Players: String = "Players"
 
