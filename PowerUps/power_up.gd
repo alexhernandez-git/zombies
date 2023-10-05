@@ -29,6 +29,8 @@ func _ready():
 		sprite.frame = 14
 	if "Horde" in name:
 		sprite.frame = 37
+	if "Supplies" in name:
+		sprite.frame = 79
 
 func _on_timeout():
 	die()

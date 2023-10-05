@@ -434,7 +434,7 @@ position = Vector2( 36, 109 )
 gun = "AK47"
 price = 1500.0
 ammoPrice = 500.0
-SpriteVframes = 9
+SpriteVframes = 18
 SpriteFrame = 2
 
 [node name="BuyWeaponShotgun" parent="Weapons" instance=ExtResource( 3 )]
@@ -442,7 +442,7 @@ position = Vector2( 130, 107 )
 gun = "Shotgun"
 price = 1200.0
 ammoPrice = 500.0
-SpriteVframes = 9
+SpriteVframes = 18
 SpriteFrame = 1
 
 [node name="BuyWeaponMinigun" parent="Weapons" instance=ExtResource( 3 )]
@@ -450,7 +450,7 @@ position = Vector2( 209, 107 )
 gun = "Minigun"
 price = 5000.0
 ammoPrice = 2000.0
-SpriteVframes = 9
+SpriteVframes = 18
 SpriteFrame = 3
 
 [node name="BuyWeaponPistol" parent="Weapons" instance=ExtResource( 3 )]
@@ -458,9 +458,9 @@ position = Vector2( -94, 111 )
 gun = "Pistol"
 price = 500.0
 ammoPrice = 250.0
-SpriteVframes = 9
+SpriteVframes = 18
 
-[node name="BuyGranades" parent="Weapons" instance=ExtResource( 3 )]
+[node name="BuyGranadesFragmentation" parent="Weapons" instance=ExtResource( 3 )]
 position = Vector2( 293, 107 )
-SpriteVframes = 9
-SpriteFrame = 12
+SpriteVframes = 10
+SpriteFrame = 17

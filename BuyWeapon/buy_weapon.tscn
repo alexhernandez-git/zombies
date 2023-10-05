@@ -22,15 +22,42 @@ export (int) var SpriteHframes
 export (int) var SpriteVframes
 export (int) var SpriteFrame
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
-	sprite.texture = SpriteTexture
-	sprite.hframes = SpriteHframes
-	sprite.vframes = SpriteVframes
-	sprite.frame = SpriteFrame
-	label.text = labelText
-
-
+	if \"AK47\" in name:
+		sprite.frame = 2
+		if not price:
+			price = 1500
+		if not ammoPrice:
+			ammoPrice = 500
+		if not gun:
+			gun = \"AK47\"
+	if \"Shotgun\" in name:
+		sprite.frame = 1
+		if not price:
+			price = 1200
+		if not ammoPrice:
+			ammoPrice = 500
+		if not gun:
+			gun = \"Shotgun\"
+	if \"Minigun\" in name:
+		sprite.frame = 3
+		if not price:
+			price = 5000
+		if not ammoPrice:
+			ammoPrice = 2000
+		if not gun:
+			gun = \"Minigun\"
+	if \"Pistol\" in name:
+		sprite.frame = 0
+		if not price:
+			price = 500
+		if not ammoPrice:
+			ammoPrice = 250
+		if not gun:
+			gun = \"Pistol\"
+	if \"Fragmentation\" in name:
+		sprite.frame = 17
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -52,7 +79,7 @@ shape = SubResource( 1 )
 position = Vector2( 2.84217e-14, 1.19209e-07 )
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 8
+vframes = 17
 
 [node name="Label" type="Label" parent="."]
 margin_left = -18.0

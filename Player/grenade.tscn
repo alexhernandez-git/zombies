@@ -170,7 +170,7 @@ modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 9
+vframes = 18
 frame = 12
 
 [node name="Timer" type="Timer" parent="."]

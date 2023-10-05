@@ -9,7 +9,7 @@ script = ExtResource( 2 )
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 9
+vframes = 18
 
 [node name="EndOFGun" type="Position2D" parent="."]
 position = Vector2( 0, -8 )
@@ -18,7 +18,7 @@ position = Vector2( 0, -8 )
 visible = false
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 9
+vframes = 18
 frame = 8
 
 [node name="Light2" type="Sprite" parent="EndOFGun"]
@@ -26,21 +26,21 @@ visible = false
 scale = Vector2( 1.0036, 1 )
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 9
+vframes = 18
 frame = 9
 
 [node name="Light3" type="Sprite" parent="EndOFGun"]
 visible = false
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 9
+vframes = 18
 frame = 10
 
 [node name="Light4" type="Sprite" parent="EndOFGun"]
 visible = false
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 9
+vframes = 18
 frame = 11
 
 [node name="AttackCooldown" type="Timer" parent="."]

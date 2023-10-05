@@ -75,6 +75,8 @@ var gun
 
 var hit_feed = 0
 
+var supplies = 1
+
 const Players: String = "Players"
 
 func _init() -> void:
@@ -209,10 +211,17 @@ func _input(event):
 		mele()
 	if event.is_action_released("throw_object"):
 		throw_object()
+	if event.is_action_released("call_supplies"):
+		call_supplies()
 		
 func _unhandled_input(event):
 	if event.is_action_released("interact"):
 		interact()
+		
+func call_supplies():
+	print("Call supplies")
+	if supplies > 0:
+		Globals.emit_signal("call_supplies", global_position)
 
 func reload():
 	if ammo > 0 and mag < maxMagCapacity:
@@ -290,48 +299,48 @@ func interact():
 			if money >= interactableNode.price:
 				money -= interactableNode.price
 				weaponManager.add_weapon(interactableNode.gun)
-	if interactableAction == "BuyGranades":
+	if "BuyGranades" in interactableAction:
 		if money >= 500:
 			if granades < maxGranadesCapacity:
 				money -= 500
 				granades = maxGranadesCapacity
 	if perks.size() < 4:
 		if interactableAction == "Health" and not "Health" in perks:
-			if money >= 2500:
-				money -= 2500
+			if money >= interactableNode.price:
+				money -= interactableNode.price
 				max_health = 200
 				current_health = 200
 				perks.append("Health")
 		if interactableAction == "Revive" and not "Revive" in perks:
-			if money >= 500:
-				money -= 500
+			if money >= interactableNode.price:
+				money -= interactableNode.price
 				perks.append("Revive")
 		if interactableAction == "Speed" and not "Speed" in perks:
-			if money >= 2000:
-				money -= 2000
+			if money >= interactableNode.price:
+				money -= interactableNode.price
 				perks.append("Speed")
 		if interactableAction == "Impulse" and not "Impulse" in perks:
-			if money >= 2000:
-				money -= 2000
+			if money >= interactableNode.price:
+				money -= interactableNode.price
 				perks.append("Impulse")
 		if interactableAction == "FastMag" and not "FastMag" in perks:
-			if money >= 3000:
-				money -= 3000
+			if money >= interactableNode.price:
+				money -= interactableNode.price
 				perks.append("FastMag")
 		if interactableAction == "QuickFire" and not "QuickFire" in perks:
-			if money >= 2500:
-				money -= 2500
+			if money >= interactableNode.price:
+				money -= interactableNode.price
 				weaponManager.current_weapon.set_attack_cooldown_wait_time(
 					weaponManager.current_weapon.get_attack_cooldown_wait_time() / 2
 				)
 				perks.append("QuickFire")
 		if interactableAction == "Critical" and not "Critical" in perks:
-			if money >= 4000:
-				money -= 4000
+			if money >= interactableNode.price:
+				money -= interactableNode.price
 				perks.append("Critical")
 		if interactableAction == "MoreWeapons" and not "MoreWeapons" in perks:
-			if money >= 4000:
-				money -= 4000
+			if money >= interactableNode.price:
+				money -= interactableNode.price
 				perks.append("MoreWeapons")
 
 func resetPerks():
@@ -495,6 +504,10 @@ func _on_InteractionArea_area_entered(area):
 		add_child(timer)
 		timer.start()
 		area.die()
+	
+	if "Supplies" in area.name:
+		supplies += 1
+		area.queue_free()
 
 func _on_timeout_vision():
 	power_ups.erase("Vision")

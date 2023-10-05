@@ -8,6 +8,8 @@ var enemy_scene = preload("res://Enemy/enemy.tscn")
 var power_up_scene = preload("res://PowerUps/power_up.tscn")
 var _blood_sprite = preload("res://Enemy/blood.tscn")
 var _corpse_sprite = preload("res://Enemy/corpse.tscn")
+var _hellicopter = preload("res://Helicopter/helicopter.tscn")
+var _supplies = preload("res://Supply/supply.tscn")
 var current_zone
 var previous_zone
 onready var afterRoundTimer = $AfterRound
@@ -22,6 +24,8 @@ func _ready():
 	Globals.connect("enemy_died", self, "_on_enemy_died")
 	Globals.connect("enemy_damage", self, "_on_enemy_damage")
 	Globals.connect("trow_object", self, "_on_trow_object")
+	Globals.connect("call_supplies", self, "_on_call_supplies")
+	Globals.connect("drop_supplies", self, "_on_drop_supplies")
 	randomize()  # Initialize the random number generato
 
 func _physics_process(delta):
@@ -114,3 +118,13 @@ func _on_trow_object(pos, direction, velocity, instance):
 	instance.global_position = pos + direction * 20
 	instance.linear_velocity = direction * velocity
 	add_child(instance)
+
+func _on_call_supplies(position: Vector2):
+	var hellicopter = _hellicopter.instance()
+	hellicopter.position_target = position + Vector2(0, -100) 
+	add_child(hellicopter)
+
+func _on_drop_supplies(position: Vector2):
+	var supplies = _supplies.instance()
+	supplies.global_position = position
+	add_child(supplies)
