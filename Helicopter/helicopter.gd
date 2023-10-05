@@ -8,7 +8,7 @@ var position_target: Vector2
 var hasDropped = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var corner = randi() % 4
+	var corner = 0
 	
 	var init_position
 	
