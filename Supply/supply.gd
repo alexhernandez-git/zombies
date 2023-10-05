@@ -19,6 +19,8 @@ func _ready():
 	position_target = global_position + Vector2(0, 100) 
 
 func _process(delta):
+	if hasOpened:
+		return
 	var target_direction = (position_target - global_position).normalized()
 
 	var velocity = move_and_slide(target_direction * speed, Vector2.ZERO)
@@ -31,43 +33,52 @@ func _process(delta):
 		# Helicopter has arrived at the target position
 		hasOpened = true
 		sprite.frame = supply_open_frame
-		timer.start()
-		timer.connect("timeout", self, "_on_timeout")
+		velocity = Vector2.ZERO  # Set velocity to zero to stop movement
+		move_and_slide(velocity)
 		
-		var object_types = ['perks', 'power_ups', 'weapons']
+		var object_types = ['perks', 'weapons']
 		
 		var random_index = randi() % object_types.size()
 
 		# Get the random item from the array
 		var random_type = object_types[random_index]
+		var object
+		if Globals.is_first_supply:
+			object = weapon.instance()
+			object.z_index = 100
+			object.name = "BuyWeaponPistol"
+			add_child(object)
+			Globals.is_first_supply = false
+			Globals.weapons.erase("BuyWeaponPistol")
+			
+			return
 		
-		if random_type == "perks":
-			print("Entra")
+		if random_type == "perks" and Globals.perks.size() > 0:
 			
 			random_index = randi() % Globals.perks.size()
-			var object = perk.instance()
+			object = perk.instance()
 			object.z_index = 100
-			object.price = 0
 			object.name = Globals.perks[random_index]
 			add_child(object)
-		if random_type == "power_ups":
-			print("Entra 1")
+			Globals.perks.erase(Globals.perks[random_index])
+
+		if random_type == "weapons" and Globals.weapons.size() > 0:
 			
+			random_index = randi() % Globals.weapons.size()
+			object = weapon.instance()
+			object.z_index = 100
+			object.name = Globals.weapons[random_index]
+			add_child(object)
+			Globals.weapons.erase(Globals.weapons[random_index])
+			
+		if not object:
 			random_index = randi() % Globals.power_ups.size()
-			var object = power_up.instance()
+			object = power_up.instance()
 			object.z_index = 100
 			object.name = Globals.power_ups[random_index]
 			add_child(object)
-		if random_type == "weapons":
-			print("Entra 2")
-			
-			random_index = randi() % Globals.weapons.size()
-			var object = weapon.instance()
-			object.z_index = 100
-			object.price = 0
-			object.name = Globals.weapons[random_index]
-			add_child(object)
-		print(random_type)
+			timer.start()
+			timer.connect("timeout", self, "_on_timeout")
 
 func _on_timeout():
 	queue_free()

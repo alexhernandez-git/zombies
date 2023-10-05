@@ -26,11 +26,17 @@ extends Node
 
 var game_paused = false
 
-
-
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
 var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
 var weapons = ["BuyWeaponAK47", "BuyWeaponShotgun", "BuyWeaponMinigun", "BuyWeaponPistol"]
+
+var round_5_weapons = ["BuyWeaponShotgun"]
+
+var round_10_weapons = ["BuyWeaponAK47"]
+
+var round_15_weapons = ["BuyWeaponMinigun"]
+
+var is_first_supply = true
 
 var global_power_ups = []
 
@@ -70,7 +76,7 @@ var instantKill = false
 
 var power_up_wait_time = 15
 
-var power_up_probability = 1
+var power_up_probability = 10
 
 var atomic_bomb_money = 400
 
@@ -113,7 +119,7 @@ func _on_round_finished():
 	is_round_started = false
 	roundCount += 1
 	remainingEnemies =  int(round(10 + (roundCount * 2)))
-	power_up_probability = 1
+	power_up_probability = 10
 	#critical_probability = int(round(10 + (roundCount * 2)))
 	if roundCount < 5:
 		enemyHealth += 100

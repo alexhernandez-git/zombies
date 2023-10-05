@@ -58,9 +58,7 @@ func switch_weapon(weapon):
 	weapon.show()
 	weapon.render()
 	current_weapon = weapon
-	print("enttra 0")
 	if "MultipleWeapons" in player.power_ups:
-		print("enttra 1")
 		add_mirror_current(weapon)
 
 func next_weapon():

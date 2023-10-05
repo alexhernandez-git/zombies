@@ -8,7 +8,20 @@ var position_target: Vector2
 var hasDropped = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	var corner = randi() % 4
+	
+	var init_position
+	
+	match corner:
+		0:
+			init_position = Vector2(500, 500) 
+		1:
+			init_position = Vector2(-500, 500) 
+		2:
+			init_position = Vector2(500, -500) 
+		3:
+			init_position = Vector2(-500, -500) 
+	global_position = init_position
 	
 func _process(delta):
 	# Calculate the direction to the player

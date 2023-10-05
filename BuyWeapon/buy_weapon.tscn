@@ -24,41 +24,32 @@ export (int) var SpriteFrame
 
 
 func _ready():
+	print(price)
+	print(name)
 	if \"AK47\" in name:
 		sprite.frame = 2
-		if not price:
-			price = 1500
-		if not ammoPrice:
-			ammoPrice = 500
-		if not gun:
-			gun = \"AK47\"
+		price = 1500
+		ammoPrice = 500
+		gun = \"AK47\"
 	if \"Shotgun\" in name:
 		sprite.frame = 1
-		if not price:
-			price = 1200
-		if not ammoPrice:
-			ammoPrice = 500
-		if not gun:
-			gun = \"Shotgun\"
+		price = 1200
+		ammoPrice = 500
+		gun = \"Shotgun\"
 	if \"Minigun\" in name:
 		sprite.frame = 3
-		if not price:
-			price = 5000
-		if not ammoPrice:
-			ammoPrice = 2000
-		if not gun:
-			gun = \"Minigun\"
+		price = 5000
+		ammoPrice = 2000
+		gun = \"Minigun\"
 	if \"Pistol\" in name:
 		sprite.frame = 0
-		if not price:
-			price = 500
-		if not ammoPrice:
-			ammoPrice = 250
-		if not gun:
-			gun = \"Pistol\"
+		price = 500
+		ammoPrice = 250
+		gun = \"Pistol\"
 	if \"Fragmentation\" in name:
 		sprite.frame = 17
-
+		price = 500
+		ammoPrice = 250
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

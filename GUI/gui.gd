@@ -33,6 +33,8 @@ onready var magLabel = $VBoxContainer/Mag
 onready var maxMagCapacityLabel = $VBoxContainer/MaxMagCapacity
 onready var criticalFeedLabel = $VBoxContainer/CriticalFeed
 onready var criticalProbabilityLabel = $VBoxContainer/CriticalProbability
+onready var suppliesLabel = $VBoxContainer/Supplies
+onready var suppliesBigLabel = $Supplies
 onready var granadesBigLabel = $Granades
 onready var world = get_parent().get_parent().get_parent()
 onready var unpauseButton = $UnpauseButton
@@ -49,6 +51,9 @@ func _process(delta):
 	maxSpawnTimerLabel.text = str("Enemies spawn time ", Globals.max_spawn_timer)
 	zombiesRemainingLabel.text = str("Enemies remaining ", Globals.remainingEnemies)
 	roundLabel.text = str("Round ",Globals.roundCount)
+	if _player.supplies || _player.supplies == 0:
+		suppliesLabel.text = str(_player.supplies)
+		suppliesBigLabel.text = str(_player.supplies)
 	if _player.money || _player.money == 0:
 		moneyAmountLabel.text = str("$",_player.money)
 	if _player.current_health:
@@ -60,7 +65,7 @@ func _process(delta):
 		perks += str(" | ", text)
 	perksLabel.text = str("perks", perks)
 	perksBigLabel.text = str(perks)	
-	var power_ups = ""		
+	var power_ups = ""
 	for text in _player.power_ups:
 		power_ups += str(" | ", text)
 	powerUpsLabel.text = str("Power ups", power_ups)

@@ -75,7 +75,7 @@ var gun
 
 var hit_feed = 0
 
-var supplies = 1
+var supplies = 100
 
 const Players: String = "Players"
 
@@ -108,8 +108,10 @@ func _on_round_passed():
 	granades = maxGranadesCapacity
 	finsihRoundPlayer.stop()
 	audioPlayer.play()
+	supplies += 1
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
+	print(Globals.weapons)
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)
 	if rColor > 255:
 		rColor = 255
@@ -219,9 +221,9 @@ func _unhandled_input(event):
 		interact()
 		
 func call_supplies():
-	print("Call supplies")
 	if supplies > 0:
 		Globals.emit_signal("call_supplies", global_position)
+		supplies -= 1
 
 func reload():
 	if ammo > 0 and mag < maxMagCapacity:
@@ -368,7 +370,7 @@ func _on_InteractionArea_area_entered(area):
 	# Perks
 	if not area:
 		return
-		
+	
 	if "BuyWeapon" in area.name:
 		interactableNode = area
 		var currentGun = false
@@ -384,38 +386,47 @@ func _on_InteractionArea_area_entered(area):
 			interactLabel.visible = true
 			interactLabel.text = str("Press E - ", area.gun , ": ", area.price)
 	if area.name == "BuyGranades":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Granades: $500"
 	if area.name == "Health":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Health perk: $2500"
 	if area.name == "Revive":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Revive perk: $500"
 	if area.name == "Speed":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Speed perk: $2000"
 	if area.name == "Impulse":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Impulse perk: $2000"
 	if area.name == "QuickFire":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Quick fire perk: $2500"
 	if area.name == "FastMag":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Fast mag perk: $3000"
 	if area.name == "Critical":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - Critical perk: $4000"
 	if area.name == "MoreWeapons":
+		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
 		interactLabel.text = "Press E - More weapons perk: $4000"
