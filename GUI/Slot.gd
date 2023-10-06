@@ -9,7 +9,6 @@ var ItemClass = preload("res://GUI/item.tscn")
 var item
 var item_name: String
 var is_mouse_in = false
-var is_gun
 
 var has_sprite = false
 
@@ -19,11 +18,13 @@ func _ready():
 	connect("mouse_exited", self, "_on_mouse_exited")
 
 func _process(delta):
-	print(str("item_name", item_name))
 	for gun in Globals.weapons:
 		if gun in item_name:
-			is_gun = true
 			$Sprite.frame = Globals.weapons_data[gun].frame
+			has_sprite = true
+	for perk in Globals.perks:
+		if perk in item_name:
+			$Sprite.frame = Globals.perks_data[perk].frame
 			has_sprite = true
 	if not has_sprite:
 		$Sprite.frame = 35
@@ -39,13 +40,16 @@ func _on_mouse_exited():
 	is_mouse_in = false
 
 func _input(event):
+	if event.is_action_released("ui_inventory"):
+		_on_mouse_exited()
+	if event.is_action_pressed("ui_inventory"):
+		_on_mouse_exited()
 	if event.is_action_released("shoot") and is_mouse_in and has_sprite and get_parent().get_parent().visible:
 		var clean_item_name = Globals.get_clean_string(item_name)
 		var parent = get_parent().get_parent()
 		get_tree().paused = false
-		if is_gun:
-			parent._player.call_supplies(clean_item_name)
-		else:
-			pass
+		parent._player.call_supplies(clean_item_name)
 		parent.visible = false
 		Globals.emit_signal("close_inventory")
+		is_mouse_in = false
+

@@ -55,7 +55,7 @@ func _process(delta):
 			var object_types = ['perks', 'weapons']
 			
 			var random_index = randi() % object_types.size()
-
+			# TODO: If there is not unlocable object left return power ups
 			# Get the random item from the array
 			var random_type = object_types[random_index]
 			var object

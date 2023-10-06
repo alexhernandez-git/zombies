@@ -28,7 +28,7 @@ var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
 var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
-var weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun" ]
+var weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun"]
 
 var round_5_weapons = ["BuyWeaponShotgun"]
 
@@ -51,6 +51,33 @@ var weapons_data = {
 	},
 	"Fragmentation": {
 		"frame":  17
+	},
+}
+
+var perks_data = {
+	"Health": {
+		"frame": 30
+	},	
+	"Revive": {
+		"frame":  29
+	},	
+	"Speed": {
+		"frame":  63
+	},	
+	"Impulse": {
+		"frame":  71
+	},
+	"QuickFire": {
+		"frame": 28
+	},
+	"FastMag": {
+		"frame":  36
+	},	
+	"Critical": {
+		"frame":  31
+	},
+	"MoreWeapons": {
+		"frame":  22
 	},
 }
 
@@ -118,6 +145,7 @@ signal horde_finished
 signal call_supplies
 signal drop_supplies
 signal unlocked_gun
+signal unlocked_perk
 
 func _ready():
 	for i in range(startingRound):

@@ -79,8 +79,10 @@ var supplies = 1
 
 const Players: String = "Players"
 
-var unlocked_guns = ["Pistol", "", "", ""]
-
+var unlocked_guns = ["Pistol", "Shotgun", "RifleOne", "Minigun" ]
+#var unlocked_guns = ["Pistol", "", "", "" ]
+#var unlocked_perks = ["", "", "", "", "", "", "", ""]
+var unlocked_perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
 func _init() -> void:
 	add_to_group(Players)
 
@@ -113,7 +115,8 @@ func _on_round_passed():
 	supplies += 1
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
-	print(unlocked_guns)
+	
+	print(unlocked_perks)
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)
 	if rColor > 255:
 		rColor = 255
@@ -310,13 +313,18 @@ func interact():
 						for index in Globals.weapons.size():
 							if gun_name == Globals.weapons[index]:
 								unlocked_guns[index] = gun_name
-							
-						Globals.emit_signal("unlocked_gun")
+								Globals.emit_signal("unlocked_gun")
 	if "BuyGranades" in interactableAction:
 		if money >= 500:
 			if granades < maxGranadesCapacity:
 				money -= 500
 				granades = maxGranadesCapacity
+	if interactableAction in Globals.perks:
+		if not interactableAction in unlocked_perks:
+			for index in Globals.perks.size():
+				if interactableAction == Globals.perks[index]:
+					unlocked_perks[index] = interactableAction
+					Globals.emit_signal("unlocked_perk")
 	if perks.size() < 4:
 		if interactableAction == "Health" and not "Health" in perks:
 			if money >= interactableNode.price:
@@ -410,7 +418,7 @@ func _on_InteractionArea_area_entered(area):
 		interactableNode = area
 		interactableAction = area.name
 		interactLabel.visible = true
-		interactLabel.text = "Press E - Revive perk: $500"
+		interactLabel.text = "Press E - Revive perk: $1500"
 	if area.name == "Speed":
 		interactableNode = area
 		interactableAction = area.name
