@@ -36,8 +36,6 @@ var round_10_weapons = ["BuyWeaponAK47"]
 
 var round_15_weapons = ["BuyWeaponMinigun"]
 
-var is_first_supply = true
-
 var global_power_ups = []
 
 var roundCount = 1
@@ -93,7 +91,10 @@ signal round_finished
 signal round_passed
 signal enemy_damage(position)
 signal max_ammo
-signal paused 
+signal paused
+signal unpaused
+signal open_inventory
+signal close_inventory
 signal trow_object
 signal horde_finished
 signal call_supplies
@@ -103,11 +104,6 @@ func _ready():
 	for i in range(startingRound):
 		_on_round_finished()
 		_on_round_start()
-
-func _input(event):
-	if event.is_action_pressed("ui_pause"):
-		emit_signal("paused")
-		get_tree().paused = true
 
 func difficulty_difference(amount: float) -> float:
 	return amount + (difficulty * amount / 10)

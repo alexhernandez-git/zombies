@@ -106,5 +106,6 @@ func _on_Button_pressed():
 	get_tree().paused = false
 	unpauseButton.visible = false
 	container.visible = false
+	Globals.emit_signal("unpaused")
 	
 	pass # Replace with function body.

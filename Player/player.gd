@@ -111,7 +111,6 @@ func _on_round_passed():
 	supplies += 1
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
-	print(Globals.weapons)
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)
 	if rColor > 255:
 		rColor = 255
@@ -215,14 +214,17 @@ func _input(event):
 		throw_object()
 	if event.is_action_released("call_supplies"):
 		call_supplies()
-		
+	if event.is_action_pressed("ui_pause"):
+		Globals.emit_signal("paused")
+		get_tree().paused = true
+
 func _unhandled_input(event):
 	if event.is_action_released("interact"):
 		interact()
 		
-func call_supplies():
+func call_supplies(supply = null):
 	if supplies > 0:
-		Globals.emit_signal("call_supplies", global_position)
+		Globals.emit_signal("call_supplies", global_position, supply)
 		supplies -= 1
 
 func reload():
@@ -517,7 +519,7 @@ func _on_InteractionArea_area_entered(area):
 		area.die()
 	
 	if "Supplies" in area.name:
-		supplies += 1
+		Globals.emit_signal("call_supplies", global_position, null)
 		area.queue_free()
 
 func _on_timeout_vision():

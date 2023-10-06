@@ -13,7 +13,7 @@ onready var timer = $Timer
 var perk = preload("res://Perks/perk.tscn")
 var power_up = preload("res://PowerUps/power_up.tscn")
 var weapon = preload("res://BuyWeapon/buy_weapon.tscn")
-
+var supply: String
 
 func _ready():
 	position_target = global_position + Vector2(0, 100) 
@@ -36,49 +36,54 @@ func _process(delta):
 		velocity = Vector2.ZERO  # Set velocity to zero to stop movement
 		move_and_slide(velocity)
 		
-		var object_types = ['perks', 'weapons']
-		
-		var random_index = randi() % object_types.size()
+		if supply:
+			var object
 
-		# Get the random item from the array
-		var random_type = object_types[random_index]
-		var object
-		if Globals.is_first_supply:
-			object = weapon.instance()
-			object.z_index = 100
-			object.name = "BuyWeaponPistol"
-			add_child(object)
-			Globals.is_first_supply = false
-			Globals.weapons.erase("BuyWeaponPistol")
-			
-			return
-		
-		if random_type == "perks" and Globals.perks.size() > 0:
-			
-			random_index = randi() % Globals.perks.size()
-			object = perk.instance()
-			object.z_index = 100
-			object.name = Globals.perks[random_index]
-			add_child(object)
-			Globals.perks.erase(Globals.perks[random_index])
+			if supply in Globals.perks:
+				object = perk.instance()
+				object.z_index = 100
+				object.name = supply
+				add_child(object)
 
-		if random_type == "weapons" and Globals.weapons.size() > 0:
+			if supply in Globals.weapons:
+				object = weapon.instance()
+				object.z_index = 100
+				object.name = supply
+				add_child(object)
+
+		else:
+			var object_types = ['perks', 'weapons']
 			
-			random_index = randi() % Globals.weapons.size()
-			object = weapon.instance()
-			object.z_index = 100
-			object.name = Globals.weapons[random_index]
-			add_child(object)
-			Globals.weapons.erase(Globals.weapons[random_index])
+			var random_index = randi() % object_types.size()
+
+			# Get the random item from the array
+			var random_type = object_types[random_index]
+			var object
 			
-		if not object:
-			random_index = randi() % Globals.power_ups.size()
-			object = power_up.instance()
-			object.z_index = 100
-			object.name = Globals.power_ups[random_index]
-			add_child(object)
-			timer.start()
-			timer.connect("timeout", self, "_on_timeout")
+			if random_type == "perks" and Globals.perks.size() > 0:
+				
+				random_index = randi() % Globals.perks.size()
+				object = perk.instance()
+				object.z_index = 100
+				object.name = Globals.perks[random_index]
+				add_child(object)
+
+			if random_type == "weapons" and Globals.weapons.size() > 0:
+				
+				random_index = randi() % Globals.weapons.size()
+				object = weapon.instance()
+				object.z_index = 100
+				object.name = Globals.weapons[random_index]
+				add_child(object)
+				
+			if not object:
+				random_index = randi() % Globals.power_ups.size()
+				object = power_up.instance()
+				object.z_index = 100
+				object.name = Globals.power_ups[random_index]
+				add_child(object)
+				timer.start()
+				timer.connect("timeout", self, "_on_timeout")
 
 func _on_timeout():
 	queue_free()

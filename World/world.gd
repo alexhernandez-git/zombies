@@ -25,7 +25,9 @@ func _ready():
 	Globals.connect("enemy_damage", self, "_on_enemy_damage")
 	Globals.connect("trow_object", self, "_on_trow_object")
 	Globals.connect("call_supplies", self, "_on_call_supplies")
+	Globals.connect("call_random_supplies", self, "_on_call_random_supplies")
 	Globals.connect("drop_supplies", self, "_on_drop_supplies")
+	Globals.connect("drop_random_supplies", self, "_on_drop_random_supplies")
 	randomize()  # Initialize the random number generato
 
 func _physics_process(delta):
@@ -119,12 +121,16 @@ func _on_trow_object(pos, direction, velocity, instance):
 	instance.linear_velocity = direction * velocity
 	add_child(instance)
 
-func _on_call_supplies(position: Vector2):
+func _on_call_supplies(position: Vector2, supply = null):
 	var hellicopter = _hellicopter.instance()
 	hellicopter.position_target = position + Vector2(0, -100) 
+	if supply:
+		hellicopter.supply = supply
 	add_child(hellicopter)
 
-func _on_drop_supplies(position: Vector2):
+func _on_drop_supplies(position: Vector2, supply = null):
 	var supplies = _supplies.instance()
 	supplies.global_position = position
+	if supply:
+		supplies.supply = supply
 	add_child(supplies)

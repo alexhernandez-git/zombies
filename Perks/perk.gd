@@ -12,7 +12,6 @@ onready var sprite = $Sprite
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(price)
 	if "Health" in name:
 		sprite.frame = 30
 		price = 2500

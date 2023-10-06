@@ -24,8 +24,6 @@ export (int) var SpriteFrame
 
 
 func _ready():
-	print(price)
-	print(name)
 	if \"AK47\" in name:
 		sprite.frame = 2
 		price = 1500
