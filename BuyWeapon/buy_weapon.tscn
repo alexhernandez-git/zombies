@@ -24,28 +24,30 @@ export (int) var SpriteFrame
 
 
 func _ready():
-	if \"AK47\" in name:
-		sprite.frame = 2
+	print(name)
+	if \"RifleOne\" in name:
+		sprite.frame = Globals.weapons_data[\"RifleOne\"].frame
 		price = 1500
 		ammoPrice = 500
-		gun = \"AK47\"
+		gun = \"RifleOne\"
 	if \"Shotgun\" in name:
-		sprite.frame = 1
+		sprite.frame = Globals.weapons_data[\"Shotgun\"].frame
 		price = 1200
 		ammoPrice = 500
 		gun = \"Shotgun\"
 	if \"Minigun\" in name:
-		sprite.frame = 3
+		sprite.frame = Globals.weapons_data[\"Minigun\"].frame
 		price = 5000
 		ammoPrice = 2000
 		gun = \"Minigun\"
 	if \"Pistol\" in name:
-		sprite.frame = 0
+		sprite.frame = Globals.weapons_data[\"Pistol\"].frame
+		print(Globals.weapons_data[\"Pistol\"].frame)
 		price = 500
 		ammoPrice = 250
 		gun = \"Pistol\"
 	if \"Fragmentation\" in name:
-		sprite.frame = 17
+		sprite.frame = Globals.weapons_data[\"Fragmentation\"].frame
 		price = 500
 		ammoPrice = 250
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -57,7 +59,6 @@ func _ready():
 
 [node name="BuyWeapon" type="Area2D"]
 script = SubResource( 2 )
-SpriteTexture = ExtResource( 1 )
 SpriteHframes = 8
 SpriteVframes = 8
 
@@ -68,7 +69,7 @@ shape = SubResource( 1 )
 position = Vector2( 2.84217e-14, 1.19209e-07 )
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 17
+vframes = 18
 
 [node name="Label" type="Label" parent="."]
 margin_left = -18.0

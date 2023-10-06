@@ -1,6 +1,5 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Assets/weapons.png" type="Texture" id=1]
 [ext_resource path="res://Audio/explosion.wav" type="AudioStream" id=2]
 [ext_resource path="res://Player/grenade.gd" type="Script" id=3]
 [ext_resource path="res://Assets/light.png" type="Texture" id=4]
@@ -168,7 +167,6 @@ shadow_item_cull_mask = 3
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 1 )
 hframes = 8
 vframes = 18
 frame = 12

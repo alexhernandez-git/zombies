@@ -48,11 +48,11 @@ func _process(delta):
 			if supply in Globals.weapons:
 				object = weapon.instance()
 				object.z_index = 100
-				object.name = supply
+				object.name = str("BuyWeapon", supply)
 				add_child(object)
 
 		else:
-			var object_types = ['perks', 'weapons']
+			var object_types = ['weapons']
 			
 			var random_index = randi() % object_types.size()
 
@@ -73,7 +73,7 @@ func _process(delta):
 				random_index = randi() % Globals.weapons.size()
 				object = weapon.instance()
 				object.z_index = 100
-				object.name = Globals.weapons[random_index]
+				object.name = str("BuyWeapon", Globals.weapons[random_index])
 				add_child(object)
 				
 			if not object:

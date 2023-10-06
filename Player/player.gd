@@ -79,6 +79,8 @@ var supplies = 1
 
 const Players: String = "Players"
 
+var unlocked_guns = ["Pistol", "", "", ""]
+
 func _init() -> void:
 	add_to_group(Players)
 
@@ -111,6 +113,7 @@ func _on_round_passed():
 	supplies += 1
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
+	print(unlocked_guns)
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)
 	if rColor > 255:
 		rColor = 255
@@ -203,8 +206,6 @@ func _physics_process(delta):
 	weaponManager.set_rotation(angle)
 	weaponManager.set_end_of_gun_position(global_position, player_direction)
 	weaponManager.set_gun_position(global_position, player_direction)
-
-	
 
 
 func _input(event):
@@ -303,6 +304,14 @@ func interact():
 			if money >= interactableNode.price:
 				money -= interactableNode.price
 				weaponManager.add_weapon(interactableNode.gun)
+				if gun.name:
+					var gun_name = interactableAction.substr("BuyWeapon".length())
+					if not gun_name in unlocked_guns:
+						for index in Globals.weapons.size():
+							if gun_name == Globals.weapons[index]:
+								unlocked_guns[index] = gun_name
+							
+						Globals.emit_signal("unlocked_gun")
 	if "BuyGranades" in interactableAction:
 		if money >= 500:
 			if granades < maxGranadesCapacity:

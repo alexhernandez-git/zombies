@@ -2,7 +2,7 @@ extends Node
 
 
 # Perks = Health | Revive | Fast Fire | Reload protection | Fast reload | Slide 
-# Weapons = Gun | AR | Subfusil | Sniper | Lanzacoetes  | Mini gun | Arrow
+# weapons = Gun | RifleOne | Subfusil | Sniper | Lanzacoetes  | Mini gun | Arrow
 # Granades = Granade | Fire |
 # Cuerpo a cuerpo = Knife | Hacha | Espada | Bate
 # Especials = Hammer | Agujero negro | Desintegrador | Teleport gun | Lanzallamas | Tomahawk
@@ -26,15 +26,34 @@ extends Node
 
 var game_paused = false
 
-var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
+var power_ups = ["Supplies"]
+#var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
 var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
-var weapons = ["BuyWeaponAK47", "BuyWeaponShotgun", "BuyWeaponMinigun", "BuyWeaponPistol"]
+var weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun" ]
 
 var round_5_weapons = ["BuyWeaponShotgun"]
 
-var round_10_weapons = ["BuyWeaponAK47"]
+var round_10_weapons = ["BuyWeaponRifleOne"]
 
 var round_15_weapons = ["BuyWeaponMinigun"]
+
+var weapons_data = {
+	"Pistol": {
+		"frame": 0
+	},	
+	"Shotgun": {
+		"frame":  1
+	},	
+	"RifleOne": {
+		"frame":  2
+	},	
+	"Minigun": {
+		"frame":  3
+	},
+	"Fragmentation": {
+		"frame":  17
+	},
+}
 
 var global_power_ups = []
 
@@ -74,7 +93,7 @@ var instantKill = false
 
 var power_up_wait_time = 15
 
-var power_up_probability = 10
+var power_up_probability = 1
 
 var atomic_bomb_money = 400
 
@@ -99,6 +118,7 @@ signal trow_object
 signal horde_finished
 signal call_supplies
 signal drop_supplies
+signal unlocked_gun
 
 func _ready():
 	for i in range(startingRound):
@@ -115,7 +135,6 @@ func _on_round_finished():
 	is_round_started = false
 	roundCount += 1
 	remainingEnemies =  int(round(10 + (roundCount * 2)))
-	power_up_probability = 10
 	#critical_probability = int(round(10 + (roundCount * 2)))
 	if roundCount < 5:
 		enemyHealth += 100
@@ -129,3 +148,10 @@ func _on_round_finished():
 
 func _on_round_start():
 	is_round_started = true
+
+func get_clean_string(input_string):
+	var reg = RegEx.new()
+	var pattern = "@(.*?)@"
+	reg.compile(pattern)
+	var modifiedInput = reg.sub(input_string, "")
+	return modifiedInput

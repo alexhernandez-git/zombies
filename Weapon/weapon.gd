@@ -37,10 +37,10 @@ func _ready():
 	pass
 
 func render():
-	sprite.texture = SpriteTexture
-	sprite.hframes = SpriteHframes
-	sprite.vframes = SpriteVframes
-	sprite.frame = SpriteFrame
+	var cleaned_string = Globals.get_clean_string(name)
+	print(cleaned_string)
+	if cleaned_string in Globals.weapons_data:
+		sprite.frame = Globals.weapons_data[cleaned_string].frame
 	attackCooldown.wait_time = cadence
 	magReloadTimer.wait_time = reloadTime
 

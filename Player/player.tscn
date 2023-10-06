@@ -362,7 +362,7 @@ stream = ExtResource( 12 )
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Pistol"]
 stream = ExtResource( 14 )
 
-[node name="AK47" parent="WeaponManager" instance=ExtResource( 7 )]
+[node name="RifleOne" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
@@ -376,14 +376,14 @@ SpriteHframes = 8
 SpriteVframes = 18
 SpriteFrame = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/AK47"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/RifleOne"]
 anims/weapon_recoil = ExtResource( 10 )
 anims/weapon_reload = ExtResource( 9 )
 
-[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/AK47"]
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RifleOne"]
 stream = ExtResource( 13 )
 
-[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/AK47"]
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RifleOne"]
 stream = ExtResource( 14 )
 
 [node name="Shotgun" parent="WeaponManager" instance=ExtResource( 7 )]
