@@ -24,6 +24,8 @@ extends Node
 
 # Los enemigos te dropearan nuevas armas que podras usar en las siguentes partidas
 
+# The normal guns you can get them with random supplies but the guns improvements you can get it with game challenges
+
 var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]

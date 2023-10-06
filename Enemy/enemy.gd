@@ -125,7 +125,7 @@ func die(critical = false):
 
 func _on_atomic_bomb():
 	Globals.emit_signal("enemy_died", self)
-	queue_free()	
+	queue_free()
 
 func _on_dead_timeout():
 	queue_free()
