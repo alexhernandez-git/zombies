@@ -26,8 +26,7 @@ extends Node
 
 var game_paused = false
 
-var power_ups = ["Supplies"]
-#var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
+var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
 var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
 var weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun" ]
 
@@ -93,7 +92,7 @@ var instantKill = false
 
 var power_up_wait_time = 15
 
-var power_up_probability = 1
+var power_up_probability = 10
 
 var atomic_bomb_money = 400
 

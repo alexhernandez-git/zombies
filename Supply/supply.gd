@@ -52,7 +52,7 @@ func _process(delta):
 				add_child(object)
 
 		else:
-			var object_types = ['weapons']
+			var object_types = ['perks', 'weapons']
 			
 			var random_index = randi() % object_types.size()
 
