@@ -67,6 +67,7 @@ func _process(delta):
 				random_index = randi() % Globals.perks.size()
 				object = perk.instance()
 				object.z_index = 100
+				object.price = 0
 				object.name = Globals.perks[random_index]
 				add_child(object)
 
@@ -90,7 +91,6 @@ func _process(delta):
 				object = power_up.instance()
 				object.z_index = 100
 				object.name = Globals.power_ups[random_index]
-				object.price = 0
 				add_child(object)
 				timer.start()
 				timer.connect("timeout", self, "_on_timeout")
