@@ -90,6 +90,8 @@ func _ready():
 	var file = File.new()
 	file.open("user_data.dat", File.READ)
 	var player_data = file.get_var()
+	print(player_data)
+	unlocked_weapons = Globals.weapons
 	if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
 		unlocked_weapons = player_data["unlocked_weapons"]
 	if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
@@ -311,6 +313,7 @@ func interact():
 					var file = File.new()
 					file.open("user_data.dat", File.WRITE)
 					file.store_var({
+					"unlocked_perks": unlocked_perks,
 					"unlocked_weapons": unlocked_weapons,
 					})
 					file.close()
@@ -346,6 +349,7 @@ func interact():
 					file.open("user_data.dat", File.WRITE)
 					file.store_var({
 						"unlocked_perks": unlocked_perks,
+						"unlocked_weapons": unlocked_weapons,
 					})
 					file.close()
 	if perks.size() < 4:

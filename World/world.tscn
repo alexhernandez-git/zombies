@@ -965,9 +965,9 @@ resource_local_to_scene = true
 52/z_index = 0
 
 [sub_resource type="NavigationPolygon" id=22]
-vertices = PoolVector2Array( 303, 337, -126, 335, -122, 206, 94, 244, -252, 335, -253, -12, -146, -14, -145, 178, -146, 207, -126, -155, 317, -155, 316, 128, -18, 128, -127, 128, -47, 129, -19, 163, -47.1835, 163, 115, 245, 114.714, 162.438, 302, 162, -146, 335, -127, 177, 93, 163, -126, 163 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 9, 10, 11, 12 ), PoolIntArray( 13, 9, 12, 14 ), PoolIntArray( 14, 12, 15, 16 ), PoolIntArray( 17, 18, 19, 0 ), PoolIntArray( 8, 20, 4 ), PoolIntArray( 2, 8, 7, 21 ), PoolIntArray( 15, 22, 3 ), PoolIntArray( 2, 21, 23, 16, 3 ), PoolIntArray( 16, 15, 3 ), PoolIntArray( 0, 3, 17 ) ]
-outlines = [ PoolVector2Array( 303, 337, 302, 162, 114.714, 162.438, 115, 245, 94, 244, 93, 163, -19, 163, -18, 128, 316, 128, 317, -155, -126, -155, -127, 128, -47, 129, -47.1835, 163, -126, 163, -127, 177, -145, 178, -146, -14, -253, -12, -252, 335, -146, 335, -146, 207, -122, 206, -126, 335 ) ]
+vertices = PoolVector2Array( 48, 31, -46, 34, -43, -120, 49, -122, 186, 30, 186, 121, 51, 119, 48, -218, 187, -218, 188, -123, 300, -121, 298, 31 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 0, 3 ), PoolIntArray( 3, 7, 8, 9, 4 ), PoolIntArray( 4, 9, 10, 11 ) ]
+outlines = [ PoolVector2Array( 186, 30, 298, 31, 300, -121, 188, -123, 187, -218, 48, -218, 49, -122, -43, -120, -46, 34, 48, 31, 51, 119, 186, 121 ) ]
 
 [node name="World" type="YSort"]
 light_mask = 3

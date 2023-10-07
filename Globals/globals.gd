@@ -32,11 +32,13 @@ var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibilit
 var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
 var weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun"]
 
-var round_5_weapons = ["BuyWeaponShotgun"]
+var round_0_weapons = [ "Pistol","Shotgun"]
 
-var round_10_weapons = ["BuyWeaponRifleOne"]
+var round_5_weapons = [ "Pistol","Shotgun", "RifleOne"]
 
-var round_15_weapons = ["BuyWeaponMinigun"]
+var round_10_weapons = [ "Pistol","Shotgun", "RifleOne", "Minigun"]
+
+var round_15_weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun"]
 
 var weapons_data = {
 	"Pistol": {
@@ -121,7 +123,7 @@ var instantKill = false
 
 var power_up_wait_time = 15
 
-var power_up_probability = 10
+var power_up_probability = 1
 
 var atomic_bomb_money = 400
 

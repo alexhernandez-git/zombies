@@ -29,6 +29,8 @@ func _process(delta):
 		velocity = velocity.normalized() * max_speed
 		move_and_slide(velocity)
 
+	# TODO: Make free the random supplies
+
 	if global_position.distance_to(position_target) < 10.0 and not hasOpened:  # Adjust the threshold as needed
 		# Helicopter has arrived at the target position
 		hasOpened = true
@@ -69,11 +71,18 @@ func _process(delta):
 				add_child(object)
 
 			if random_type == "weapons" and Globals.weapons.size() > 0:
-				
-				random_index = randi() % Globals.weapons.size()
+				var weapons = Globals.round_0_weapons
+				if Globals.roundCount > 5:
+					weapons = Globals.round_5_weapons
+				elif Globals.roundCount > 10:
+					weapons = Globals.round_10_weapons
+				elif Globals.roundCount > 15:
+					weapons = Globals.round_15_weapons
+				random_index = randi() % weapons.size()
 				object = weapon.instance()
+				object.price = 0
 				object.z_index = 100
-				object.name = str("BuyWeapon", Globals.weapons[random_index])
+				object.name = str("BuyWeapon", weapons[random_index])
 				add_child(object)
 				
 			if not object:
@@ -81,6 +90,7 @@ func _process(delta):
 				object = power_up.instance()
 				object.z_index = 100
 				object.name = Globals.power_ups[random_index]
+				object.price = 0
 				add_child(object)
 				timer.start()
 				timer.connect("timeout", self, "_on_timeout")

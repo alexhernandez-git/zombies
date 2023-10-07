@@ -12,6 +12,7 @@ onready var sprite = $Sprite
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var initPrice = price
 	if "Health" in name:
 		sprite.frame = 30
 		price = 2500
@@ -36,6 +37,8 @@ func _ready():
 	if "MoreWeapons" in name:
 		sprite.frame = 22
 		price = 4000
+	if initPrice == 0:
+		price = initPrice
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

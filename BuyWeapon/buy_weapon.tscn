@@ -24,6 +24,7 @@ export (int) var SpriteFrame
 
 
 func _ready():
+	var initPrice = price
 	print(name)
 	if \"RifleOne\" in name:
 		sprite.frame = Globals.weapons_data[\"RifleOne\"].frame
@@ -50,6 +51,8 @@ func _ready():
 		sprite.frame = Globals.weapons_data[\"Fragmentation\"].frame
 		price = 500
 		ammoPrice = 250
+	if initPrice == 0:
+		price = initPrice
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
