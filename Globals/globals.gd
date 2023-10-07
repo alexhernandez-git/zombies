@@ -123,7 +123,7 @@ var instantKill = false
 
 var power_up_wait_time = 15
 
-var power_up_probability = 1
+var power_up_probability = 10
 
 var atomic_bomb_money = 400
 

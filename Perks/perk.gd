@@ -37,8 +37,6 @@ func _ready():
 	if "MoreWeapons" in name:
 		sprite.frame = 22
 		price = 4000
-	if initPrice == 0:
-		price = initPrice
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

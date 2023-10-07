@@ -91,11 +91,11 @@ func _ready():
 	file.open("user_data.dat", File.READ)
 	var player_data = file.get_var()
 	print(player_data)
-	unlocked_weapons = Globals.weapons
-	if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
-		unlocked_weapons = player_data["unlocked_weapons"]
-	if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
-		unlocked_perks = player_data["unlocked_perks"]
+	if player_data:
+		if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
+			unlocked_weapons = player_data["unlocked_weapons"]
+		if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
+			unlocked_perks = player_data["unlocked_perks"]
 	file.close()
 
 	gun= weaponManager.get_current_weapon()
@@ -122,6 +122,17 @@ func _on_round_passed():
 	money += Globals.roundCount * 100
 	granades = maxGranadesCapacity
 	finsihRoundPlayer.stop()
+	var round_passed = 0
+	print(Globals.roundCount)
+	if Globals.roundCount % 5 == 0:
+		round_passed = Globals.roundCount
+	var file = File.new()
+	file.open("user_data.dat", File.WRITE)
+	file.store_var({
+	"unlocked_perks": unlocked_perks,
+	"unlocked_weapons": unlocked_weapons,
+	})
+	file.close()
 	audioPlayer.play()
 	supplies += 1
 # Called when the node enters the scene tree for the first time.
