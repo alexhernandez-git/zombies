@@ -72,7 +72,7 @@ func _process(delta):
 	for text in Globals.global_power_ups:
 		power_ups += str(" | ", text)
 	powerUpsBigLabel.text = str(power_ups)
-	var global_power_ups = ""		
+	var global_power_ups = ""
 	for text in Globals.global_power_ups:
 		global_power_ups += str(" | ", text)
 	globalPowerUpsLabel.text = str("Global power ups", global_power_ups)

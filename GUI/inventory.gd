@@ -19,7 +19,7 @@ func _ready():
 	Globals.connect("unlocked_perk", self, "_on_unlocked_perk")
 	inventory_slots = $GridContainer
 	items_array = Globals.weapons
-	unlocked_array = _player.unlocked_guns
+	unlocked_array = _player.unlocked_weapons
 	inventory_slots.rect_global_position = inventory_slots.rect_global_position + Vector2(00, 0)
 	for index in range(items_array.size()):
 		var new_slot = _slot.instance()
@@ -36,7 +36,7 @@ func _ready():
 func _on_unlocked_gun():
 	inventory_slots = $GridContainer
 	items_array = Globals.weapons
-	unlocked_array = _player.unlocked_guns
+	unlocked_array = _player.unlocked_weapons
 	render_children()
 
 func _on_unlocked_perk():
@@ -55,9 +55,9 @@ func render_children():
 					if unlocked_array[index] != null:  # Check for null or invalid values
 						inv_slot.item_name = unlocked_array[index]
 					else:
-						# Handle the case where _player.unlocked_guns[index] is invalid
+						# Handle the case where _player.unlocked_weapons[index] is invalid
 						# For example, print an error message or set a default value.
-						print("Error: Invalid value in _player.unlocked_guns")
+						print("Error: Invalid value in _player.unlocked_weapons")
 
 
 func _on_open_inventory():

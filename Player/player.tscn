@@ -250,7 +250,7 @@ light_mask = 4
 z_index = -1
 texture = ExtResource( 6 )
 hframes = 8
-vframes = 18
+vframes = 146
 frame = 56
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -331,11 +331,12 @@ disabled = true
 anims/RESET = SubResource( 7 )
 anims/mele = SubResource( 8 )
 
-[node name="WeaponManager" type="Node2D" parent="."]
+[node name="WeaponManager" type="YSort" parent="."]
 script = ExtResource( 8 )
 path_to_player = NodePath("..")
 
 [node name="Pistol" parent="WeaponManager" instance=ExtResource( 7 )]
+z_as_relative = false
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
@@ -350,7 +351,7 @@ semi_auto = true
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
-SpriteVframes = 18
+SpriteVframes = 146
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Pistol"]
 anims/weapon_recoil = ExtResource( 10 )
@@ -373,7 +374,7 @@ endOfGunSize = 14
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
-SpriteVframes = 18
+SpriteVframes = 146
 SpriteFrame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/RifleOne"]
@@ -401,7 +402,7 @@ semi_auto = true
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
-SpriteVframes = 18
+SpriteVframes = 146
 SpriteFrame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Shotgun"]
@@ -429,7 +430,7 @@ gunSize = 13
 Bullet = ExtResource( 5 )
 SpriteTexture = ExtResource( 6 )
 SpriteHframes = 8
-SpriteVframes = 18
+SpriteVframes = 146
 SpriteFrame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Minigun"]

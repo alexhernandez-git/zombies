@@ -93,7 +93,7 @@ var enemyHealth = 50
 
 var remainingEnemies = 5
 
-var enemySpeed = 50
+var enemySpeed = 10
 
 var spawn_timer = 0
 
@@ -169,8 +169,10 @@ func _on_round_finished():
 		enemyHealth += 100
 	else:
 		enemyHealth = enemyHealth * 1.1
+
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)
+	print(str("enemyspeed", enemySpeed))
 	max_spawn_timer -= 0.2
 	if max_spawn_timer < 0.4:
 		max_spawn_timer = 0.4

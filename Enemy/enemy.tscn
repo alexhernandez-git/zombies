@@ -116,7 +116,7 @@ show_behind_parent = true
 light_mask = 2
 texture = ExtResource( 1 )
 hframes = 8
-vframes = 18
+vframes = 146
 frame = 40
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

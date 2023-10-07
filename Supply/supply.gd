@@ -5,8 +5,8 @@ var acceleration = 500
 var max_speed = 200
 var rotation_speed = 2
 var position_target: Vector2
-var supply_closed_frame = 20
-var supply_open_frame = 21
+var supply_closed_frame = 0
+var supply_open_frame = 1
 var hasOpened = false
 onready var sprite = $Sprite
 onready var timer = $Timer

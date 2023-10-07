@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/weapons.png" type="Texture" id=1]
 [ext_resource path="res://Audio/helicopter-129052.mp3" type="AudioStream" id=2]
 [ext_resource path="res://Helicopter/helicopter.gd" type="Script" id=3]
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 14.9844, 1406.55, 97.8215, 38.9319 )
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 17.0
@@ -12,10 +16,7 @@ height = 0.0
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
-hframes = 2
-vframes = 9
-frame = 17
+texture = SubResource( 2 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 2 )

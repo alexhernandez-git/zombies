@@ -36,9 +36,9 @@ func _physics_process(delta):
 		Globals.emit_signal("round_finished")
 
 	Globals.spawn_timer -= delta
-	var maxEnemiesAtTime = 40
+	var maxEnemiesAtTime = 20
 	if "Horde" in Globals.global_power_ups:
-		maxEnemiesAtTime = 60
+		maxEnemiesAtTime = 20
 	if Globals.is_round_started == true and Globals.spawn_timer <= 0 and get_tree().get_nodes_in_group("Enemies").size() < maxEnemiesAtTime:
 		if "Horde" in Globals.global_power_ups:
 			Globals.spawn_timer = 0.1

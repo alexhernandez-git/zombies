@@ -61,7 +61,7 @@ var velocity = Vector2.ZERO
 var maxMagCapacity = 30
 var mag = 30
 
-onready var colorRect = $Camera2D/ColorRect
+onready var colorRect = $"../Camera2D/ColorRect"
 
 onready var animation = $AnimationPlayer
 
@@ -79,14 +79,23 @@ var supplies = 1
 
 const Players: String = "Players"
 
-var unlocked_guns = ["Pistol", "Shotgun", "RifleOne", "Minigun" ]
-#var unlocked_guns = ["Pistol", "", "", "" ]
+var unlocked_weapons = ["Pistol", "", "", ""]
+#var unlocked_weapons = ["Pistol", "", "", "" ]
 #var unlocked_perks = ["", "", "", "", "", "", "", ""]
-var unlocked_perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
+var unlocked_perks = ["", "", "", "", "", "", "", ""]
 func _init() -> void:
 	add_to_group(Players)
 
 func _ready():
+	var file = File.new()
+	file.open("user_data.dat", File.READ)
+	var player_data = file.get_var()
+	if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
+		unlocked_weapons = player_data["unlocked_weapons"]
+	if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
+		unlocked_perks = player_data["unlocked_perks"]
+	file.close()
+
 	gun= weaponManager.get_current_weapon()
 	Globals.connect("round_finished", self, "_on_round_finished")
 	Globals.connect("round_passed", self, "_on_round_passed")
@@ -116,7 +125,6 @@ func _on_round_passed():
 # Called when the node enters the scene tree for the first time.
 func _physics_process(delta):
 	
-	print(unlocked_perks)
 	var rColor = 255 - ((current_health * 100 / max_health) * 255 / 100)
 	if rColor > 255:
 		rColor = 255
@@ -292,7 +300,20 @@ func die():
 		queue_free()
 	
 func interact():
-	if  "BuyWeapon" in interactableAction:
+	if "BuyWeapon" in interactableAction:
+		var gun_name = interactableAction.substr("BuyWeapon".length())
+		if not gun_name in unlocked_weapons:
+			for index in Globals.weapons.size():
+				if gun_name == Globals.weapons[index]:
+					print(unlocked_weapons)
+					unlocked_weapons[index] = gun_name
+					Globals.emit_signal("unlocked_gun")
+					var file = File.new()
+					file.open("user_data.dat", File.WRITE)
+					file.store_var({
+					"unlocked_weapons": unlocked_weapons,
+					})
+					file.close()
 		var currentGun = false
 		if not interactableNode or not "gun" in interactableNode:
 			return
@@ -307,13 +328,7 @@ func interact():
 			if money >= interactableNode.price:
 				money -= interactableNode.price
 				weaponManager.add_weapon(interactableNode.gun)
-				if gun.name:
-					var gun_name = interactableAction.substr("BuyWeapon".length())
-					if not gun_name in unlocked_guns:
-						for index in Globals.weapons.size():
-							if gun_name == Globals.weapons[index]:
-								unlocked_guns[index] = gun_name
-								Globals.emit_signal("unlocked_gun")
+
 	if "BuyGranades" in interactableAction:
 		if money >= 500:
 			if granades < maxGranadesCapacity:
@@ -323,8 +338,16 @@ func interact():
 		if not interactableAction in unlocked_perks:
 			for index in Globals.perks.size():
 				if interactableAction == Globals.perks[index]:
+					print(unlocked_perks)
+					print(index)
 					unlocked_perks[index] = interactableAction
 					Globals.emit_signal("unlocked_perk")
+					var file = File.new()
+					file.open("user_data.dat", File.WRITE)
+					file.store_var({
+						"unlocked_perks": unlocked_perks,
+					})
+					file.close()
 	if perks.size() < 4:
 		if interactableAction == "Health" and not "Health" in perks:
 			if money >= interactableNode.price:
