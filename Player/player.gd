@@ -131,6 +131,7 @@ func _on_round_passed():
 	file.store_var({
 	"unlocked_perks": unlocked_perks,
 	"unlocked_weapons": unlocked_weapons,
+	"round_arrived": round_passed
 	})
 	file.close()
 	audioPlayer.play()
