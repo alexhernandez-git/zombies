@@ -363,6 +363,12 @@ stream = ExtResource( 12 )
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Pistol"]
 stream = ExtResource( 14 )
 
+[node name="Grenade" parent="WeaponManager" instance=ExtResource( 7 )]
+
+[node name="PistolTwo" parent="WeaponManager" instance=ExtResource( 7 )]
+
+[node name="Subfusil" parent="WeaponManager" instance=ExtResource( 7 )]
+
 [node name="RifleOne" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
@@ -386,6 +392,10 @@ stream = ExtResource( 13 )
 
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RifleOne"]
 stream = ExtResource( 14 )
+
+[node name="RifleTwo" parent="WeaponManager" instance=ExtResource( 7 )]
+
+[node name="Sniper" parent="WeaponManager" instance=ExtResource( 7 )]
 
 [node name="Shotgun" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
@@ -415,6 +425,10 @@ stream = ExtResource( 11 )
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Shotgun"]
 stream = ExtResource( 14 )
 
+[node name="ShotgunTwo" parent="WeaponManager" instance=ExtResource( 7 )]
+
+[node name="GrenadeTwo" parent="WeaponManager" instance=ExtResource( 7 )]
+
 [node name="Minigun" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
@@ -442,6 +456,12 @@ stream = ExtResource( 11 )
 
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Minigun"]
 stream = ExtResource( 14 )
+
+[node name="RocketLauncher" parent="WeaponManager" instance=ExtResource( 7 )]
+
+[node name="GrenadeLauncher" parent="WeaponManager" instance=ExtResource( 7 )]
+
+[node name="Flamethrower" parent="WeaponManager" instance=ExtResource( 7 )]
 
 [node name="FinishRoundPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 16 )

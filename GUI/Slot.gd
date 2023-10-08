@@ -5,7 +5,6 @@ extends Panel
 # var a = 2
 # var b = "text"
 
-var ItemClass = preload("res://GUI/item.tscn")
 var item
 var item_name: String
 var is_mouse_in = false

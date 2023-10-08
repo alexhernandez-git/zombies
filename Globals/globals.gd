@@ -30,31 +30,73 @@ var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
 var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
-var weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun"]
+var weapons = [ 
+	"PistolOne", 
+	"GrenadeOne", 
+	"PistolTwo",
+	"SubfusilOne", 
+	"ShotgunOne", 
+	"ShotgunTwo", 
+	"RifleOne", 
+	"RifleTwo", 
+	"SniperOne", 
+	"GrenadeTwo", 
+	"MinigunOne", 
+	"FlamethrowerOne", 
+	"RocketLauncherOne", 
+	"GrenadeLauncherOne" 
+]
 
-var round_0_weapons = [ "Pistol"]
+var round_0_weapons = [ "PistolOne"]
 
-var round_5_weapons = [ "Pistol","Shotgun"]
+var round_5_weapons = [ "PistolOne","ShotgunOne"]
 
-var round_10_weapons = [ "Pistol","Shotgun", "RifleOne"]
+var round_10_weapons = [ "PistolOne","ShotgunOne", "RifleOne"]
 
-var round_15_weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun"]
+var round_15_weapons = [ "PistolOne", "ShotgunOne", "RifleOne", "MinigunOne"]
 
 var weapons_data = {
-	"Pistol": {
+	"PistolOne": {
 		"frame": 0
-	},	
-	"Shotgun": {
-		"frame":  1
-	},	
-	"RifleOne": {
-		"frame":  2
-	},	
-	"Minigun": {
-		"frame":  3
 	},
-	"Fragmentation": {
+	"GrenadeOne": {
+		"frame": 1
+	},
+	"PistolTwo": {
+		"frame":  8
+	},
+	"SubfusilOne": {
+		"frame":  9
+	},
+	"RifleOne": {
+		"frame":  24
+	},
+	"RifleTwo": {
+		"frame":  25
+	},	
+	"SniperOne": {
+		"frame":  32
+	},
+	"GrenadeTwo": {
+		"frame": 33
+	},	
+	"ShotgunOne": {
+		"frame":  16
+	},
+	"ShotgunTwo": {
 		"frame":  17
+	},
+	"MinigunOne": {
+		"frame":  40
+	},
+	"FlamethrowerOne": {
+		"frame":  41
+	},
+	"RocketLauncherOne": {
+		"frame":  48
+	},
+	"GrenadeLauncherOne": {
+		"frame":  49
 	},
 }
 
