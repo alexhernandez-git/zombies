@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://World/camera.gd" type="Script" id=1]
 [ext_resource path="res://Player/player.tscn" type="PackedScene" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Assets/weapons.png" type="Texture" id=6]
 [ext_resource path="res://Particles/fire.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Assets/blood.png" type="Texture" id=8]
+[ext_resource path="res://Audio/battleThemeA.mp3" type="AudioStream" id=9]
+[ext_resource path="res://World/AudioStreamPlayer2D2.gd" type="Script" id=10]
 
 [sub_resource type="OccluderPolygon2D" id=33]
 polygon = PoolVector2Array( 48, 32, 0, 32, 0, 16, 48, 16 )
@@ -1101,3 +1103,13 @@ path_to_player = NodePath("../Player")
 
 [node name="Inventory" parent="." instance=ExtResource( 3 )]
 path_to_player = NodePath("../Player")
+
+[node name="Listener2D" type="Listener2D" parent="."]
+current = true
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="Listener2D"]
+stream = ExtResource( 9 )
+autoplay = true
+max_distance = 20000.0
+script = ExtResource( 10 )
+path_to_camera = NodePath("../../Camera2D")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Player/player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/light.png" type="Texture" id=3]
@@ -13,7 +13,6 @@
 [ext_resource path="res://Audio/GunShotSnglShotIn PE1097906.wav" type="AudioStream" id=12]
 [ext_resource path="res://Audio/GunShotSnglFireIn PE1097304.wav" type="AudioStream" id=13]
 [ext_resource path="res://Audio/rifle-or-shotgun-reload-6787.mp3" type="AudioStream" id=14]
-[ext_resource path="res://Audio/battleThemeA.mp3" type="AudioStream" id=15]
 [ext_resource path="res://Audio/explosion.wav" type="AudioStream" id=16]
 
 [sub_resource type="Animation" id=11]
@@ -443,11 +442,6 @@ stream = ExtResource( 11 )
 
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Minigun"]
 stream = ExtResource( 14 )
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 15 )
-autoplay = true
-max_distance = 20000.0
 
 [node name="FinishRoundPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 16 )

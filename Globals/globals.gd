@@ -157,8 +157,8 @@ func _ready():
 	var player_data = file.get_var()
 	print(player_data)
 	if player_data:
-		if "round_arrived" in player_data and player_data["round_arrived"]:
-			startingRound = player_data["round_arrived"]
+		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
+			startingRound = player_data["round_arrived"] - 1
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()

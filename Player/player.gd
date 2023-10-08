@@ -21,7 +21,7 @@ onready var interactLabel = $InteractionElements/InteractionLabel
 
 onready var weaponManager = $WeaponManager
 
-onready var audioPlayer = $AudioStreamPlayer2D
+onready var audioPlayer = $"../Listener2D/AudioStreamPlayer2D2"
 onready var finsihRoundPlayer = $FinishRoundPlayer
 onready var bodySprite = $Sprites/Body
 
