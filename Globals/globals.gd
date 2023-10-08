@@ -32,11 +32,11 @@ var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibilit
 var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
 var weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun"]
 
-var round_0_weapons = [ "Pistol","Shotgun"]
+var round_0_weapons = [ "Pistol"]
 
-var round_5_weapons = [ "Pistol","Shotgun", "RifleOne"]
+var round_5_weapons = [ "Pistol","Shotgun"]
 
-var round_10_weapons = [ "Pistol","Shotgun", "RifleOne", "Minigun"]
+var round_10_weapons = [ "Pistol","Shotgun", "RifleOne"]
 
 var round_15_weapons = [ "Pistol", "Shotgun", "RifleOne", "Minigun"]
 
@@ -152,6 +152,14 @@ signal unlocked_gun
 signal unlocked_perk
 
 func _ready():
+	var file = File.new()
+	file.open("user_data.dat", File.READ)
+	var player_data = file.get_var()
+	print(player_data)
+	if player_data:
+		if "round_arrived" in player_data and player_data["round_arrived"]:
+			startingRound = player_data["round_arrived"]
+	file.close()
 	for i in range(startingRound):
 		_on_round_finished()
 		_on_round_start()

@@ -83,6 +83,7 @@ var unlocked_weapons = ["Pistol", "", "", ""]
 #var unlocked_weapons = ["Pistol", "", "", "" ]
 #var unlocked_perks = ["", "", "", "", "", "", "", ""]
 var unlocked_perks = ["", "", "", "", "", "", "", ""]
+var round_arrived = 0
 func _init() -> void:
 	add_to_group(Players)
 
@@ -96,6 +97,8 @@ func _ready():
 			unlocked_weapons = player_data["unlocked_weapons"]
 		if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
 			unlocked_perks = player_data["unlocked_perks"]
+		if "round_arrived" in player_data and player_data["round_arrived"]:
+			round_arrived = player_data["round_arrived"]
 	file.close()
 
 	gun= weaponManager.get_current_weapon()
@@ -122,16 +125,15 @@ func _on_round_passed():
 	money += Globals.roundCount * 100
 	granades = maxGranadesCapacity
 	finsihRoundPlayer.stop()
-	var round_passed = 0
 	print(Globals.roundCount)
-	if Globals.roundCount % 5 == 0:
-		round_passed = Globals.roundCount
+	if Globals.roundCount % 5 == 0 and Globals.roundCount > round_arrived:
+		round_arrived = Globals.roundCount
 	var file = File.new()
 	file.open("user_data.dat", File.WRITE)
 	file.store_var({
 	"unlocked_perks": unlocked_perks,
 	"unlocked_weapons": unlocked_weapons,
-	"round_arrived": round_passed
+	"round_arrived": round_arrived
 	})
 	file.close()
 	audioPlayer.play()
@@ -327,6 +329,7 @@ func interact():
 					file.store_var({
 					"unlocked_perks": unlocked_perks,
 					"unlocked_weapons": unlocked_weapons,
+					"round_arrived": round_arrived
 					})
 					file.close()
 		var currentGun = false
@@ -362,6 +365,7 @@ func interact():
 					file.store_var({
 						"unlocked_perks": unlocked_perks,
 						"unlocked_weapons": unlocked_weapons,
+						"round_arrived": round_arrived
 					})
 					file.close()
 	if perks.size() < 4:
