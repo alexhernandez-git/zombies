@@ -122,6 +122,7 @@ func _on_trow_object(pos, direction, velocity, instance):
 	add_child(instance)
 
 func _on_call_supplies(position: Vector2, supply = null):
+	print(supply)
 	var hellicopter = _hellicopter.instance()
 	hellicopter.position_target = position + Vector2(0, -100) 
 	if supply:

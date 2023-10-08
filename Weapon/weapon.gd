@@ -15,6 +15,7 @@ export var damage = 20
 export var ammo = 30
 export var cadence = 0.1
 export var isShotgun = false
+export var gunshotDispersion = 5
 export var endOfGunSize = 7
 export var gunSize = 15
 export var semi_auto = false
@@ -33,7 +34,7 @@ onready var endOfGunSprites = [$EndOFGun/Light1,$EndOFGun/Light2,$EndOFGun/Light
 onready var shotLightTimer = $ShotLight
 
 func _ready():
-	mag = maxMagCapacity	
+	mag = maxMagCapacity
 	render()
 	pass
 
@@ -68,9 +69,13 @@ func shoot():
 		
 		if burst:
 			attackCooldown.connect("timeout", self, "_on_attack_cooldown_timeout")
-
 		if isShotgun:
-			var degrees = [deg2rad(25), -deg2rad(25), deg2rad(20), -deg2rad(20), deg2rad(15), -deg2rad(15), deg2rad(10), -deg2rad(10) , deg2rad(5), -deg2rad(5)]
+			var initialDegree = 0
+			var degrees = []
+			for i in range(5):
+				degrees.append(-deg2rad(initialDegree))
+				degrees.append(deg2rad(initialDegree))
+				initialDegree += gunshotDispersion
 			for degree in degrees:
 				var new_direction = (direction_to_mouse + direction_to_mouse.rotated(degree)).normalized()
 				var seccond_bullet_instance = Bullet.instance()
@@ -90,8 +95,6 @@ func shoot():
 			bullet_instance.set_direction(direction_to_mouse)
 
 func _on_attack_cooldown_timeout():
-	print(burstCounter)
-	print(burstShots)
 	if burstCounter >= burstShots - 1:
 		burstCooldown.start()
 		burstCounter = 0

@@ -999,7 +999,7 @@ tile_data = PoolIntArray( -2621442, 0, 0, -1114110, 7, 0, -1114109, 7, 0, -11141
 position = Vector2( -24, -5 )
 
 [node name="Fire5" parent="SolidShadow" instance=ExtResource( 7 )]
-position = Vector2( 134, 125 )
+position = Vector2( 178, 364 )
 
 [node name="Fire2" parent="SolidShadow" instance=ExtResource( 7 )]
 position = Vector2( 159, -87 )
@@ -1012,11 +1012,11 @@ position = Vector2( 187, -69 )
 scale = Vector2( 0.4, 0.4 )
 
 [node name="Fire6" parent="SolidShadow" instance=ExtResource( 7 )]
-position = Vector2( 91, 122 )
+position = Vector2( 74, 359 )
 scale = Vector2( 0.4, 0.4 )
 
 [node name="Fire7" parent="SolidShadow" instance=ExtResource( 7 )]
-position = Vector2( 143, -241 )
+position = Vector2( 167, -243 )
 scale = Vector2( 0.4, 0.4 )
 
 [node name="Solid" type="TileMap" parent="."]

@@ -48,14 +48,6 @@ var weapons = [
 	"GrenadeLauncherOne" 
 ]
 
-var round_0_weapons = [ "PistolOne"]
-
-var round_5_weapons = [ "PistolOne","ShotgunOne"]
-
-var round_10_weapons = [ "PistolOne","ShotgunOne", "RifleOne"]
-
-var round_15_weapons = [ "PistolOne", "ShotgunOne", "RifleOne", "MinigunOne"]
-
 var weapons_data = {
 	"PistolOne": {
 		"frame": 0,
@@ -79,7 +71,7 @@ var weapons_data = {
 	},
 	"ShotgunOne": {
 		"frame":  16,
-		"price": 500,
+		"price": 600,
 		"ammoPrice": 250
 	},
 	"ShotgunTwo": {
@@ -136,30 +128,30 @@ var weapons_data = {
 }
 
 var perks_data = {
-	"Health": {
-		"frame": 30
-	},	
-	"Revive": {
-		"frame":  29
-	},	
-	"Speed": {
-		"frame":  63
-	},	
-	"Impulse": {
-		"frame":  71
-	},
-	"QuickFire": {
-		"frame": 28
-	},
-	"FastMag": {
-		"frame":  36
-	},	
-	"Critical": {
+	"MoreWeapons": {
 		"frame":  31
 	},
-	"MoreWeapons": {
-		"frame":  22
+	"Critical": {
+		"frame":  30
 	},
+	"FastMag": {
+		"frame":  23
+	},	
+	"QuickFire": {
+		"frame": 22
+	},
+	"Impulse": {
+		"frame":  6
+	},
+	"Speed": {
+		"frame":  7
+	},	
+	"Revive": {
+		"frame":  14
+	},	
+	"Health": {
+		"frame": 15
+	},	
 }
 
 var global_power_ups = []
@@ -232,7 +224,6 @@ func _ready():
 	var file = File.new()
 	file.open("user_data.dat", File.READ)
 	var player_data = file.get_var()
-	print(player_data)
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
 			# startingRound = player_data["round_arrived"] - 1
@@ -260,7 +251,6 @@ func _on_round_finished():
 
 	if enemySpeed < maxEnemeySpeed:
 		enemySpeed += difficulty_difference(5)
-	print(str("enemyspeed", enemySpeed))
 	max_spawn_timer -= 0.2
 	if max_spawn_timer < 0.4:
 		max_spawn_timer = 0.4

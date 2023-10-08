@@ -723,6 +723,7 @@ damage = 100
 ammo = 55
 cadence = 0.5
 isShotgun = true
+gunshotDispersion = 2
 endOfGunSize = 13
 semi_auto = true
 
@@ -740,6 +741,14 @@ stream = ExtResource( 14 )
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
+maxAmmoCapacity = 55
+maxMagCapacity = 8
+mag = 8
+damage = 40
+cadence = 0.5
+isShotgun = true
+endOfGunSize = 13
+semi_auto = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/ShotgunTwo"]
 anims/weapon_recoil = SubResource( 24 )

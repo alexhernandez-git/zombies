@@ -40,7 +40,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 500000
+var money = 500
 
 var maxGranadesCapacity = 3
 var granades = 3
@@ -81,20 +81,20 @@ const Players: String = "Players"
 
 var unlocked_weapons = [ 
 	"PistolOne", 
-	"GrenadeOne", 
-	"PistolTwo",
-	"SubfusilOne", 
-	"ShotgunOne", 
-	"ShotgunTwo", 
-	"GrenadeTwo", 
-	"RifleOne", 
-	"RifleTwo", 
-	"SniperOne", 
-	"GrenadeThree", 
-	"MinigunOne", 
-	"FlamethrowerOne", 
-	"RocketLauncherOne", 
-	"GrenadeLauncherOne" 
+	"", 
+	"",
+	"", 
+	"", 
+	"", 
+	"", 
+	"", 
+	"", 
+	"", 
+	"", 
+	"", 
+	"", 
+	"", 
+	"" 
 ]
 
 #var unlocked_weapons = ["Pistol", "", "", "" ]
@@ -108,14 +108,13 @@ func _ready():
 	var file = File.new()
 	file.open("user_data.dat", File.READ)
 	var player_data = file.get_var()
-	print(player_data)
 	if player_data:
 		if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
-			unlocked_weapons = Globals.weapons
+			unlocked_weapons = player_data["unlocked_weapons"]
 		if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
 			unlocked_perks = player_data["unlocked_perks"]
 		if "round_arrived" in player_data and player_data["round_arrived"]:
-			round_arrived = 0
+			round_arrived = player_data["round_arrived"]
 	file.close()
 
 	gun= weaponManager.get_current_weapon()
@@ -142,7 +141,6 @@ func _on_round_passed():
 	money += Globals.roundCount * 100
 	granades = maxGranadesCapacity
 	finsihRoundPlayer.stop()
-	print(Globals.roundCount)
 	if Globals.roundCount % 5 == 0 and Globals.roundCount > round_arrived:
 		round_arrived = Globals.roundCount
 	var file = File.new()
@@ -338,7 +336,6 @@ func interact():
 		if not gun_name in unlocked_weapons:
 			for index in Globals.weapons.size():
 				if gun_name == Globals.weapons[index]:
-					print(unlocked_weapons)
 					unlocked_weapons[index] = gun_name
 					Globals.emit_signal("unlocked_gun")
 					var file = File.new()
@@ -350,19 +347,20 @@ func interact():
 					})
 					file.close()
 		var currentGun = false
-		if not interactableNode or not "gun" in interactableNode:
-			return
 		for gun in weaponManager.active_weapons:
-			if gun.name == interactableNode.gun:
+			if gun.name == gun_name:
 				currentGun = true
 		if currentGun:
-			if money >= interactableNode.ammoPrice and not weaponManager._is_gun_full_ammo(interactableNode.gun):
-				money -= interactableNode.ammoPrice
-				weaponManager.add_ammo(interactableNode.gun)
+			
+			if money >= Globals.weapons_data[gun_name].ammoPrice and not weaponManager._is_gun_full_ammo(gun_name):
+				money -= Globals.weapons_data[gun_name].ammoPrice
+				
+				weaponManager.add_ammo(gun_name)
 		else:
-			if money >= interactableNode.price:
-				money -= interactableNode.price
-				weaponManager.add_weapon(interactableNode.gun)
+			
+			if money >= Globals.weapons_data[gun_name].price:
+				money -= Globals.weapons_data[gun_name].price
+				weaponManager.add_weapon(gun_name)
 
 	if "BuyGranades" in interactableAction:
 		if money >= 500:
@@ -373,8 +371,6 @@ func interact():
 		if not interactableAction in unlocked_perks:
 			for index in Globals.perks.size():
 				if interactableAction == Globals.perks[index]:
-					print(unlocked_perks)
-					print(index)
 					unlocked_perks[index] = interactableAction
 					Globals.emit_signal("unlocked_perk")
 					var file = File.new()

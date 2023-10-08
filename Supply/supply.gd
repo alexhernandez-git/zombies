@@ -63,22 +63,16 @@ func _process(delta):
 			var object
 			
 			if random_type == "perks" and Globals.perks.size() > 0:
-				
-				random_index = randi() % Globals.perks.size()
+				var perks = getItems(Globals.roundCount, Globals.perks)
+				random_index = randi() % perks.size()
 				object = perk.instance()
 				object.z_index = 100
 				object.price = 0
-				object.name = Globals.perks[random_index]
+				object.name = perks[random_index]
 				add_child(object)
 
 			if random_type == "weapons" and Globals.weapons.size() > 0:
-				var weapons = Globals.round_0_weapons
-				if Globals.roundCount > 5:
-					weapons = Globals.round_5_weapons
-				elif Globals.roundCount > 10:
-					weapons = Globals.round_10_weapons
-				elif Globals.roundCount > 15:
-					weapons = Globals.round_15_weapons
+				var weapons = getItems(Globals.roundCount, Globals.weapons)
 				random_index = randi() % weapons.size()
 				object = weapon.instance()
 				object.price = 0
@@ -94,6 +88,11 @@ func _process(delta):
 				add_child(object)
 				timer.start()
 				timer.connect("timeout", self, "_on_timeout")
+
+func getItems(value: int, array: Array) -> Array:
+	var itemCount = min(floor(value / 5) + 2, array.size())  # Calculate the number of items to retrieve based on the value
+	return array.slice(0, itemCount)  # Slice the array to get the desired number of items
+
 
 func _on_timeout():
 	queue_free()

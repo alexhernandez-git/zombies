@@ -17,6 +17,7 @@ func _ready():
 	connect("mouse_exited", self, "_on_mouse_exited")
 
 func _process(delta):
+	
 	for gun in Globals.weapons:
 		if gun in item_name:
 			$Sprite.frame = Globals.weapons_data[gun].frame
@@ -26,7 +27,7 @@ func _process(delta):
 			$Sprite.frame = Globals.perks_data[perk].frame
 			has_sprite = true
 	if not has_sprite:
-		$Sprite.frame = 35
+		$Sprite.frame = 63
 
 func _on_mouse_entered():
 	# Change the item's appearance when the mouse enters.

@@ -156,7 +156,7 @@ func _on_max_ammo():
 
 func _is_gun_full_ammo(name):
 	for weapon in active_weapons:
-		if weapon.ammo == weapon.maxAmmoCapacity:
+		if weapon.name == name and weapon.ammo == weapon.maxAmmoCapacity:
 			return true
 	return false
 

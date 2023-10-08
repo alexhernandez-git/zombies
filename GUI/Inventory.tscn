@@ -29,4 +29,4 @@ margin_right = -187.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_scale = Vector2( 2, 2 )
-columns = 5
+columns = 4
