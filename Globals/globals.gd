@@ -37,10 +37,11 @@ var weapons = [
 	"SubfusilOne", 
 	"ShotgunOne", 
 	"ShotgunTwo", 
+	"GrenadeTwo", 
 	"RifleOne", 
 	"RifleTwo", 
 	"SniperOne", 
-	"GrenadeTwo", 
+	"GrenadeThree", 
 	"MinigunOne", 
 	"FlamethrowerOne", 
 	"RocketLauncherOne", 
@@ -68,6 +69,15 @@ var weapons_data = {
 	"SubfusilOne": {
 		"frame":  9
 	},
+	"ShotgunOne": {
+		"frame":  16
+	},
+	"ShotgunTwo": {
+		"frame":  17
+	},
+	"GrenadeTwo": {
+		"frame": 18
+	},	
 	"RifleOne": {
 		"frame":  24
 	},
@@ -77,15 +87,10 @@ var weapons_data = {
 	"SniperOne": {
 		"frame":  32
 	},
-	"GrenadeTwo": {
+	"GrenadeThree": {
 		"frame": 33
 	},	
-	"ShotgunOne": {
-		"frame":  16
-	},
-	"ShotgunTwo": {
-		"frame":  17
-	},
+
 	"MinigunOne": {
 		"frame":  40
 	},

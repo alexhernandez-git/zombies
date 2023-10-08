@@ -363,8 +363,6 @@ stream = ExtResource( 12 )
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Pistol"]
 stream = ExtResource( 14 )
 
-[node name="Grenade" parent="WeaponManager" instance=ExtResource( 7 )]
-
 [node name="PistolTwo" parent="WeaponManager" instance=ExtResource( 7 )]
 
 [node name="Subfusil" parent="WeaponManager" instance=ExtResource( 7 )]
@@ -426,8 +424,6 @@ stream = ExtResource( 11 )
 stream = ExtResource( 14 )
 
 [node name="ShotgunTwo" parent="WeaponManager" instance=ExtResource( 7 )]
-
-[node name="GrenadeTwo" parent="WeaponManager" instance=ExtResource( 7 )]
 
 [node name="Minigun" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
