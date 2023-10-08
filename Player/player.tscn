@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Player/player.gd" type="Script" id=2]
 [ext_resource path="res://Assets/light.png" type="Texture" id=3]
@@ -196,6 +196,161 @@ tracks/2/keys = {
 "values": [ true, false, true ]
 }
 
+[sub_resource type="Animation" id=16]
+resource_name = "recoil"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "recoil"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=32]
+resource_name = "recoil"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=33]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "recoil"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=23]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "recoil"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+
 [sub_resource type="Animation" id=9]
 resource_name = "recoil"
 length = 0.2
@@ -213,6 +368,99 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=10]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "recoil"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=28]
+resource_name = "recoil"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=29]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.5 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=30]
+resource_name = "recoil"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=31]
 resource_name = "reload"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:scale")
@@ -348,10 +596,6 @@ ammo = 80
 endOfGunSize = 12
 gunSize = 9
 semi_auto = true
-Bullet = ExtResource( 5 )
-SpriteTexture = ExtResource( 6 )
-SpriteHframes = 8
-SpriteVframes = 146
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Pistol"]
 anims/weapon_recoil = ExtResource( 10 )
@@ -364,8 +608,47 @@ stream = ExtResource( 12 )
 stream = ExtResource( 14 )
 
 [node name="PistolTwo" parent="WeaponManager" instance=ExtResource( 7 )]
+path_to_animation = NodePath("AnimationPlayer")
+path_to_shoot_audio = NodePath("ShootAudio")
+path_to_reload_audio = NodePath("ReloadAudio")
+cadence = 0.05
+endOfGunSize = 10
+gunSize = 10
+semi_auto = true
+burst = true
+burstTime = 0.2
 
-[node name="Subfusil" parent="WeaponManager" instance=ExtResource( 7 )]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/PistolTwo"]
+anims/weapon_recoil = SubResource( 16 )
+anims/weapon_reload = SubResource( 17 )
+
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/PistolTwo"]
+stream = ExtResource( 12 )
+
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/PistolTwo"]
+stream = ExtResource( 14 )
+
+[node name="SubfusilOne" parent="WeaponManager" instance=ExtResource( 7 )]
+path_to_animation = NodePath("AnimationPlayer")
+path_to_shoot_audio = NodePath("ShootAudio")
+path_to_reload_audio = NodePath("ReloadAudio")
+maxMagCapacity = 20
+reloadTime = 0.8
+mag = 20
+ammo = 80
+cadence = 0.05
+endOfGunSize = 12
+gunSize = 13
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/SubfusilOne"]
+anims/weapon_recoil = SubResource( 18 )
+anims/weapon_reload = SubResource( 19 )
+
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/SubfusilOne"]
+stream = ExtResource( 12 )
+
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/SubfusilOne"]
+stream = ExtResource( 14 )
 
 [node name="RifleOne" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
@@ -375,11 +658,6 @@ maxAmmoCapacity = 300
 damage = 100
 ammo = 300
 endOfGunSize = 14
-Bullet = ExtResource( 5 )
-SpriteTexture = ExtResource( 6 )
-SpriteHframes = 8
-SpriteVframes = 146
-SpriteFrame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/RifleOne"]
 anims/weapon_recoil = ExtResource( 10 )
@@ -392,10 +670,50 @@ stream = ExtResource( 13 )
 stream = ExtResource( 14 )
 
 [node name="RifleTwo" parent="WeaponManager" instance=ExtResource( 7 )]
+path_to_animation = NodePath("AnimationPlayer")
+path_to_shoot_audio = NodePath("ShootAudio")
+path_to_reload_audio = NodePath("ReloadAudio")
+cadence = 0.06
+endOfGunSize = 13
+semi_auto = true
+burst = true
+burstTime = 0.2
 
-[node name="Sniper" parent="WeaponManager" instance=ExtResource( 7 )]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/RifleTwo"]
+anims/weapon_recoil = SubResource( 32 )
+anims/weapon_reload = SubResource( 33 )
 
-[node name="Shotgun" parent="WeaponManager" instance=ExtResource( 7 )]
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RifleTwo"]
+stream = ExtResource( 13 )
+
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RifleTwo"]
+stream = ExtResource( 14 )
+
+[node name="SniperOne" parent="WeaponManager" instance=ExtResource( 7 )]
+path_to_animation = NodePath("AnimationPlayer")
+path_to_shoot_audio = NodePath("ShootAudio")
+path_to_reload_audio = NodePath("ReloadAudio")
+maxAmmoCapacity = 50
+maxMagCapacity = 7
+reloadTime = 1.2
+mag = 7
+damage = 1000
+ammo = 50
+cadence = 0.7
+endOfGunSize = 13
+semi_auto = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/SniperOne"]
+anims/weapon_recoil = SubResource( 22 )
+anims/weapon_reload = SubResource( 23 )
+
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/SniperOne"]
+stream = ExtResource( 14 )
+
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/SniperOne"]
+stream = ExtResource( 11 )
+
+[node name="ShotgunOne" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
@@ -407,25 +725,33 @@ cadence = 0.5
 isShotgun = true
 endOfGunSize = 13
 semi_auto = true
-Bullet = ExtResource( 5 )
-SpriteTexture = ExtResource( 6 )
-SpriteHframes = 8
-SpriteVframes = 146
-SpriteFrame = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Shotgun"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/ShotgunOne"]
 anims/weapon_recoil = ExtResource( 10 )
 anims/weapon_reload = ExtResource( 9 )
 
-[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Shotgun"]
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/ShotgunOne"]
 stream = ExtResource( 11 )
 
-[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Shotgun"]
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/ShotgunOne"]
 stream = ExtResource( 14 )
 
 [node name="ShotgunTwo" parent="WeaponManager" instance=ExtResource( 7 )]
+path_to_animation = NodePath("AnimationPlayer")
+path_to_shoot_audio = NodePath("ShootAudio")
+path_to_reload_audio = NodePath("ReloadAudio")
 
-[node name="Minigun" parent="WeaponManager" instance=ExtResource( 7 )]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/ShotgunTwo"]
+anims/weapon_recoil = SubResource( 24 )
+anims/weapon_reload = SubResource( 25 )
+
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/ShotgunTwo"]
+stream = ExtResource( 12 )
+
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/ShotgunTwo"]
+stream = ExtResource( 14 )
+
+[node name="MinigunOne" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
@@ -437,27 +763,61 @@ ammo = 600
 cadence = 0.05
 endOfGunSize = 13
 gunSize = 13
-Bullet = ExtResource( 5 )
-SpriteTexture = ExtResource( 6 )
-SpriteHframes = 8
-SpriteVframes = 146
-SpriteFrame = 3
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Minigun"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/MinigunOne"]
 anims/weapon_recoil = SubResource( 9 )
 anims/weapon_reload = SubResource( 10 )
 
-[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Minigun"]
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/MinigunOne"]
 stream = ExtResource( 11 )
 
-[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Minigun"]
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/MinigunOne"]
 stream = ExtResource( 14 )
 
-[node name="RocketLauncher" parent="WeaponManager" instance=ExtResource( 7 )]
+[node name="RocketLauncherOne" parent="WeaponManager" instance=ExtResource( 7 )]
+path_to_animation = NodePath("AnimationPlayer")
+path_to_shoot_audio = NodePath("ShootAudio")
+path_to_reload_audio = NodePath("ReloadAudio")
 
-[node name="GrenadeLauncher" parent="WeaponManager" instance=ExtResource( 7 )]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/RocketLauncherOne"]
+anims/weapon_recoil = SubResource( 26 )
+anims/weapon_reload = SubResource( 27 )
 
-[node name="Flamethrower" parent="WeaponManager" instance=ExtResource( 7 )]
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RocketLauncherOne"]
+stream = ExtResource( 12 )
+
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RocketLauncherOne"]
+stream = ExtResource( 14 )
+
+[node name="GrenadeLauncherOne" parent="WeaponManager" instance=ExtResource( 7 )]
+path_to_animation = NodePath("AnimationPlayer")
+path_to_shoot_audio = NodePath("ShootAudio")
+path_to_reload_audio = NodePath("ReloadAudio")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/GrenadeLauncherOne"]
+anims/weapon_recoil = SubResource( 28 )
+anims/weapon_reload = SubResource( 29 )
+
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/GrenadeLauncherOne"]
+stream = ExtResource( 12 )
+
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/GrenadeLauncherOne"]
+stream = ExtResource( 14 )
+
+[node name="FlamethrowerOne" parent="WeaponManager" instance=ExtResource( 7 )]
+path_to_animation = NodePath("AnimationPlayer")
+path_to_shoot_audio = NodePath("ShootAudio")
+path_to_reload_audio = NodePath("ReloadAudio")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/FlamethrowerOne"]
+anims/weapon_recoil = SubResource( 30 )
+anims/weapon_reload = SubResource( 31 )
+
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/FlamethrowerOne"]
+stream = ExtResource( 12 )
+
+[node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/FlamethrowerOne"]
+stream = ExtResource( 14 )
 
 [node name="FinishRoundPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 16 )

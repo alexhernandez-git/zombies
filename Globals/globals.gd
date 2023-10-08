@@ -58,50 +58,80 @@ var round_15_weapons = [ "PistolOne", "ShotgunOne", "RifleOne", "MinigunOne"]
 
 var weapons_data = {
 	"PistolOne": {
-		"frame": 0
+		"frame": 0,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"GrenadeOne": {
-		"frame": 1
+		"frame": 1,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"PistolTwo": {
-		"frame":  8
+		"frame":  8,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"SubfusilOne": {
-		"frame":  9
+		"frame":  9,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"ShotgunOne": {
-		"frame":  16
+		"frame":  16,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"ShotgunTwo": {
-		"frame":  17
+		"frame":  17,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"GrenadeTwo": {
-		"frame": 18
+		"frame": 18,
+		"price": 500,
+		"ammoPrice": 250
 	},	
 	"RifleOne": {
-		"frame":  24
+		"frame":  24,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"RifleTwo": {
-		"frame":  25
+		"frame":  25,
+		"price": 500,
+		"ammoPrice": 250
 	},	
 	"SniperOne": {
-		"frame":  32
+		"frame":  32,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"GrenadeThree": {
-		"frame": 33
+		"frame": 33,
+		"price": 500,
+		"ammoPrice": 250
 	},	
 
 	"MinigunOne": {
-		"frame":  40
+		"frame":  40,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"FlamethrowerOne": {
-		"frame":  41
+		"frame":  41,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"RocketLauncherOne": {
-		"frame":  48
+		"frame":  48,
+		"price": 500,
+		"ammoPrice": 250
 	},
 	"GrenadeLauncherOne": {
-		"frame":  49
+		"frame":  49,
+		"price": 500,
+		"ammoPrice": 250
 	},
 }
 
@@ -205,7 +235,8 @@ func _ready():
 	print(player_data)
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
-			startingRound = player_data["round_arrived"] - 1
+			# startingRound = player_data["round_arrived"] - 1
+			startingRound = 0
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()

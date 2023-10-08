@@ -18,12 +18,13 @@ export var isShotgun = false
 export var endOfGunSize = 7
 export var gunSize = 15
 export var semi_auto = false
-export (PackedScene) var Bullet
-export (Texture) var SpriteTexture
-export (int) var SpriteHframes
-export (int) var SpriteVframes
-export (int) var SpriteFrame
+export var burst = false
+export var burstTime = 0.5
+export var burstShots = 3
+var burstCounter = 0
+var Bullet = preload("res://Player/bullet.tscn")
 onready var attackCooldown = $AttackCooldown
+onready var burstCooldown = $BurstCooldown
 onready var player = get_parent().get_parent()
 onready var sprite = $Sprite
 onready var endOfGun = $EndOFGun
@@ -42,9 +43,10 @@ func render():
 		sprite.frame = Globals.weapons_data[cleaned_string].frame
 	attackCooldown.wait_time = cadence
 	magReloadTimer.wait_time = reloadTime
+	burstCooldown.wait_time = burstTime
 
 func shoot():
-	if attackCooldown.is_stopped():
+	if not  burst and attackCooldown.is_stopped() or burst and attackCooldown.is_stopped()  and burstCooldown.is_stopped() and burstCounter < burstShots:
 		if not "UnlimitedFire" in player.power_ups:
 			if mag > 0:
 				mag -= 1
@@ -63,6 +65,10 @@ func shoot():
 		var target = get_global_mouse_position()
 		var direction_to_mouse = global_position.direction_to(target).normalized()
 		attackCooldown.start()
+		
+		if burst:
+			attackCooldown.connect("timeout", self, "_on_attack_cooldown_timeout")
+
 		if isShotgun:
 			var degrees = [deg2rad(25), -deg2rad(25), deg2rad(20), -deg2rad(20), deg2rad(15), -deg2rad(15), deg2rad(10), -deg2rad(10) , deg2rad(5), -deg2rad(5)]
 			for degree in degrees:
@@ -82,6 +88,16 @@ func shoot():
 			bullet_instance.set_damage(damage)
 			set_random_shot_light_sprite_random()
 			bullet_instance.set_direction(direction_to_mouse)
+
+func _on_attack_cooldown_timeout():
+	print(burstCounter)
+	print(burstShots)
+	if burstCounter >= burstShots - 1:
+		burstCooldown.start()
+		burstCounter = 0
+		return
+	burstCounter += 1
+	shoot()
 
 func set_random_shot_light_sprite_random():
 	for sprite in endOfGunSprites:

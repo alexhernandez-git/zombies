@@ -40,7 +40,7 @@ var can_run_again = true
 
 var ammo = 30
 
-var money = 500
+var money = 500000
 
 var maxGranadesCapacity = 3
 var granades = 3
@@ -79,7 +79,24 @@ var supplies = 1
 
 const Players: String = "Players"
 
-var unlocked_weapons = ["Pistol", "", "", ""]
+var unlocked_weapons = [ 
+	"PistolOne", 
+	"GrenadeOne", 
+	"PistolTwo",
+	"SubfusilOne", 
+	"ShotgunOne", 
+	"ShotgunTwo", 
+	"GrenadeTwo", 
+	"RifleOne", 
+	"RifleTwo", 
+	"SniperOne", 
+	"GrenadeThree", 
+	"MinigunOne", 
+	"FlamethrowerOne", 
+	"RocketLauncherOne", 
+	"GrenadeLauncherOne" 
+]
+
 #var unlocked_weapons = ["Pistol", "", "", "" ]
 #var unlocked_perks = ["", "", "", "", "", "", "", ""]
 var unlocked_perks = ["", "", "", "", "", "", "", ""]
@@ -98,7 +115,7 @@ func _ready():
 		if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
 			unlocked_perks = player_data["unlocked_perks"]
 		if "round_arrived" in player_data and player_data["round_arrived"]:
-			round_arrived = player_data["round_arrived"]
+			round_arrived = 0
 	file.close()
 
 	gun= weaponManager.get_current_weapon()

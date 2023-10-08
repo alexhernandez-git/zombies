@@ -19,7 +19,8 @@ var mirror_weapon
 func _ready():
 	Globals.connect("max_ammo", self, "_on_max_ammo")
 	weapons = get_children()
-	active_weapons = [current_weapon]
+	#active_weapons = [current_weapon]
+	active_weapons = weapons
 
 	for weapon in weapons:
 		weapon.hide()
@@ -74,18 +75,12 @@ func previous_weapon():
 	switch_weapon(active_weapons[current_weapon_index])
 
 func _input(event):
-	if event.is_action_pressed("shoot"):
-		current_weapon.shoot()
-		if mirror_weapon:
-			mirror_weapon.shoot()
-			
-func _unhandled_input(event: InputEvent) -> void:
-	if current_weapon.semi_auto and event.is_action_released("shoot"):
+	if event.is_action_pressed("shoot") and current_weapon.semi_auto:
 		if player.jump_timer == 0:
 			current_weapon.shoot()
 			if mirror_weapon:
 				mirror_weapon.shoot()
-	elif event.is_action_released("reload"):
+	if event.is_action_released("reload"):
 		current_weapon.reload()
 		if mirror_weapon:
 			mirror_weapon.reload()

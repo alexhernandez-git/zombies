@@ -11,7 +11,6 @@ script = ExtResource( 2 )
 texture = ExtResource( 3 )
 hframes = 8
 vframes = 8
-frame = 49
 
 [node name="EndOFGun" type="Position2D" parent="."]
 position = Vector2( 0, -8 )
@@ -55,3 +54,6 @@ one_shot = true
 
 [node name="ShotLight" type="Timer" parent="."]
 wait_time = 0.1
+
+[node name="BurstCooldown" type="Timer" parent="."]
+one_shot = true
