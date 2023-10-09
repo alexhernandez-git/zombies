@@ -593,6 +593,7 @@ maxAmmoCapacity = 80
 maxMagCapacity = 8
 reloadTime = 0.5
 mag = 8
+damage = 50
 ammo = 80
 endOfGunSize = 12
 gunSize = 9

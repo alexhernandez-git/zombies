@@ -52,7 +52,7 @@ var regen_delay = 3.0
 var regen_rate = 10.0  # Health points regenerated per second
 var regen_timer = 0.0
 
-var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
+var perks = []
 
 var meleDamage = 100
 
@@ -110,9 +110,9 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
-			unlocked_weapons = Globals.weapons
+			unlocked_weapons = player_data["unlocked_weapons"]
 		if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
-			unlocked_perks = Globals.perks
+			unlocked_perks = player_data["unlocked_perks"]
 		if "round_arrived" in player_data and player_data["round_arrived"]:
 			round_arrived = player_data["round_arrived"]
 	file.close()
@@ -134,6 +134,14 @@ func _on_money_earned(amount):
 	money += moneyAmount
 
 func _on_round_finished():
+	if Globals.roundCount + 1 % 5 == 0:  # Check if i is a multiple of 5
+		var itemCount = min(floor(Globals.roundCount - 5 / 5) + 2, Globals.perks.size())
+		var available_items = []
+		available_items.append(Globals.perks.slice(0, itemCount))
+		available_items.append(Globals.weapons.slice(0, itemCount))
+		var random_index = randi() % available_items.size()
+		Globals.emit_signal("call_supplies", global_position, available_items[random_index])
+
 	audioPlayer.stop()
 	finsihRoundPlayer.play()
 

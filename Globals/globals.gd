@@ -28,6 +28,8 @@ extends Node
 
 # Once you get a gun you are able to improve it to dure 5 rounds more
 
+# Each 5 rounds bring a random supply that contains one of the previous range of weapons and perks
+
 var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
@@ -228,7 +230,7 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
-			startingRound = 21
+			startingRound = player_data["round_arrived"] - 1
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()
@@ -255,10 +257,7 @@ func _on_round_finished():
 		enemyHealth = enemyHealth * 1.1
 
 	if enemySpeed < maxEnemeySpeed:
-		if roundCount > 9:
-			enemySpeed += difficulty_difference(5)
-		else:
-			enemySpeed += difficulty_difference(2)
+		enemySpeed += difficulty_difference(10)
 	max_spawn_timer -= 0.1
 	if max_spawn_timer < 1:
 		max_spawn_timer = 1
