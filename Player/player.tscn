@@ -613,7 +613,7 @@ stream = ExtResource( 14 )
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
-damage = 25
+damage = 50
 ammo = 180
 cadence = 0.05
 endOfGunSize = 10
@@ -638,7 +638,7 @@ path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
 maxMagCapacity = 20
 reloadTime = 0.8
-mag = 20
+mag = 50
 damage = 18
 ammo = 180
 cadence = 0.05
@@ -763,7 +763,7 @@ anims/weapon_recoil = SubResource( 24 )
 anims/weapon_reload = SubResource( 25 )
 
 [node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/ShotgunTwo"]
-stream = ExtResource( 12 )
+stream = ExtResource( 11 )
 
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/ShotgunTwo"]
 stream = ExtResource( 14 )

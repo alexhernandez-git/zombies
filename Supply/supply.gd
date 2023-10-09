@@ -90,7 +90,10 @@ func _process(delta):
 				timer.connect("timeout", self, "_on_timeout")
 
 func getItems(value: int, array: Array) -> Array:
-	var itemCount = min(floor(value / 5) + 2, array.size())  # Calculate the number of items to retrieve based on the value
+	var items_sum = 0
+	if Globals.roundCount <= 5:
+		items_sum = 2
+	var itemCount = min(floor(value / 5) + items_sum, array.size())  # Calculate the number of items to retrieve based on the value
 	return array.slice(0, itemCount)  # Slice the array to get the desired number of items
 
 

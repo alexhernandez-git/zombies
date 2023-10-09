@@ -134,13 +134,25 @@ func _on_money_earned(amount):
 	money += moneyAmount
 
 func _on_round_finished():
-	if Globals.roundCount + 1 % 5 == 0:  # Check if i is a multiple of 5
-		var itemCount = min(floor(Globals.roundCount - 5 / 5) + 2, Globals.perks.size())
-		var available_items = []
-		available_items.append(Globals.perks.slice(0, itemCount))
-		available_items.append(Globals.weapons.slice(0, itemCount))
-		var random_index = randi() % available_items.size()
-		Globals.emit_signal("call_supplies", global_position, available_items[random_index])
+	print("entra 1")
+	print(Globals.roundCount + 1)
+	#if Globals.roundCount % 5 == 0:  # Check if i is a multiple of 5
+	print("entra 2")
+
+	var itemCount = min(floor(Globals.roundCount / 5 ), Globals.perks.size())
+	print(itemCount)
+	var available_items = []
+	available_items.append_array(Globals.perks.slice(0, itemCount))
+	print(available_items)
+	var items_sum = 0
+	if Globals.roundCount <= 5:
+		items_sum = 2
+	itemCount = min(floor(Globals.roundCount / 5) + items_sum, Globals.weapons.size())
+	available_items.append_array(Globals.weapons.slice(0, itemCount))
+	print(available_items)		
+	var random_index = randi() % available_items.size()
+	print(random_index)		
+	Globals.emit_signal("call_supplies", global_position, available_items[random_index])
 
 	audioPlayer.stop()
 	finsihRoundPlayer.play()
@@ -355,16 +367,12 @@ func interact():
 					})
 					file.close()
 		var currentGun = false
-		print("entra 1")
 		for gun in weaponManager.active_weapons:
 			print(gun.name)
 			if gun.name == gun_name:
-				print("entra 2")
 				currentGun = true
 		if currentGun:
-			print("entra 3")
 			if money >= Globals.weapons_data[gun_name].ammoPrice and not weaponManager._is_gun_full_ammo(gun_name):
-				print("entra 4")
 				money -= Globals.weapons_data[gun_name].ammoPrice
 				
 				weaponManager.add_ammo(gun_name)
