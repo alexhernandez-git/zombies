@@ -42,6 +42,7 @@ func render():
 	var cleaned_string = Globals.get_clean_string(name)
 	if cleaned_string in Globals.weapons_data:
 		sprite.frame = Globals.weapons_data[cleaned_string].frame
+		print(sprite.frame)
 	attackCooldown.wait_time = cadence
 	magReloadTimer.wait_time = reloadTime
 	burstCooldown.wait_time = burstTime

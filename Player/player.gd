@@ -80,7 +80,7 @@ var supplies = 1
 const Players: String = "Players"
 
 var unlocked_weapons = [ 
-	"PistolOne", 
+	"Pistol", 
 	"", 
 	"",
 	"", 
@@ -347,12 +347,16 @@ func interact():
 					})
 					file.close()
 		var currentGun = false
+		print("entra 1")
 		for gun in weaponManager.active_weapons:
+			print(gun.name)
 			if gun.name == gun_name:
+				print("entra 2")
 				currentGun = true
 		if currentGun:
-			
+			print("entra 3")
 			if money >= Globals.weapons_data[gun_name].ammoPrice and not weaponManager._is_gun_full_ammo(gun_name):
+				print("entra 4")
 				money -= Globals.weapons_data[gun_name].ammoPrice
 				
 				weaponManager.add_ammo(gun_name)

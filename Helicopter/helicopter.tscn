@@ -13,6 +13,7 @@ radius = 17.0
 height = 0.0
 
 [node name="Helicopter" type="KinematicBody2D"]
+z_index = 10
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]

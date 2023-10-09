@@ -2,7 +2,7 @@ extends Node
 
 
 # Perks = Health | Revive | Fast Fire | Reload protection | Fast reload | Slide 
-# weapons = Gun | RifleOne | Subfusil | Sniper | Lanzacoetes  | Mini gun | Arrow
+# weapons = Gun | Rifle | Subfusil | Sniper | Lanzacoetes  | Mini gun | Arrow
 # Granades = Granade | Fire |
 # Cuerpo a cuerpo = Knife | Hacha | Espada | Bate
 # Especials = Hammer | Agujero negro | Desintegrador | Teleport gun | Lanzallamas | Tomahawk
@@ -31,30 +31,30 @@ var game_paused = false
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
 var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
 var weapons = [ 
-	"PistolOne", 
-	"GrenadeOne", 
+	"Pistol", 
+	"Grenade", 
 	"PistolTwo",
-	"SubfusilOne", 
-	"ShotgunOne", 
+	"Subfusil", 
+	"Shotgun", 
 	"ShotgunTwo", 
 	"GrenadeTwo", 
-	"RifleOne", 
+	"Rifle", 
 	"RifleTwo", 
-	"SniperOne", 
+	"Sniper", 
 	"GrenadeThree", 
-	"MinigunOne", 
-	"FlamethrowerOne", 
-	"RocketLauncherOne", 
-	"GrenadeLauncherOne" 
+	"Minigun", 
+	"Flamethrower", 
+	"RocketLauncher", 
+	"GrenadeLauncher" 
 ]
 
 var weapons_data = {
-	"PistolOne": {
+	"Pistol": {
 		"frame": 0,
 		"price": 500,
 		"ammoPrice": 250
 	},
-	"GrenadeOne": {
+	"Grenade": {
 		"frame": 1,
 		"price": 500,
 		"ammoPrice": 250
@@ -64,12 +64,12 @@ var weapons_data = {
 		"price": 500,
 		"ammoPrice": 250
 	},
-	"SubfusilOne": {
+	"Subfusil": {
 		"frame":  9,
 		"price": 500,
 		"ammoPrice": 250
 	},
-	"ShotgunOne": {
+	"Shotgun": {
 		"frame":  16,
 		"price": 600,
 		"ammoPrice": 250
@@ -84,7 +84,7 @@ var weapons_data = {
 		"price": 500,
 		"ammoPrice": 250
 	},	
-	"RifleOne": {
+	"Rifle": {
 		"frame":  24,
 		"price": 500,
 		"ammoPrice": 250
@@ -94,7 +94,7 @@ var weapons_data = {
 		"price": 500,
 		"ammoPrice": 250
 	},	
-	"SniperOne": {
+	"Sniper": {
 		"frame":  32,
 		"price": 500,
 		"ammoPrice": 250
@@ -105,22 +105,22 @@ var weapons_data = {
 		"ammoPrice": 250
 	},	
 
-	"MinigunOne": {
+	"Minigun": {
 		"frame":  40,
 		"price": 500,
 		"ammoPrice": 250
 	},
-	"FlamethrowerOne": {
+	"Flamethrower": {
 		"frame":  41,
 		"price": 500,
 		"ammoPrice": 250
 	},
-	"RocketLauncherOne": {
+	"RocketLauncher": {
 		"frame":  48,
 		"price": 500,
 		"ammoPrice": 250
 	},
-	"GrenadeLauncherOne": {
+	"GrenadeLauncher": {
 		"frame":  49,
 		"price": 500,
 		"ammoPrice": 250
@@ -226,8 +226,7 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
-			# startingRound = player_data["round_arrived"] - 1
-			startingRound = 0
+			startingRound = player_data["round_arrived"] - 1
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()
@@ -250,7 +249,10 @@ func _on_round_finished():
 		enemyHealth = enemyHealth * 1.1
 
 	if enemySpeed < maxEnemeySpeed:
-		enemySpeed += difficulty_difference(5)
+		if roundCount > 9:
+			enemySpeed += difficulty_difference(5)
+		else:
+			enemySpeed += difficulty_difference(2)
 	max_spawn_timer -= 0.2
 	if max_spawn_timer < 0.4:
 		max_spawn_timer = 0.4

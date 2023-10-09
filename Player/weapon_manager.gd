@@ -19,16 +19,16 @@ var mirror_weapon
 func _ready():
 	Globals.connect("max_ammo", self, "_on_max_ammo")
 	weapons = get_children()
-	#active_weapons = [current_weapon]
-	active_weapons = weapons
-
+	active_weapons = [current_weapon]
+	#active_weapons = weapons
 	for weapon in weapons:
 		weapon.hide()
 		
 	for weapon in active_weapons:
 		weapon.hide()
 		
-	current_weapon.show()
+	if current_weapon:
+		current_weapon.show()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_released("next_weapon"):
@@ -145,6 +145,7 @@ func set_flip_v(flip):
 func delete_remaining_weapons():
 	if active_weapons.size() > 2:
 		active_weapons.pop_front()
+
 func add_ammo(name):
 	for weapon in active_weapons:
 		if weapon.name == name:
