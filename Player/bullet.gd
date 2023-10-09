@@ -13,6 +13,13 @@ var has_hitted = false
 var collateral = true
 
 # Called when the node enters the scene tree for the first time.
+func _ready():
+	$Timer.start()
+	$Timer.connect("_timeout", self, "_on_timeout")
+
+func _on_timeout():
+	queue_free()
+
 func _physics_process(delta):
 	if direction != Vector2.ZERO:
 		var velocity = direction * speed

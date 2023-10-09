@@ -49,6 +49,7 @@ func render():
 
 func shoot():
 	if not  burst and attackCooldown.is_stopped() or burst and attackCooldown.is_stopped()  and burstCooldown.is_stopped() and burstCounter < burstShots:
+		
 		if not "UnlimitedFire" in player.power_ups:
 			if mag > 0:
 				mag -= 1

@@ -26,6 +26,8 @@ extends Node
 
 # The normal guns you can get them with random supplies but the guns improvements you can get it with game challenges
 
+# Once you get a gun you are able to improve it to dure 5 rounds more
+
 var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
@@ -226,7 +228,7 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
-			startingRound = player_data["round_arrived"] - 1
+			startingRound = 21
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()
@@ -241,7 +243,11 @@ func difficulty_difference_substract(amount: float) -> float:
 func _on_round_finished():
 	is_round_started = false
 	roundCount += 1
-	remainingEnemies =  int(round(10 + (roundCount * 2)))
+	if roundCount > 9:
+		remainingEnemies = int(round(10 + (roundCount * 5)))
+	else:
+		remainingEnemies =  int(round(10 + (roundCount * 2)))
+	print(remainingEnemies)
 	#critical_probability = int(round(10 + (roundCount * 2)))
 	if roundCount < 5:
 		enemyHealth += 100
@@ -253,9 +259,9 @@ func _on_round_finished():
 			enemySpeed += difficulty_difference(5)
 		else:
 			enemySpeed += difficulty_difference(2)
-	max_spawn_timer -= 0.2
-	if max_spawn_timer < 0.4:
-		max_spawn_timer = 0.4
+	max_spawn_timer -= 0.1
+	if max_spawn_timer < 1:
+		max_spawn_timer = 1
 
 func _on_round_start():
 	is_round_started = true

@@ -76,10 +76,9 @@ func previous_weapon():
 
 func _input(event):
 	if event.is_action_pressed("shoot") and current_weapon.semi_auto:
-		if player.jump_timer == 0:
-			current_weapon.shoot()
-			if mirror_weapon:
-				mirror_weapon.shoot()
+		current_weapon.shoot()
+		if mirror_weapon:
+			mirror_weapon.shoot()
 	if event.is_action_released("reload"):
 		current_weapon.reload()
 		if mirror_weapon:

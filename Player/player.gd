@@ -52,7 +52,7 @@ var regen_delay = 3.0
 var regen_rate = 10.0  # Health points regenerated per second
 var regen_timer = 0.0
 
-var perks = []
+var perks = ["Health", "Revive", "Speed", "Impulse", "QuickFire", "FastMag", "Critical", "MoreWeapons"]
 
 var meleDamage = 100
 
@@ -110,9 +110,9 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
-			unlocked_weapons = player_data["unlocked_weapons"]
+			unlocked_weapons = Globals.weapons
 		if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
-			unlocked_perks = player_data["unlocked_perks"]
+			unlocked_perks = Globals.perks
 		if "round_arrived" in player_data and player_data["round_arrived"]:
 			round_arrived = player_data["round_arrived"]
 	file.close()
