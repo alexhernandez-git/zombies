@@ -43,7 +43,7 @@ var ammo = 30
 var money = 500
 
 var maxGranadesCapacity = 3
-var granades = 3
+var granades = 3000
 
 var total_health = 100
 var max_health = total_health
@@ -65,6 +65,12 @@ onready var colorRect = $"../Camera2D/ColorRect"
 
 onready var animation = $AnimationPlayer
 
+onready var weapon_manager = $WeaponManager
+
+onready var throwableSprite = $Sprites/Throwable
+
+var throwableWeapon = "Grenade"
+
 var power_ups = []
 
 var jump_impulse = 10000  # Adjust the jump impulse strength as needed.
@@ -76,6 +82,8 @@ var gun
 var hit_feed = 0
 
 var supplies = 1
+
+var throwing = false
 
 const Players: String = "Players"
 
@@ -155,7 +163,6 @@ func _on_round_finished():
 
 func _on_round_passed():
 	money += Globals.roundCount * 100
-	granades = maxGranadesCapacity
 	finsihRoundPlayer.stop()
 	if Globals.roundCount % 5 == 0 and Globals.roundCount > round_arrived:
 		round_arrived = Globals.roundCount
@@ -220,12 +227,24 @@ func _physics_process(delta):
 
 		
 	velocity = move_and_slide(velocity)
+	var player_direction = (get_global_mouse_position() - position)
+	if throwing:
+		player_direction = -player_direction
+
+	var distance = player_direction.length()
+
+	# Set a multiplier for the position change based on the distance
+	var position_multiplier = 1.0 / (distance + 500.0)  # You can adjust this value
+
+	# You can use this multiplier to increase or decrease the position change
+	throwableSprite.global_position = global_position - player_direction * (distance * position_multiplier)
+
+	player_direction = player_direction.normalized()
 	
-	light.rotation = get_angle_to(get_global_mouse_position())
-	maskedLight.rotation = get_angle_to(get_global_mouse_position())
-	var player_direction = (get_global_mouse_position() - position).normalized()
 	var target_position = global_position + player_direction * DISTANCE_IN_FRONT
 	var angle = get_angle_to(target_position)
+	light.rotation = angle
+	maskedLight.rotation = angle
 	var angle_sum = -45
 	if player_direction.x < 0:
 		angle_sum = 45
@@ -259,7 +278,7 @@ func _physics_process(delta):
 		
 		weaponManager.set_flip_v(false)
 		bodySprite.flip_h = false
-		
+
 	angle += deg2rad(angle_sum)
 	weaponManager.set_rotation(angle)
 	weaponManager.set_end_of_gun_position(global_position, player_direction)
@@ -269,15 +288,23 @@ func _physics_process(delta):
 func _input(event):
 	if event.is_action_pressed("mele"):
 		mele()
+	if event.is_action_pressed("throw_object"):
+		print(granades)
+		throwing = true
+		throwableSprite.frame = Globals.weapons_data[throwableWeapon].frame
+		throwableSprite.visible = true
+		weapon_manager.visible = false
 	if event.is_action_released("throw_object"):
+		print(granades)
+		throwing = false
+		weapon_manager.visible = true
+		throwableSprite.visible = false
 		throw_object()
 	if event.is_action_released("call_supplies"):
 		call_supplies()
 	if event.is_action_pressed("ui_pause"):
 		Globals.emit_signal("paused")
 		get_tree().paused = true
-
-func _unhandled_input(event):
 	if event.is_action_released("interact"):
 		interact()
 		
@@ -298,9 +325,9 @@ func throw_object():
 	if granades == 0:
 		return
 	var grenade = grenade_scene.instance() as RigidBody2D
-	var player_direction = (get_global_mouse_position() - position)
+	var player_direction = -(get_global_mouse_position() - position)
 	var distance = player_direction.length()
-	var speed_scaling_factor = 10.0  # Adjust this factor as needed
+	var speed_scaling_factor = 1000.0 / (distance + 10.0)  # Adjust this factor as needed
 	var speed = grenade.speed * (distance / speed_scaling_factor + 1.0)
 	granades -= 1
 	Globals.emit_signal("trow_object", global_position, player_direction.normalized() ,  speed, grenade)

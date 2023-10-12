@@ -118,7 +118,7 @@ func _on_enemy_died(enemy: Enemy):
 
 func _on_trow_object(pos, direction, velocity, instance):
 	instance.global_position = pos + direction * 20
-	instance.linear_velocity = direction * velocity
+	instance.apply_impulse(Vector2(), direction * velocity)
 	add_child(instance)
 
 func _on_call_supplies(position: Vector2, supply = null):

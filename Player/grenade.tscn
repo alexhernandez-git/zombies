@@ -40,7 +40,6 @@ scale = 5.0
 scale_random = 0.5
 scale_curve = SubResource( 10 )
 color_ramp = SubResource( 8 )
-anim_speed = 128.0
 
 [sub_resource type="Animation" id=11]
 length = 0.001
