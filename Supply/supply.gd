@@ -68,6 +68,7 @@ func _process(delta):
 			
 			if random_type == "perks" and Globals.perks.size() > 0:
 				var perks = getItems(Globals.roundCount, Globals.perks)
+				print("perks", perks)
 				random_index = randi() % perks.size()
 				object = perk.instance()
 				object.z_index = 100
@@ -77,11 +78,12 @@ func _process(delta):
 
 			if random_type == "weapons" and Globals.weapons.size() > 0:
 				var weapons = getItems(Globals.roundCount, Globals.weapons)
+				print("weapons", weapons)
 				random_index = randi() % weapons.size()
 				object = weapon.instance()
 				object.price = 0
 				object.z_index = 100
-				var is_trowable = Globals.weapons_data[random_index].isTrowable
+				var is_trowable = Globals.weapons_data[weapons[random_index]].isTrowable
 				if is_trowable:
 					object.name = str("BuyTrowable", weapons[random_index])					
 				else:
@@ -98,7 +100,7 @@ func _process(delta):
 				timer.connect("timeout", self, "_on_timeout")
 
 func getItems(value: int, array: Array) -> Array:
-	var itemCount = min(floor(value / 5), array.size())  # Calculate the number of items to retrieve based on the value
+	var itemCount = min(floor(value / 5) + 3, array.size())  # Calculate the number of items to retrieve based on the value
 	return array.slice(0, itemCount)  # Slice the array to get the desired number of items
 
 

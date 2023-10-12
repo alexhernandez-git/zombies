@@ -69,7 +69,7 @@ onready var weapon_manager = $WeaponManager
 
 onready var throwableSprite = $Sprites/Throwable
 
-var throwableObject = "Grenade"
+var throwableObject = ""
 
 var power_ups = []
 
@@ -147,16 +147,7 @@ func _on_round_finished():
 	#if Globals.roundCount % 5 == 0:  # Check if i is a multiple of 5
 	print("entra 2")
 
-	var itemCount = min(floor(Globals.roundCount / 5 ), Globals.perks.size())
-	print(itemCount)
-	var available_items = []
-	available_items.append_array(Globals.perks.slice(0, itemCount))
-	itemCount = min(floor(Globals.roundCount / 5) , Globals.weapons.size())
-	available_items.append_array(Globals.weapons.slice(0, itemCount))
-	print(available_items)		
-	var random_index = randi() % available_items.size()
-	print(random_index)		
-	Globals.emit_signal("call_supplies", global_position, available_items[random_index])
+	Globals.emit_signal("call_supplies", global_position)
 
 	audioPlayer.stop()
 	finsihRoundPlayer.play()
@@ -289,7 +280,7 @@ func _input(event):
 	if event.is_action_pressed("mele"):
 		mele()
 	if event.is_action_pressed("throw_object"):
-		if throwableObjectAmount == 0 or not "UnlimitedFire" in Globals.power_ups:
+		if throwableObjectAmount == 0:
 			return
 		print(throwableObjectAmount)
 		throwing = true
@@ -297,7 +288,7 @@ func _input(event):
 		throwableSprite.visible = true
 		weapon_manager.visible = false
 	if event.is_action_released("throw_object"):
-		if throwableObjectAmount == 0 or not "UnlimitedFire" in Globals.power_ups:
+		if throwableObjectAmount == 0:
 			return
 		print(throwableObjectAmount)
 		throwing = false
@@ -326,7 +317,7 @@ func reload():
 		mag += ammoDifference
 
 func throw_object():
-	if throwableObjectAmount == 0 or not "UnlimitedFire" in Globals.power_ups:
+	if throwableObjectAmount == 0:
 		return
 	var grenade = grenade_scene.instance() as RigidBody2D
 	var player_direction = -(get_global_mouse_position() - position)
@@ -382,7 +373,9 @@ func interact():
 	if "Buy" in interactableAction:
 		print(interactableAction)
 		if "Trowable" in interactableAction:
+			print("Entra 1")
 			var trowable_object_name = interactableAction.substr("BuyTrowable".length())
+			print("Entra 2", trowable_object_name)
 			if not trowable_object_name in unlocked_weapons:
 				for index in Globals.weapons.size():
 					if trowable_object_name == Globals.weapons[index]:
@@ -399,16 +392,24 @@ func interact():
 			var currentTrowableObject = false
 			if throwableObject == trowable_object_name:
 					currentTrowableObject = true
+					
+			print("entra 3")
 			if currentTrowableObject:
-				if money >= Globals.weapons_data[trowable_object_name].ammoPrice and throwableObjectAmount < maxThrowableObjectCapacity:
-					money -= Globals.weapons_data[trowable_object_name].ammoPrice
-					throwableObjectAmount = maxThrowableObjectCapacity
+				print("entra 4")
+				
+				if money >= Globals.weapons_data[trowable_object_name].price and throwableObjectAmount < Globals.weapons_data[trowable_object_name].maxAmmo:
+					money -= Globals.weapons_data[trowable_object_name].price
+					throwableObjectAmount = Globals.weapons_data[trowable_object_name].maxAmmo
+					throwableObjectAmount = Globals.weapons_data[trowable_object_name].maxAmmo
 			else:
+				print("entra 5")
+				
 				if money >= Globals.weapons_data[trowable_object_name].price:
 					money -= Globals.weapons_data[trowable_object_name].price
 					throwableObject = trowable_object_name
 					throwableObjectAmount = Globals.weapons_data[trowable_object_name].maxAmmo
 					maxThrowableObjectCapacity = Globals.weapons_data[trowable_object_name].maxAmmo
+					print("maxThrowableObjectCapacity 6",maxThrowableObjectCapacity)
 					
 		elif "Weapon" in interactableAction:
 			var weapon_name = interactableAction.substr("BuyWeapon".length())
@@ -521,7 +522,8 @@ func _on_InteractionArea_area_entered(area):
 		interactableNode = area
 		var currentGun = false
 		for gun in weaponManager.active_weapons:
-			if gun.name == area.gun:
+			var weapon_name = area.name.substr("BuyWeapon".length())
+			if gun.name == weapon_name:
 				currentGun = true
 		if currentGun:
 			interactableAction = area.name
@@ -531,6 +533,13 @@ func _on_InteractionArea_area_entered(area):
 			interactableAction = area.name
 			interactLabel.visible = true
 			interactLabel.text = str("Press E - ", area.gun , ": ", area.price)
+	if "BuyTrowable" in area.name:
+		interactableNode = area
+		var currentGun = false
+		var trowable_object_name = area.name.substr("BuyTrowable".length())
+		interactableAction = area.name
+		interactLabel.visible = true
+		interactLabel.text = str("Press E - ", trowable_object_name , ": ", Globals.weapons_data[trowable_object_name].price)
 	if area.name == "BuyGranades":
 		interactableNode = area
 		interactableAction = area.name

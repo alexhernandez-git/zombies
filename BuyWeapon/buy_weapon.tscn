@@ -24,11 +24,22 @@ export (int) var SpriteFrame
 
 
 func _ready():
-	var gun_name = name.substr(\"BuyWeapon\".length())
+	print(name)
+	
+	var gun_name = name
+	
+	if \"BuyWeapon\" in name:
+		gun_name = name.substr(\"BuyWeapon\".length())
+		
+	if \"BuyTrowable\" in name:
+		gun_name = name.substr(\"BuyTrowable\".length())
+	
 	print(gun_name)
+
 	sprite.frame = Globals.weapons_data[gun_name].frame
 	price = Globals.weapons_data[gun_name].price
-	ammoPrice = Globals.weapons_data[gun_name].ammoPrice
+	if \"ammoPrice\" in Globals.weapons_data[gun_name]:
+		ammoPrice = Globals.weapons_data[gun_name].ammoPrice
 	gun = gun_name
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

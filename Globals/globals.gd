@@ -62,7 +62,6 @@ var weapons_data = {
 	"Grenade": {
 		"frame": 1,
 		"price": 500,
-		"ammoPrice": 250,
 		"maxAmmo": 3 ,
 		"isTrowable": true
 	},
@@ -93,7 +92,6 @@ var weapons_data = {
 	"GrenadeTwo": {
 		"frame": 18,
 		"price": 500,
-		"ammoPrice": 250,
 		"isTrowable": true
 	},	
 	"Rifle": {
@@ -117,7 +115,6 @@ var weapons_data = {
 	"GrenadeThree": {
 		"frame": 33,
 		"price": 500,
-		"ammoPrice": 250,
 		"isTrowable": true
 	},	
 	"Minigun": {
@@ -211,7 +208,7 @@ var instantKill = false
 
 var power_up_wait_time = 15
 
-var power_up_probability = 10
+var power_up_probability = 1
 
 var atomic_bomb_money = 400
 
@@ -245,8 +242,8 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
-			# startingRound = player_data["round_arrived"] - 1
-			startingRound = 0
+			startingRound = player_data["round_arrived"] - 1
+			# startingRound = 0
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()
