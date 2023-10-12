@@ -39,7 +39,7 @@ func _process(_delta):
 		for target in targets:
 			var in_range = target.global_position.distance_to(global_position) < explosion_radius
 			if "Enemy" in target.name and in_range:
-				target.takeDamage(100)
+				target.takeDamage(500)
 		damage_active = false
 		particlesTimer.connect("timeout", self, "_on_particles_timeout")
 
