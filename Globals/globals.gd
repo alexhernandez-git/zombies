@@ -178,6 +178,8 @@ var enemyAutoIncremental = 1
 
 var enemyHealth = 50
 
+var maxEnemyHealth = 1000
+
 var remainingEnemies = 5
 
 var enemySpeed = 10
@@ -208,7 +210,7 @@ var instantKill = false
 
 var power_up_wait_time = 15
 
-var power_up_probability = 1
+var power_up_probability = 5
 
 var atomic_bomb_money = 400
 
@@ -242,8 +244,8 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
-			startingRound = player_data["round_arrived"] - 1
-			# startingRound = 0
+			# startingRound = player_data["round_arrived"] - 1
+			startingRound = 15
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()
@@ -258,19 +260,26 @@ func difficulty_difference_substract(amount: float) -> float:
 func _on_round_finished():
 	is_round_started = false
 	roundCount += 1
+	
+	if roundCount > 5:
+		power_up_probability = 10
+	
 	if roundCount > 9:
 		remainingEnemies = int(round(10 + (roundCount * 5)))
 	else:
 		remainingEnemies =  int(round(10 + (roundCount * 2)))
-	print(remainingEnemies)
 	#critical_probability = int(round(10 + (roundCount * 2)))
 	if roundCount < 5:
 		enemyHealth += 100
 	else:
 		enemyHealth = enemyHealth * 1.1
+	
+	if enemyHealth > maxEnemyHealth:
+		enemyHealth = maxEnemyHealth
 
-	if enemySpeed < maxEnemeySpeed:
-		enemySpeed += difficulty_difference(10)
+	enemySpeed += difficulty_difference(10)
+	if enemySpeed > maxEnemeySpeed:
+		enemySpeed = maxEnemeySpeed
 	max_spawn_timer -= 0.1
 	if max_spawn_timer < 1:
 		max_spawn_timer = 1

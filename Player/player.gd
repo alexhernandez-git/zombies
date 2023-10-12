@@ -142,10 +142,7 @@ func _on_money_earned(amount):
 	money += moneyAmount
 
 func _on_round_finished():
-	print("entra 1")
-	print(Globals.roundCount + 1)
 	#if Globals.roundCount % 5 == 0:  # Check if i is a multiple of 5
-	print("entra 2")
 
 	Globals.emit_signal("call_supplies", global_position)
 
@@ -236,6 +233,7 @@ func _physics_process(delta):
 	var angle = get_angle_to(target_position)
 	light.rotation = angle
 	maskedLight.rotation = angle
+	weaponManager.set_fire_rotation(angle)
 	var angle_sum = -45
 	if player_direction.x < 0:
 		angle_sum = 45
@@ -282,7 +280,6 @@ func _input(event):
 	if event.is_action_pressed("throw_object"):
 		if throwableObjectAmount == 0:
 			return
-		print(throwableObjectAmount)
 		throwing = true
 		throwableSprite.frame = Globals.weapons_data[throwableObject].frame
 		throwableSprite.visible = true
@@ -290,7 +287,6 @@ func _input(event):
 	if event.is_action_released("throw_object"):
 		if throwableObjectAmount == 0:
 			return
-		print(throwableObjectAmount)
 		throwing = false
 		weapon_manager.visible = true
 		throwableSprite.visible = false
@@ -371,11 +367,8 @@ func die():
 	
 func interact():
 	if "Buy" in interactableAction:
-		print(interactableAction)
 		if "Trowable" in interactableAction:
-			print("Entra 1")
 			var trowable_object_name = interactableAction.substr("BuyTrowable".length())
-			print("Entra 2", trowable_object_name)
 			if not trowable_object_name in unlocked_weapons:
 				for index in Globals.weapons.size():
 					if trowable_object_name == Globals.weapons[index]:
@@ -393,23 +386,19 @@ func interact():
 			if throwableObject == trowable_object_name:
 					currentTrowableObject = true
 					
-			print("entra 3")
 			if currentTrowableObject:
-				print("entra 4")
 				
 				if money >= Globals.weapons_data[trowable_object_name].price and throwableObjectAmount < Globals.weapons_data[trowable_object_name].maxAmmo:
 					money -= Globals.weapons_data[trowable_object_name].price
 					throwableObjectAmount = Globals.weapons_data[trowable_object_name].maxAmmo
 					throwableObjectAmount = Globals.weapons_data[trowable_object_name].maxAmmo
 			else:
-				print("entra 5")
 				
 				if money >= Globals.weapons_data[trowable_object_name].price:
 					money -= Globals.weapons_data[trowable_object_name].price
 					throwableObject = trowable_object_name
 					throwableObjectAmount = Globals.weapons_data[trowable_object_name].maxAmmo
 					maxThrowableObjectCapacity = Globals.weapons_data[trowable_object_name].maxAmmo
-					print("maxThrowableObjectCapacity 6",maxThrowableObjectCapacity)
 					
 		elif "Weapon" in interactableAction:
 			var weapon_name = interactableAction.substr("BuyWeapon".length())
@@ -428,7 +417,6 @@ func interact():
 						file.close()
 			var currentWeapon = false
 			for gun in weaponManager.active_weapons:
-				print(gun.name)
 				if gun.name == weapon_name:
 					currentWeapon = true
 			if currentWeapon:

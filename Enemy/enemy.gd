@@ -19,9 +19,13 @@ var id
 const Enemies: String = "Enemies"
 var disabled = false
 var is_horde = false
+var speed
 
 
 func _init() -> void:
+	speed = randi() % (Globals.enemySpeed / 2) + Globals.enemySpeed / 2
+	if Globals.roundCount > 20:
+		speed = Globals.enemySpeed
 	add_to_group(Enemies)
 
 func _ready() -> void: 
@@ -45,7 +49,8 @@ func _physics_process(delta: float) -> void:
 	var previous_position = position
 	
 	var direction = global_position.direction_to(_agent.get_next_location())
-	var enemySpeed =  Globals.enemySpeed
+	
+	var enemySpeed = speed
 	if is_horde:
 		enemySpeed = Globals.maxEnemeySpeed
 	var desired_velocity = direction * enemySpeed

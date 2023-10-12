@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/flamethrower (mp3cut.net).mp3-70890b345f84ac027ac038e222cfbdcd.mp3str"
+
+[deps]
+
+source_file="res://Audio/flamethrower (mp3cut.net).mp3"
+dest_files=[ "res://.import/flamethrower (mp3cut.net).mp3-70890b345f84ac027ac038e222cfbdcd.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

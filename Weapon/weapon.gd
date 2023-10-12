@@ -19,6 +19,7 @@ export var gunshotDispersion = 5
 export var endOfGunSize = 7
 export var gunSize = 15
 export var semi_auto = false
+export var isFlamethrower = false
 export var burst = false
 export var burstTime = 0.5
 export var burstShots = 3
@@ -32,6 +33,7 @@ onready var endOfGun = $EndOFGun
 onready var magReloadTimer = $MagReloadTimer
 onready var endOfGunSprites = [$EndOFGun/Light1,$EndOFGun/Light2,$EndOFGun/Light3,$EndOFGun/Light4]
 onready var shotLightTimer = $ShotLight
+onready var fire = $EndOFGun/Fire
 
 func _ready():
 	mag = maxMagCapacity
@@ -42,7 +44,6 @@ func render():
 	var cleaned_string = Globals.get_clean_string(name)
 	if cleaned_string in Globals.weapons_data:
 		sprite.frame = Globals.weapons_data[cleaned_string].frame
-		print(sprite.frame)
 	attackCooldown.wait_time = cadence
 	magReloadTimer.wait_time = reloadTime
 	burstCooldown.wait_time = burstTime
@@ -57,11 +58,13 @@ func shoot():
 				return
 			else:
 				if magReloadTimer.is_stopped():
+					fire.visible = false
 					reload()
 				return
 		shotLightTimer.start()
 		shotLightTimer.connect("timeout", self, "_on_timeout_shot_light")
-		shootAudio.play()
+		if not isFlamethrower or isFlamethrower and not shootAudio.is_playing():
+			shootAudio.play()
 		animationPlayer.play("RESET")
 		animationPlayer.play("weapon_recoil")
 		cancel_reload()
@@ -69,6 +72,11 @@ func shoot():
 		var direction_to_mouse = global_position.direction_to(target).normalized()
 		attackCooldown.start()
 		
+		if isFlamethrower:
+			fire.fire(endOfGun.global_position)
+			fire.player = player
+			fire.damage = damage
+			return
 		if burst:
 			attackCooldown.connect("timeout", self, "_on_attack_cooldown_timeout")
 		if isShotgun:
@@ -122,6 +130,7 @@ func _on_timeout_shot_light():
 func reload():
 	animationPlayer.play("RESET")
 	if ammo > 0 and mag < maxMagCapacity:
+		shootAudio.stop()
 		animationPlayer.playback_speed = 1.0 / reloadTime
 		reloadAudio.pitch_scale = 1.0 / reloadTime
 		if "FastMag" in player.perks:
@@ -159,6 +168,10 @@ func add_max_ammo():
 
 func set_rotation(rotation):
 	sprite.rotation = rotation
+
+func set_fire_rotation(rotation):
+	fire.rotation = rotation
+
 func set_gun_position(glob_pos, direction):
 	sprite.global_position = glob_pos + direction * gunSize
 	
@@ -173,6 +186,13 @@ func set_attack_cooldown_wait_time(wait_time):
 
 func get_attack_cooldown_wait_time():
 	return attackCooldown.wait_time
+
+func _input(event):
+	if event.is_action_released("shoot"):
+		shootAudio.stop()
+		if isFlamethrower:
+			fire.stop()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

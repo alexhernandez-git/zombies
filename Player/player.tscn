@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Assets/weapon-2s.png" type="Texture" id=1]
 [ext_resource path="res://Player/player.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Audio/GunShotSnglShotIn PE1097906.wav" type="AudioStream" id=12]
 [ext_resource path="res://Audio/GunShotSnglFireIn PE1097304.wav" type="AudioStream" id=13]
 [ext_resource path="res://Audio/rifle-or-shotgun-reload-6787.mp3" type="AudioStream" id=14]
+[ext_resource path="res://Audio/flamethrower (mp3cut.net).mp3" type="AudioStream" id=15]
 [ext_resource path="res://Audio/explosion.wav" type="AudioStream" id=16]
 
 [sub_resource type="Animation" id=11]
@@ -514,7 +515,7 @@ position = Vector2( 0, 7 )
 shape = SubResource( 3 )
 
 [node name="Light2D" type="Light2D" parent="."]
-scale = Vector2( 2, 2 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 4 )
 shadow_enabled = true
 
@@ -834,13 +835,19 @@ stream = ExtResource( 14 )
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
+maxAmmoCapacity = 900
+maxMagCapacity = 300
+mag = 300
+damage = 100
+ammo = 300
+isFlamethrower = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/Flamethrower"]
 anims/weapon_recoil = SubResource( 30 )
 anims/weapon_reload = SubResource( 31 )
 
 [node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Flamethrower"]
-stream = ExtResource( 12 )
+stream = ExtResource( 15 )
 
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/Flamethrower"]
 stream = ExtResource( 14 )

@@ -19,8 +19,8 @@ var mirror_weapon
 func _ready():
 	Globals.connect("max_ammo", self, "_on_max_ammo")
 	weapons = get_children()
-	active_weapons = [current_weapon]
-	#active_weapons = weapons
+	#active_weapons = [current_weapon]
+	active_weapons = weapons
 	for weapon in weapons:
 		weapon.hide()
 		
@@ -115,10 +115,16 @@ func add_max_ammo():
 		mirror_weapon.ammo = mirror_weapon.maxAmmoCapacity
 
 func set_rotation(rotation):
-	current_weapon.sprite.rotation = rotation
+	current_weapon.set_rotation(rotation)
 	if mirror_weapon:
-		mirror_weapon.sprite.rotation = rotation
+		mirror_weapon.set_rotation(rotation)
+
+func set_fire_rotation(rotation):
+	current_weapon.set_fire_rotation(rotation)
+	if mirror_weapon:
+		mirror_weapon.set_fire_rotation(rotation)
 		
+
 func set_gun_position(glob_pos, direction):
 	current_weapon.sprite.global_position = glob_pos + direction * current_weapon.gunSize
 	if mirror_weapon:
