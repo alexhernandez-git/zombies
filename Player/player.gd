@@ -42,8 +42,8 @@ var ammo = 30
 
 var money = 500
 
-var maxGranadesCapacity = 3
-var granades = 3000
+var maxThrowableObjectCapacity = 0
+var throwableObjectAmount = 0
 
 var total_health = 100
 var max_health = total_health
@@ -69,7 +69,7 @@ onready var weapon_manager = $WeaponManager
 
 onready var throwableSprite = $Sprites/Throwable
 
-var throwableWeapon = "Grenade"
+var throwableObject = "Grenade"
 
 var power_ups = []
 
@@ -289,13 +289,17 @@ func _input(event):
 	if event.is_action_pressed("mele"):
 		mele()
 	if event.is_action_pressed("throw_object"):
-		print(granades)
+		if throwableObjectAmount == 0 or not "UnlimitedFire" in Globals.power_ups:
+			return
+		print(throwableObjectAmount)
 		throwing = true
-		throwableSprite.frame = Globals.weapons_data[throwableWeapon].frame
+		throwableSprite.frame = Globals.weapons_data[throwableObject].frame
 		throwableSprite.visible = true
 		weapon_manager.visible = false
 	if event.is_action_released("throw_object"):
-		print(granades)
+		if throwableObjectAmount == 0 or not "UnlimitedFire" in Globals.power_ups:
+			return
+		print(throwableObjectAmount)
 		throwing = false
 		weapon_manager.visible = true
 		throwableSprite.visible = false
@@ -322,14 +326,15 @@ func reload():
 		mag += ammoDifference
 
 func throw_object():
-	if granades == 0:
+	if throwableObjectAmount == 0 or not "UnlimitedFire" in Globals.power_ups:
 		return
 	var grenade = grenade_scene.instance() as RigidBody2D
 	var player_direction = -(get_global_mouse_position() - position)
 	var distance = player_direction.length()
-	var speed_scaling_factor = 1000.0 / (distance + 10.0)  # Adjust this factor as needed
+	var speed_scaling_factor = 1000.0 / (distance + 100.0)  # Adjust this factor as needed
 	var speed = grenade.speed * (distance / speed_scaling_factor + 1.0)
-	granades -= 1
+	if not "UnlimitedFire" in Globals.global_power_ups:
+		throwableObjectAmount -= 1
 	Globals.emit_signal("trow_object", global_position, player_direction.normalized() ,  speed, grenade)
 	pass
 
@@ -374,42 +379,65 @@ func die():
 		queue_free()
 	
 func interact():
-	if "BuyWeapon" in interactableAction:
-		var gun_name = interactableAction.substr("BuyWeapon".length())
-		if not gun_name in unlocked_weapons:
-			for index in Globals.weapons.size():
-				if gun_name == Globals.weapons[index]:
-					unlocked_weapons[index] = gun_name
-					Globals.emit_signal("unlocked_gun")
-					var file = File.new()
-					file.open("user_data.dat", File.WRITE)
-					file.store_var({
-					"unlocked_perks": unlocked_perks,
-					"unlocked_weapons": unlocked_weapons,
-					"round_arrived": round_arrived
-					})
-					file.close()
-		var currentGun = false
-		for gun in weaponManager.active_weapons:
-			print(gun.name)
-			if gun.name == gun_name:
-				currentGun = true
-		if currentGun:
-			if money >= Globals.weapons_data[gun_name].ammoPrice and not weaponManager._is_gun_full_ammo(gun_name):
-				money -= Globals.weapons_data[gun_name].ammoPrice
-				
-				weaponManager.add_ammo(gun_name)
-		else:
-			
-			if money >= Globals.weapons_data[gun_name].price:
-				money -= Globals.weapons_data[gun_name].price
-				weaponManager.add_weapon(gun_name)
-
-	if "BuyGranades" in interactableAction:
-		if money >= 500:
-			if granades < maxGranadesCapacity:
-				money -= 500
-				granades = maxGranadesCapacity
+	if "Buy" in interactableAction:
+		print(interactableAction)
+		if "Trowable" in interactableAction:
+			var trowable_object_name = interactableAction.substr("BuyTrowable".length())
+			if not trowable_object_name in unlocked_weapons:
+				for index in Globals.weapons.size():
+					if trowable_object_name == Globals.weapons[index]:
+						unlocked_weapons[index] = trowable_object_name
+						Globals.emit_signal("unlocked_gun")
+						var file = File.new()
+						file.open("user_data.dat", File.WRITE)
+						file.store_var({
+						"unlocked_perks": unlocked_perks,
+						"unlocked_weapons": unlocked_weapons,
+						"round_arrived": round_arrived
+						})
+						file.close()
+			var currentTrowableObject = false
+			if throwableObject == trowable_object_name:
+					currentTrowableObject = true
+			if currentTrowableObject:
+				if money >= Globals.weapons_data[trowable_object_name].ammoPrice and throwableObjectAmount < maxThrowableObjectCapacity:
+					money -= Globals.weapons_data[trowable_object_name].ammoPrice
+					throwableObjectAmount = maxThrowableObjectCapacity
+			else:
+				if money >= Globals.weapons_data[trowable_object_name].price:
+					money -= Globals.weapons_data[trowable_object_name].price
+					throwableObject = trowable_object_name
+					throwableObjectAmount = Globals.weapons_data[trowable_object_name].maxAmmo
+					maxThrowableObjectCapacity = Globals.weapons_data[trowable_object_name].maxAmmo
+					
+		elif "Weapon" in interactableAction:
+			var weapon_name = interactableAction.substr("BuyWeapon".length())
+			if not weapon_name in unlocked_weapons:
+				for index in Globals.weapons.size():
+					if weapon_name == Globals.weapons[index]:
+						unlocked_weapons[index] = weapon_name
+						Globals.emit_signal("unlocked_gun")
+						var file = File.new()
+						file.open("user_data.dat", File.WRITE)
+						file.store_var({
+						"unlocked_perks": unlocked_perks,
+						"unlocked_weapons": unlocked_weapons,
+						"round_arrived": round_arrived
+						})
+						file.close()
+			var currentWeapon = false
+			for gun in weaponManager.active_weapons:
+				print(gun.name)
+				if gun.name == weapon_name:
+					currentWeapon = true
+			if currentWeapon:
+				if money >= Globals.weapons_data[weapon_name].ammoPrice and not weaponManager._is_gun_full_ammo(weapon_name):
+					money -= Globals.weapons_data[weapon_name].ammoPrice	
+					weaponManager.add_ammo(weapon_name)
+			else:
+				if money >= Globals.weapons_data[weapon_name].price:
+					money -= Globals.weapons_data[weapon_name].price
+					weaponManager.add_weapon(weapon_name)
 	if interactableAction in Globals.perks:
 		if not interactableAction in unlocked_perks:
 			for index in Globals.perks.size():

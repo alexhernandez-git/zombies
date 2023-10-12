@@ -589,7 +589,6 @@ anims/RESET = SubResource( 7 )
 anims/mele = SubResource( 8 )
 
 [node name="WeaponManager" type="YSort" parent="."]
-visible = false
 z_index = 4
 script = ExtResource( 8 )
 path_to_player = NodePath("..")

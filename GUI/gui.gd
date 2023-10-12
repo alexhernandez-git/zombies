@@ -91,8 +91,8 @@ func _process(delta):
 	criticalProbabilityLabel.text = str("Critical probability ",Globals.critical_probability)
 	if _player.get_node("WeaponManager").current_weapon:
 		ammoBigLabel.text = str(_player.get_node("WeaponManager").current_weapon.mag, " / ", _player.get_node("WeaponManager").current_weapon.ammo)
-	if _player.granades || _player.granades == 0:
-		granadesBigLabel.text = str(_player.granades)
+	if _player.throwableObjectAmount || _player.throwableObjectAmount == 0:
+		granadesBigLabel.text = str(_player.throwableObjectAmount)
 	roundBigLabel.text = str(Globals.roundCount)
 
 	if _player.money || _player.money == 0:

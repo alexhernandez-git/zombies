@@ -56,78 +56,93 @@ var weapons_data = {
 	"Pistol": {
 		"frame": 0,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"Grenade": {
 		"frame": 1,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"maxAmmo": 3 ,
+		"isTrowable": true
 	},
 	"PistolTwo": {
 		"frame":  8,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"Subfusil": {
 		"frame":  9,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"Shotgun": {
 		"frame":  16,
 		"price": 600,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"ShotgunTwo": {
 		"frame":  17,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"GrenadeTwo": {
 		"frame": 18,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": true
 	},	
 	"Rifle": {
 		"frame":  24,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"RifleTwo": {
 		"frame":  25,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},	
 	"Sniper": {
 		"frame":  32,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"GrenadeThree": {
 		"frame": 33,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": true
 	},	
-
 	"Minigun": {
 		"frame":  40,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"Flamethrower": {
 		"frame":  41,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"RocketLauncher": {
 		"frame":  48,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 	"GrenadeLauncher": {
 		"frame":  49,
 		"price": 500,
-		"ammoPrice": 250
+		"ammoPrice": 250,
+		"isTrowable": false
 	},
 }
 
@@ -230,7 +245,7 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
-			#startingRound = player_data["round_arrived"] - 1
+			# startingRound = player_data["round_arrived"] - 1
 			startingRound = 0
 	file.close()
 	for i in range(startingRound):

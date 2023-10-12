@@ -50,7 +50,11 @@ func _process(delta):
 			if supply in Globals.weapons:
 				object = weapon.instance()
 				object.z_index = 100
-				object.name = str("BuyWeapon", supply)
+				var is_trowable = Globals.weapons_data[supply].isTrowable
+				if is_trowable:
+					object.name = str("BuyTrowable", supply)
+				else:
+					object.name = str("BuyWeapon", supply)
 				add_child(object)
 
 		else:
@@ -77,7 +81,11 @@ func _process(delta):
 				object = weapon.instance()
 				object.price = 0
 				object.z_index = 100
-				object.name = str("BuyWeapon", weapons[random_index])
+				var is_trowable = Globals.weapons_data[random_index].isTrowable
+				if is_trowable:
+					object.name = str("BuyTrowable", weapons[random_index])					
+				else:
+					object.name = str("BuyWeapon", weapons[random_index])
 				add_child(object)
 				
 			if not object:
