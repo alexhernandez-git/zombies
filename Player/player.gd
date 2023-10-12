@@ -143,11 +143,7 @@ func _on_round_finished():
 	print(itemCount)
 	var available_items = []
 	available_items.append_array(Globals.perks.slice(0, itemCount))
-	print(available_items)
-	var items_sum = 0
-	if Globals.roundCount <= 5:
-		items_sum = 2
-	itemCount = min(floor(Globals.roundCount / 5) + items_sum, Globals.weapons.size())
+	itemCount = min(floor(Globals.roundCount / 5) , Globals.weapons.size())
 	available_items.append_array(Globals.weapons.slice(0, itemCount))
 	print(available_items)		
 	var random_index = randi() % available_items.size()
