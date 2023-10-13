@@ -60,8 +60,6 @@ func _on_Area2D_area_entered(area):
 		timer.stop()
 		explode()
 
-
-
 func _on_Area2D_body_entered(body):
 	if not explode_on_touch:
 		return
