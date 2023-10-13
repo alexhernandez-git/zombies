@@ -36,6 +36,8 @@ extends Node
 
 # New enemy throw grenades
 
+# Weapon: saws alrededor del jugador
+
 var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
