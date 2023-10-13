@@ -54,10 +54,10 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=13]
-radius = 3.0
+radius = 6.0
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 7.0
+radius = 4.0
 height = 0.0
 
 [node name="Grenade" type="RigidBody2D"]
@@ -109,7 +109,6 @@ shape = SubResource( 13 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
-disabled = true
 
 [connection signal="body_entered" from="." to="." method="_on_Grenade_body_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
