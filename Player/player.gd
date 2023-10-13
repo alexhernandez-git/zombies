@@ -277,14 +277,14 @@ func _input(event):
 	if event.is_action_pressed("mele"):
 		mele()
 	if event.is_action_pressed("throw_object"):
-		if throwableObjectAmount == 0:
+		if throwableObjectAmount == 0 and not "UnlimitedFire" in Globals.global_power_ups:
 			return
 		throwing = true
 		throwableSprite.frame = Globals.weapons_data[throwableObject].frame
 		throwableSprite.visible = true
 		weapon_manager.visible = false
 	if event.is_action_released("throw_object"):
-		if throwableObjectAmount == 0:
+		if throwableObjectAmount == 0 and not "UnlimitedFire" in Globals.global_power_ups:
 			return
 		throwing = false
 		weapon_manager.visible = true
