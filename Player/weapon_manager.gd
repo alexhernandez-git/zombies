@@ -52,15 +52,17 @@ func reload():
 
 func switch_weapon(weapon):
 	if weapon == current_weapon:
-		
 		return
 	remove_mirror_weapon()
 	current_weapon.hide()
 	weapon.show()
 	weapon.render()
+	reset_quick_fire()
 	current_weapon = weapon
 	if "MultipleWeapons" in player.power_ups:
 		add_mirror_current(weapon)
+	if "QuickFire" in player.power_ups:
+		quick_fire()
 
 func next_weapon():
 	current_weapon_index += 1

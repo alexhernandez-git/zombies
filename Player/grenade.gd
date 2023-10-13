@@ -12,6 +12,8 @@ onready var particlesTimer = $ParticlesTimer
 onready var animationPlayer = $AnimationPlayer
 onready var audio = $AudioStreamPlayer2D
 var damage_active = false
+var damage = 500
+var explode_on_touch = false
 
 func _ready():
 	timer.connect("timeout", self, "_on_timeout")
@@ -39,7 +41,7 @@ func _process(_delta):
 		for target in targets:
 			var in_range = target.global_position.distance_to(global_position) < explosion_radius
 			if "Enemy" in target.name and in_range:
-				target.takeDamage(500)
+				target.takeDamage(damage)
 		damage_active = false
 		particlesTimer.connect("timeout", self, "_on_particles_timeout")
 
@@ -48,3 +50,11 @@ func _on_timeout():
 
 func _on_particles_timeout():
 	queue_free()
+
+func _on_Area2D_area_entered(area):
+	if not explode_on_touch:
+		return
+	if "NearDetector" in area.name:
+		timer.stop()
+		explode()
+

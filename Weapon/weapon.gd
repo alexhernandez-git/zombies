@@ -24,7 +24,10 @@ export var burst = false
 export var burstTime = 0.5
 export var burstShots = 3
 var burstCounter = 0
+export var isGrenadeLauncher = false
+export var grenadeLauncherSpeed = 500
 var Bullet = preload("res://Player/bullet.tscn")
+var Grenade = preload("res://Player/grenade.tscn")
 onready var attackCooldown = $AttackCooldown
 onready var burstCooldown = $BurstCooldown
 onready var player = get_parent().get_parent()
@@ -76,6 +79,16 @@ func shoot():
 		var direction_to_mouse = global_position.direction_to(target).normalized()
 		attackCooldown.start()
 		
+		if isGrenadeLauncher:
+			var grenade = Grenade.instance() as RigidBody2D
+			grenade.damage = damage
+			grenade.explode_on_touch = true
+			var player_direction = get_global_mouse_position() - global_position
+			var distance = player_direction.length()
+			var speed_scaling_factor = 1000.0 / (distance + 100.0)  # Adjust this factor as needed
+			var speed = grenadeLauncherSpeed * (distance / speed_scaling_factor + 1.0)
+			Globals.emit_signal("trow_object",  endOfGun.global_position, player_direction.normalized(), speed, grenade)
+			return
 		if isFlamethrower:
 			fire.fire(endOfGun.global_position)
 			fire.player = player
