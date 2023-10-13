@@ -14,8 +14,10 @@ onready var audio = $AudioStreamPlayer2D
 var damage_active = false
 var damage = 500
 var explode_on_touch = false
+var frame = 1
 
 func _ready():
+	sprite.frame = frame
 	timer.connect("timeout", self, "_on_timeout")
 
 func explode():

@@ -30,6 +30,12 @@ extends Node
 
 # Each 5 rounds bring a random supply that contains one of the previous range of weapons and perks
 
+# New enemy, shot a rafaga de izquierda a derecha y de derecha a izquierda
+
+# New enemy shot player
+
+# New enemy throw grenades
+
 var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
@@ -40,12 +46,12 @@ var weapons = [
 	"PistolTwo",
 	"Subfusil", 
 	"Shotgun", 
-	"ShotgunTwo", 
+#	"ShotgunTwo", 
 	"GrenadeTwo", 
 	"Rifle", 
 	"RifleTwo", 
 	"Sniper", 
-	"GrenadeThree", 
+#	"GrenadeThree", 
 	"Minigun", 
 	"Flamethrower", 
 	"RocketLauncher", 
@@ -133,14 +139,16 @@ var weapons_data = {
 		"frame":  48,
 		"price": 500,
 		"ammoPrice": 250,
-		"isTrowable": false
+		"isTrowable": false,
+		"proyectileFrame": 58
 	},
 	"GrenadeLauncher": {
 		"frame":  49,
 		"price": 500,
 		"ammoPrice": 250,
-		"isTrowable": false
-	},
+		"isTrowable": false,
+		"proyectileFrame": 1
+	}
 }
 
 var perks_data = {
@@ -244,8 +252,7 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
-			# startingRound = player_data["round_arrived"] - 1
-			startingRound = 30
+			startingRound = player_data["round_arrived"] - 1
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()

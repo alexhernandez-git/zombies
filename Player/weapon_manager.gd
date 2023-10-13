@@ -57,6 +57,7 @@ func switch_weapon(weapon):
 	current_weapon.hide()
 	weapon.show()
 	weapon.render()
+	current_weapon.fire.stop()
 	reset_quick_fire()
 	current_weapon = weapon
 	if "MultipleWeapons" in player.power_ups:
@@ -110,6 +111,8 @@ func add_weapon(name):
 			current_weapon = weapon
 			if "MultipleWeapons" in player.power_ups:
 				add_mirror_current(weapon)
+	if "QuickFire" in player.power_ups:
+		quick_fire()
 
 func add_max_ammo():
 	current_weapon.ammo = current_weapon.maxAmmoCapacity

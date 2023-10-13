@@ -4,26 +4,23 @@
 [ext_resource path="res://Audio/explosion.wav" type="AudioStream" id=2]
 [ext_resource path="res://Player/grenade.gd" type="Script" id=3]
 [ext_resource path="res://Assets/light.png" type="Texture" id=4]
+[ext_resource path="res://Player/explosion.tres" type="Animation" id=5]
 
 [sub_resource type="PhysicsMaterial" id=5]
 bounce = 0.4
 absorbent = true
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 7.0
-height = 0.0
-
 [sub_resource type="Gradient" id=7]
 offsets = PoolRealArray( 0, 0.492424, 0.507576, 1 )
 colors = PoolColorArray( 1, 0, 0, 1, 1, 0.966473, 0.816406, 0.458327, 1, 1, 1, 0.565657, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=8]
+[sub_resource type="GradientTexture" id=14]
 gradient = SubResource( 7 )
 
 [sub_resource type="Curve" id=9]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=10]
+[sub_resource type="CurveTexture" id=15]
 curve = SubResource( 9 )
 
 [sub_resource type="ParticlesMaterial" id=6]
@@ -38,8 +35,8 @@ orbit_velocity_random = 0.0
 angle = 599.4
 scale = 5.0
 scale_random = 0.5
-scale_curve = SubResource( 10 )
-color_ramp = SubResource( 8 )
+scale_curve = SubResource( 15 )
+color_ramp = SubResource( 14 )
 
 [sub_resource type="Animation" id=11]
 length = 0.001
@@ -56,23 +53,12 @@ tracks/0/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=12]
-resource_name = "explosion"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Light2D:energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, 2.0, 0.0 ]
-}
-
 [sub_resource type="CircleShape2D" id=13]
 radius = 3.0
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 7.0
+height = 0.0
 
 [node name="Grenade" type="RigidBody2D"]
 mass = 2831.15
@@ -80,9 +66,6 @@ physics_material_override = SubResource( 5 )
 gravity_scale = 0.0
 linear_damp = 1.0
 script = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 2 )
@@ -110,19 +93,23 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 hframes = 8
 vframes = 8
-frame = 1
+frame = 58
 
 [node name="ParticlesTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 11 )
-anims/explosion = SubResource( 12 )
+anims/explosion = ExtResource( 5 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 13 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+disabled = true
 
 [connection signal="body_entered" from="." to="." method="_on_Grenade_body_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]

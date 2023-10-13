@@ -805,6 +805,13 @@ stream = ExtResource( 14 )
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
+maxAmmoCapacity = 15
+maxMagCapacity = 1
+mag = 1
+damage = 1000
+ammo = 15
+semi_auto = true
+isRocketLauncher = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/RocketLauncher"]
 anims/weapon_recoil = SubResource( 26 )
@@ -820,13 +827,13 @@ stream = ExtResource( 14 )
 path_to_animation = NodePath("AnimationPlayer")
 path_to_shoot_audio = NodePath("ShootAudio")
 path_to_reload_audio = NodePath("ReloadAudio")
-maxAmmoCapacity = 55
-maxMagCapacity = 8
-mag = 8
+maxAmmoCapacity = 30
+maxMagCapacity = 6
+mag = 6
 damage = 1000
 semi_auto = true
 isGrenadeLauncher = true
-grenadeLauncherSpeed = 10
+grenadeLauncherSpeed = 100
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponManager/GrenadeLauncher"]
 anims/weapon_recoil = SubResource( 28 )

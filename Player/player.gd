@@ -118,9 +118,9 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
-			unlocked_weapons = Globals.weapons
+			unlocked_weapons = player_data["unlocked_weapons"]
 		if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
-			unlocked_perks = Globals.perks
+			unlocked_perks = player_data["unlocked_perks"]
 		if "round_arrived" in player_data and player_data["round_arrived"]:
 			round_arrived = player_data["round_arrived"]
 	file.close()
