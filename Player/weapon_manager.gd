@@ -182,6 +182,28 @@ func add_mirror_current(weapon):
 	mirror_weapon.show()
 	mirror_weapon.render()
 
+func quick_fire():
+	current_weapon.set_attack_cooldown_wait_time(
+		current_weapon.get_attack_cooldown_wait_time() / 2
+	)
+	current_weapon.fire.quick_fire()
+	if mirror_weapon:
+		mirror_weapon.set_attack_cooldown_wait_time(
+			mirror_weapon.get_attack_cooldown_wait_time() / 2
+		)
+		mirror_weapon.fire.quick_fire()
+
+func reset_quick_fire():
+	current_weapon.set_attack_cooldown_wait_time(
+		current_weapon.get_attack_cooldown_wait_time() * 2
+	)
+	current_weapon.fire.reset_quick_fire()	
+	if mirror_weapon:
+		mirror_weapon.set_attack_cooldown_wait_time(
+			mirror_weapon.get_attack_cooldown_wait_time() * 2
+		)
+		mirror_weapon.fire.reset_quick_fire()
+
 func remove_mirror_weapon():
 	if mirror_weapon:
 		mirror_weapon.queue_free()

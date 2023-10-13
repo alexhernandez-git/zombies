@@ -23,7 +23,8 @@ var speed
 
 
 func _init() -> void:
-	speed = randi() % (Globals.enemySpeed / 2) + Globals.enemySpeed / 2
+	# TODO: Fix this
+	speed = Globals.enemySpeed
 	if Globals.roundCount > 20:
 		speed = Globals.enemySpeed
 	add_to_group(Enemies)

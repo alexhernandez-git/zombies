@@ -35,6 +35,8 @@ onready var endOfGunSprites = [$EndOFGun/Light1,$EndOFGun/Light2,$EndOFGun/Light
 onready var shotLightTimer = $ShotLight
 onready var fire = $EndOFGun/Fire
 
+var is_shooting = false
+
 func _ready():
 	mag = maxMagCapacity
 	render()
@@ -47,6 +49,7 @@ func render():
 	attackCooldown.wait_time = cadence
 	magReloadTimer.wait_time = reloadTime
 	burstCooldown.wait_time = burstTime
+	
 
 func shoot():
 	if not  burst and attackCooldown.is_stopped() or burst and attackCooldown.is_stopped()  and burstCooldown.is_stopped() and burstCounter < burstShots:
@@ -61,6 +64,7 @@ func shoot():
 					fire.visible = false
 					reload()
 				return
+		is_shooting = true
 		shotLightTimer.start()
 		shotLightTimer.connect("timeout", self, "_on_timeout_shot_light")
 		if not isFlamethrower or isFlamethrower and not shootAudio.is_playing():
@@ -124,6 +128,7 @@ func set_random_shot_light_sprite_random():
 	random_sprite.flip_v = sprite.flip_v
 
 func _on_timeout_shot_light():
+	is_shooting = false
 	for sprite in endOfGunSprites:
 		sprite.visible = false
 
@@ -187,10 +192,16 @@ func set_attack_cooldown_wait_time(wait_time):
 func get_attack_cooldown_wait_time():
 	return attackCooldown.wait_time
 
+func double_fire_speed():
+	fire.double_fire_speed()
+
+func normal_fire_speed():
+	fire.normal_fire_speed()
+
 func _input(event):
 	if event.is_action_released("shoot"):
-		shootAudio.stop()
 		if isFlamethrower:
+			shootAudio.stop()
 			fire.stop()
 
 

@@ -22,7 +22,6 @@ func _ready():
 	pass # Replace with function body.
 
 func fire(pos):
-	visible = true
 	global_position = pos
 	z_index = 10
 	particles.emitting = true
@@ -30,11 +29,17 @@ func fire(pos):
 	$AnimationPlayer.play("fire")
 
 func stop():
-	visible = false
 	is_fire = false
-	particles.emitting = false	
-	$AnimationPlayer.play("RESET")	
+	particles.emitting = false
+	$AnimationPlayer.play("RESET")
+
+func quick_fire():
+	$AnimationPlayer.playback_speed = 2
 	
+
+func reset_quick_fire():
+	$AnimationPlayer.playback_speed = 1
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

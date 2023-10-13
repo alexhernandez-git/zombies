@@ -176,7 +176,7 @@ var roundCount = 1
 
 var enemyAutoIncremental = 1
 
-var enemyHealth = 50
+var enemyHealth = 25
 
 var maxEnemyHealth = 1000
 
@@ -245,7 +245,7 @@ func _ready():
 	if player_data:
 		if "round_arrived" in player_data and player_data["round_arrived"] and player_data["round_arrived"] > 0:
 			# startingRound = player_data["round_arrived"] - 1
-			startingRound = 15
+			startingRound = 0
 	file.close()
 	for i in range(startingRound):
 		_on_round_finished()
@@ -270,14 +270,14 @@ func _on_round_finished():
 		remainingEnemies =  int(round(10 + (roundCount * 2)))
 	#critical_probability = int(round(10 + (roundCount * 2)))
 	if roundCount < 5:
-		enemyHealth += 100
+		enemyHealth += 50
 	else:
-		enemyHealth = enemyHealth * 1.1
+		enemyHealth = enemyHealth + 25
 	
 	if enemyHealth > maxEnemyHealth:
 		enemyHealth = maxEnemyHealth
 
-	enemySpeed += difficulty_difference(10)
+	enemySpeed += 10
 	if enemySpeed > maxEnemeySpeed:
 		enemySpeed = maxEnemeySpeed
 	max_spawn_timer -= 0.1

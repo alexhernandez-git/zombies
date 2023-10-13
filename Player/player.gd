@@ -21,7 +21,7 @@ onready var interactLabel = $InteractionElements/InteractionLabel
 
 onready var weaponManager = $WeaponManager
 
-onready var audioPlayer = $"../Listener2D/AudioStreamPlayer2D2"
+onready var audioPlayer = $Listener2D/AudioStreamPlayer2D2
 onready var finsihRoundPlayer = $FinishRoundPlayer
 onready var bodySprite = $Sprites/Body
 
@@ -118,9 +118,9 @@ func _ready():
 	var player_data = file.get_var()
 	if player_data:
 		if "unlocked_weapons" in player_data and player_data["unlocked_weapons"].size() > 0:
-			unlocked_weapons = player_data["unlocked_weapons"]
+			unlocked_weapons = Globals.weapons
 		if "unlocked_perks" in player_data and player_data["unlocked_perks"].size() > 0:
-			unlocked_perks = player_data["unlocked_perks"]
+			unlocked_perks = Globals.perks
 		if "round_arrived" in player_data and player_data["round_arrived"]:
 			round_arrived = player_data["round_arrived"]
 	file.close()
@@ -148,7 +148,6 @@ func _on_round_finished():
 
 	audioPlayer.stop()
 	finsihRoundPlayer.play()
-
 func _on_round_passed():
 	money += Globals.roundCount * 100
 	finsihRoundPlayer.stop()
@@ -467,9 +466,7 @@ func interact():
 		if interactableAction == "QuickFire" and not "QuickFire" in perks:
 			if money >= interactableNode.price:
 				money -= interactableNode.price
-				weaponManager.current_weapon.set_attack_cooldown_wait_time(
-					weaponManager.current_weapon.get_attack_cooldown_wait_time() / 2
-				)
+				weaponManager.quick_fire()
 				perks.append("QuickFire")
 		if interactableAction == "Critical" and not "Critical" in perks:
 			if money >= interactableNode.price:
@@ -493,9 +490,7 @@ func resetPerks():
 	if "Critical" in perks:
 		perks.erase("Critical")
 	if "QuickFire" in perks:
-		weaponManager.current_weapon.set_attack_cooldown_wait_time(
-			weaponManager.current_weapon.get_attack_cooldown_wait_time() * 2
-		)
+		weaponManager.reset_quick_fire()
 		perks.erase("QuickFire")
 	if "MoreWeapons" in perks:
 		weaponManager.delete_remaining_weapons()

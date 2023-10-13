@@ -11,9 +11,6 @@ onready var _camera = get_node(path_to_camera)
 func _ready():
 	pass # Replace with function body.
 
-func _process(delta):
-	position = _camera.position
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

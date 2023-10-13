@@ -68,6 +68,7 @@ func _process(delta):
 			
 			if random_type == "perks" and Globals.perks.size() > 0:
 				var perks = getItems(Globals.roundCount, Globals.perks, 0)
+				print(perks)
 				random_index = randi() % perks.size()
 				object = perk.instance()
 				object.z_index = 100
@@ -80,6 +81,7 @@ func _process(delta):
 				if Globals.roundCount > 5:
 					additional_items = 0
 				var weapons = getItems(Globals.roundCount, Globals.weapons, additional_items)
+				print(weapons)
 				random_index = randi() % weapons.size()
 				object = weapon.instance()
 				object.price = 0
