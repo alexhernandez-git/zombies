@@ -19,8 +19,8 @@ var mirror_weapon
 func _ready():
 	Globals.connect("max_ammo", self, "_on_max_ammo")
 	weapons = get_children()
-	#active_weapons = [current_weapon]
-	active_weapons = weapons
+	active_weapons = [current_weapon]
+	#active_weapons = weapons
 	for weapon in weapons:
 		weapon.hide()
 		
