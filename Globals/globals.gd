@@ -38,6 +38,8 @@ extends Node
 
 # Weapon: saws alrededor del jugador
 
+# Solider aliade
+
 var game_paused = false
 
 var power_ups = ["AtomicBomb", "MaxAmmo", "Vision", "InstantKill", "Invincibility", "UnlimitedFire", "MultipleWeapons", "DoublePoints", "Horde", "Supplies"]
@@ -48,8 +50,8 @@ var weapons = [
 	"PistolTwo",
 	"Subfusil", 
 	"Shotgun", 
-#	"ShotgunTwo", 
-	"GrenadeTwo", 
+	"ShotgunTwo", 
+#	"GrenadeTwo", 
 	"Rifle", 
 	"RifleTwo", 
 	"Sniper", 
@@ -247,6 +249,7 @@ signal call_supplies
 signal drop_supplies
 signal unlocked_gun
 signal unlocked_perk
+signal shoot
 
 func _ready():
 	var file = File.new()

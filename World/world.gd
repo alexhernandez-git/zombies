@@ -28,6 +28,7 @@ func _ready():
 	Globals.connect("call_random_supplies", self, "_on_call_random_supplies")
 	Globals.connect("drop_supplies", self, "_on_drop_supplies")
 	Globals.connect("drop_random_supplies", self, "_on_drop_random_supplies")
+	Globals.connect("shoot", self, "_on_shoot")
 	randomize()  # Initialize the random number generato
 
 func _physics_process(delta):
@@ -135,3 +136,6 @@ func _on_drop_supplies(position: Vector2, supply = null):
 	if supply:
 		supplies.supply = supply
 	add_child(supplies)
+
+func _on_shoot(item):
+	add_child(item)

@@ -37,7 +37,7 @@ onready var suppliesLabel = $VBoxContainer/Supplies
 onready var suppliesBigLabel = $Supplies
 onready var granadesBigLabel = $Granades
 onready var world = get_parent().get_parent().get_parent()
-onready var unpauseButton = $UnpauseButton
+onready var unpauseButton = $ResumeButton
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

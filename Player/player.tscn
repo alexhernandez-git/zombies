@@ -649,7 +649,7 @@ path_to_reload_audio = NodePath("ReloadAudio")
 maxMagCapacity = 20
 reloadTime = 0.8
 mag = 50
-damage = 18
+damage = 50
 ammo = 180
 cadence = 0.05
 endOfGunSize = 12
@@ -817,11 +817,11 @@ isRocketLauncher = true
 anims/weapon_recoil = SubResource( 26 )
 anims/weapon_reload = SubResource( 27 )
 
-[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RocketLauncher"]
-stream = ExtResource( 12 )
-
 [node name="ReloadAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RocketLauncher"]
 stream = ExtResource( 14 )
+
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="WeaponManager/RocketLauncher"]
+stream = ExtResource( 11 )
 
 [node name="GrenadeLauncher" parent="WeaponManager" instance=ExtResource( 7 )]
 path_to_animation = NodePath("AnimationPlayer")

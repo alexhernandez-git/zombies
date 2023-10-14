@@ -33,7 +33,7 @@ func explode():
 func _process(_delta):
 	if explosion_active and damage_active:
 		linear_velocity = Vector2(0, 0)
-		var targets = get_tree().get_nodes_in_group("Enemies")
+		var targets = get_tree().get_nodes_in_group("Enemies") + get_tree().get_nodes_in_group("Players")
 		var uniqueItems = {}
 		for item in targets:
 			if not uniqueItems.has(item):
@@ -44,6 +44,8 @@ func _process(_delta):
 			var in_range = target.global_position.distance_to(global_position) < explosion_radius
 			if "Enemy" in target.name and in_range:
 				target.takeDamage(damage)
+			if "Player" in target.name and in_range:
+				target.takeDamage(49)
 		damage_active = false
 		particlesTimer.connect("timeout", self, "_on_particles_timeout")
 

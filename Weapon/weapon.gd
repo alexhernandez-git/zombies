@@ -122,18 +122,18 @@ func shoot():
 				var seccond_bullet_instance = Bullet.instance()
 				seccond_bullet_instance.collateral = false
 				seccond_bullet_instance.player = player
-				add_child(seccond_bullet_instance)
 				seccond_bullet_instance.global_position = endOfGun.global_position
 				seccond_bullet_instance.set_damage(damage)
 				seccond_bullet_instance.set_direction(new_direction)
+				Globals.emit_signal("shoot", seccond_bullet_instance)
 		else:
 			var bullet_instance = Bullet.instance()
 			bullet_instance.player = player
-			add_child(bullet_instance)
 			bullet_instance.global_position = endOfGun.global_position
 			bullet_instance.set_damage(damage)
 			set_random_shot_light_sprite_random()
 			bullet_instance.set_direction(direction_to_mouse)
+			Globals.emit_signal("shoot", bullet_instance)
 
 func _on_attack_cooldown_timeout():
 	if burstCounter >= burstShots - 1:
